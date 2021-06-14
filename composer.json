@@ -1,0 +1,20 @@
+{
+    "name": "nichoseb2/oc_p5",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Parnell Polliotti",
+            "email": "parnell.polliotti@play-for-eternity.net"
+        }
+    ],
+    "require": {
+        "twig/twig": "^3.3",
+        "cocur/slugify": "^4.0",
+        "phpmailer/phpmailer": "^6.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/"
+        }
+    }
+}

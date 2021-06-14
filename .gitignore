@@ -1,0 +1,6 @@
+.vscode/
+
+config/db-config.yml
+config/mail.yml
+
+vendor/**
