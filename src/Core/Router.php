@@ -31,7 +31,7 @@ class Router {
 				}
 			}
 		} catch (\Exception $e) {
-			echo("Config not found");
+			echo "Config not found";
 		}
 	}
 }

@@ -12,10 +12,11 @@ try {
 
 	$controller = $router->getController();
 
-	if (!is_null($controller)) $controller->execute();
-	else {
-		echo("404");
+	if (!is_null($controller)) {
+		$controller->execute();
+	} else {
+		echo "404";
 	}
 } catch (\Exception $e) {
-	echo("Router initialization failed");
+	echo "Router initialization failed";
 }
