@@ -5,7 +5,7 @@ class Controller {
 	protected $action;
 	protected $params;
 
-	public function __construct($action, $params) {
+	public function __construct($action, $params = null) {
 		$this->action = $action;
 		$this->params = $params;
 	}
