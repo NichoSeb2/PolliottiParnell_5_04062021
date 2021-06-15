@@ -1,0 +1,10 @@
+blog:
+  uri: /blog/
+  controller: BlogController
+  action: showBlog
+  parameters: [ ]
+singlePost:
+  uri: /blog/([a-zA-Z0-9-]+)
+  controller: BlogController
+  action: showPost
+  parameters: ["slug"]
