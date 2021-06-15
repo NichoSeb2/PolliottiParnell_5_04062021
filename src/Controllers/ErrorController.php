@@ -5,6 +5,6 @@ use App\Core\Controller;
 
 class ErrorController extends Controller {
 	public function show404() {
-		echo "404";
+		$this->render("@client/errors/404.html.twig", []);
 	}
 }
