@@ -7,8 +7,7 @@ class CommentController extends Controller {
 	public function putOnline() {
 		$id = $this->params['id'];
 
-		$this->render("@admin/pages/comment.html.twig", [
-			'action' => "putOnline",
+		$this->render("@admin/pages/putOnline.html.twig", [
 			'id' => $id
 		]);
 	}
@@ -16,8 +15,7 @@ class CommentController extends Controller {
 	public function putOffline() {
 		$id = $this->params['id'];
 
-		$this->render("@admin/pages/comment.html.twig", [
-			'action' => "putOffline",
+		$this->render("@admin/pages/putOffline.html.twig", [
 			'id' => $id
 		]);
 	}

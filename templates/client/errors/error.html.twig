@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         {% block head %}
-            <title>{% block title %}{% endblock %}</title>
+            <title>{% block title %}Mon blog - Error{% endblock %}</title>
         {% endblock %}
     </head>
     <body>
-		<h1>{% block mainTitle %}{% endblock %}</h1>
+        <main>
+            {% block main %}{% endblock %}
+        </main>
     </body>
 </html>

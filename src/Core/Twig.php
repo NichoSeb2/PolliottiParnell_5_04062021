@@ -12,10 +12,11 @@ class Twig {
 	private $twig;
 
 	public function __construct() {
-		$this->config = yaml_parse_file(CONF_DIR. "/config.yml");
+		$confDir = CONF_DIR. "/config.yml";
+		$this->config = yaml_parse_file($confDir);
 
 		if (!$this->config) {
-			throw new ConfigException("Error loading ". CONF_DIR. "/config.yml");
+			throw new ConfigException("Error loading ". $confDir);
 		}
 
 		$loader = new FilesystemLoader(TEMPLATE_DIR);

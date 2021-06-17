@@ -1,19 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         {% block head %}
-            <title>{% block title %}{% endblock %}</title>
+            <title>{% block title %}Mon blog{% endblock %}</title>
         {% endblock %}
     </head>
     <body>
-		<header>
-			{% include "@admin/parts/_header.html.twig" %}
-			{% block header %}{% endblock %}
-		</header>
+		{% include "@admin/parts/_header.html.twig" %}
+
 		<main>{% block main %}{% endblock %}</main>
-        <footer>
-			{% include "@admin/parts/_footer.html.twig" %}
-			{% block footer %}{% endblock %}
-		</footer>
+
+		{% include "@admin/parts/_footer.html.twig" %}
     </body>
 </html>

@@ -1,19 +1,8 @@
 {% extends "@client/base.html.twig" %}
 
-{% block title %}
-	{% if action == "login" %}Login{% endif %}
-
-	{% if action == "register" %}Register{% endif %}
-{% endblock %}
+{% block title %}Login{% endblock %}
 
 {% block main %}
-	{% if action == "login" %}
-		<h1>Login</h1>
-		{% include "@client/forms/login.html.twig" %}
-	{% endif %}
-
-	{% if action == "register" %}
-		<h1>Register</h1>
-		{% include "@client/forms/register.html.twig" %}
-	{% endif %}
+	<h1>Login</h1>
+	{% include "@client/forms/_login.html.twig" %}
 {% endblock %}

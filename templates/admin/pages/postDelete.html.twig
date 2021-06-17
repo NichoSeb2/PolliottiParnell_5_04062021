@@ -1,0 +1,8 @@
+{% extends "@admin/base.html.twig" %}
+
+{% block title %}Confirm post delete{% endblock %}
+
+{% block main %}
+	<h1>Confirm post delete : {{ slug }}</h1>
+	{% include "@admin/forms/_postDelete.html.twig" %}
+{% endblock %}

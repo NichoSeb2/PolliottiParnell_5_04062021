@@ -1,9 +1,12 @@
 {% extends "@client/errors/error.html.twig" %}
 
 {% block title %}
-	404
+	500
 {% endblock %}
 
 {% block main %}
-	<h1>404</h1>
+	<h1>500</h1>
+
+	<p>Error in <b>{{ file }}</b> on line <b>{{ line }}</b></p>
+	<p>{{ message }}</p>
 {% endblock %}

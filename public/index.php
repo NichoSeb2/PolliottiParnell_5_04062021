@@ -22,8 +22,16 @@ try {
 	$controller->execute();
 } 
 catch (TwigException | ConfigException $e) {
-	echo $e;
+	$controller = new ErrorController("show500", [
+		"message" => $e
+	]);
+
+	$controller->execute();
 }
 catch (\Exception $e) {
-	echo "Router initialization failed with default exception";
+	$controller = new ErrorController("show500", [
+		"message" => "Router initialization failed with default exception. ". $e
+	]);
+
+	$controller->execute();
 }

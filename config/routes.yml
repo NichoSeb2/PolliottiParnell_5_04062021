@@ -29,27 +29,27 @@ register:
   action: register
   parameters: [ ]
 addPost:
-  uri: /admin/blog/add/
+  uri: /admin/blog/add
   controller: AdminController
   action: addPost
   parameters: [ ]
 editPost:
-  uri: /admin/blog/([a-zA-Z0-9-]+)/edit/
+  uri: /admin/blog/([a-zA-Z0-9-]+)/edit
   controller: AdminController
   action: editPost
   parameters: ["slug"]
 deletePost:
-  uri: /admin/blog/([a-zA-Z0-9-]+)/delete/
+  uri: /admin/blog/([a-zA-Z0-9-]+)/delete
   controller: AdminController
   action: deletePost
   parameters: ["slug"]
 putCommentOnline:
-  uri: /admin/comment/([a-zA-Z0-9-]+)/put-online/
+  uri: /admin/comment/([a-zA-Z0-9-]+)/put-online
   controller: CommentController
   action: putOnline
   parameters: ["id"]
 putCommentOffline:
-  uri: /admin/comment/([a-zA-Z0-9-]+)/put-offline/
+  uri: /admin/comment/([a-zA-Z0-9-]+)/put-offline
   controller: CommentController
   action: putOffline
   parameters: ["id"]
