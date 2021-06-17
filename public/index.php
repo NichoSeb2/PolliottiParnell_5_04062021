@@ -6,6 +6,8 @@ define('TEMPLATE_DIR', ROOT_DIR. '/templates');
 require_once(ROOT_DIR. '/vendor/autoload.php');
 
 use App\Core\Router;
+use App\Exceptions\TwigException;
+use App\Exceptions\ConfigException;
 use App\Controllers\ErrorController;
 
 try {
@@ -18,6 +20,10 @@ try {
 	}
 
 	$controller->execute();
-} catch (\Exception $e) {
-	echo "Router initialization failed";
+} 
+catch (TwigException | ConfigException $e) {
+	echo $e;
+}
+catch (\Exception $e) {
+	echo "Router initialization failed with default exception";
 }

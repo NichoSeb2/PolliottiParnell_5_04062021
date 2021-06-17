@@ -17,7 +17,7 @@ class Controller {
 		$this->$method();
 	}
 
-	public function render($template, $array) {
+	public function render($template, $array = []) {
 		echo $this->twig->render($template, $array);
 	}
 }

@@ -1,0 +1,19 @@
+{% extends "@admin/base.html.twig" %}
+
+{% block title %}
+	{% if action == "putOnline" %}Comment put online{% endif %}
+
+	{% if action == "putOffline" %}Comment put offline{% endif %}
+{% endblock %}
+
+{% block main %}
+	{% if action == "putOnline" %}
+		<h1>Put comment online : {{ id }}</h1>
+		{% include "@admin/forms/comment.html.twig" %}
+	{% endif %}
+
+	{% if action == "putOffline" %}
+		<h1>Put comment offline : {{ id }}</h1>
+		{% include "@admin/forms/comment.html.twig" %}
+	{% endif %}
+{% endblock %}

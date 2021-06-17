@@ -13,6 +13,6 @@ class BlogController extends Controller {
 	}
 
 	public function showBlog() {
-		$this->render("@client/pages/blog.html.twig", []);
+		$this->render("@client/pages/blog.html.twig");
 	}
 }

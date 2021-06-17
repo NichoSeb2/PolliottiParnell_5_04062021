@@ -1,1 +1,9 @@
-<h1>Post : {{ slug }}</h1>
+{% extends "@client/base.html.twig" %}
+
+{% block title %}
+	Post
+{% endblock %}
+
+{% block main %}
+	<h1>Post : {{ slug }}</h1>
+{% endblock %}

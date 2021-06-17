@@ -2,19 +2,21 @@
 namespace App\Core;
 
 use Twig\Environment;
+use App\Exceptions\TwigException;
 use Twig\Loader\FilesystemLoader;
 use Twig\Extension\DebugExtension;
+use App\Exceptions\ConfigException;
 
 class Twig {
 	private $config;
 	private $twig;
 
 	public function __construct() {
-		try {
-            $this->config = yaml_parse_file(CONF_DIR. '/config.yml');
-        } catch (\Exception $e) {
-            echo "Config not found";
-        }
+		$this->config = yaml_parse_file(CONF_DIR. "/config.yml");
+
+		if (!$this->config) {
+			throw new ConfigException("Error loading ". CONF_DIR. "/config.yml");
+		}
 
 		$loader = new FilesystemLoader(TEMPLATE_DIR);
 
@@ -34,7 +36,7 @@ class Twig {
         try {
             return $this->twig->render($template, $array);
         } catch (\Exception $e) {
-			echo $e;
+			throw new TwigException($e);
         }
     }
 }

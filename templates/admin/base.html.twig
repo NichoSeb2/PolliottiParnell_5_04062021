@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% block head %}
+            <title>{% block title %}{% endblock %}</title>
+        {% endblock %}
+    </head>
+    <body>
+		<header>
+			{% include "@admin/parts/_header.html.twig" %}
+			{% block header %}{% endblock %}
+		</header>
+		<main>{% block main %}{% endblock %}</main>
+        <footer>
+			{% include "@admin/parts/_footer.html.twig" %}
+			{% block footer %}{% endblock %}
+		</footer>
+    </body>
+</html>
