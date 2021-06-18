@@ -5,13 +5,13 @@ use App\Core\Controller;
 
 class AdminController extends Controller {
 	public function addPost() {
-		$this->render("@admin/pages/postAdd.html.twig");
+		$this->render("@admin/pages/post_add.html.twig");
 	}
 
 	public function editPost() {
 		$slug = $this->params['slug'];
 
-		$this->render("@admin/pages/postEdit.html.twig", [
+		$this->render("@admin/pages/post_edit.html.twig", [
 			'slug' => $slug
 		]);
 	}
@@ -19,7 +19,7 @@ class AdminController extends Controller {
 	public function deletePost() {
 		$slug = $this->params['slug'];
 
-		$this->render("@admin/pages/postDelete.html.twig", [
+		$this->render("@admin/pages/post_delete.html.twig", [
 			'slug' => $slug
 		]);
 	}

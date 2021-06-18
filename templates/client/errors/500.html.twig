@@ -8,5 +8,11 @@
 	<h1>500</h1>
 
 	<p>Error in <b>{{ file }}</b> on line <b>{{ line }}</b></p>
+
 	<p>{{ message }}</p>
+
+	{% for trace in traces %}
+		<p>Error trace in <b>{{ trace["file"] }}</b> on line <b>{{ trace["line"] }}</b></p>
+	{% else %}
+	{% endfor %}
 {% endblock %}

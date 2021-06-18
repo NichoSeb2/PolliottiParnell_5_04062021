@@ -14,7 +14,8 @@ class ErrorController extends Controller {
 		$this->render("@client/errors/500.html.twig", [
 			"message" => trim(explode("Stack trace", $error->getMessage())[0]),
 			"file" => $error->getFile(),
-			"line" => $error->getLine()
+			"line" => $error->getLine(),
+			"traces" => $error->getTrace()
 		]);
 	}
 }

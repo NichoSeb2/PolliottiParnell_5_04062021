@@ -1,8 +1,6 @@
 {% extends "@client/base.html.twig" %}
 
-{% block title %}
-	Post
-{% endblock %}
+{% block title %}Post - {{parent()}}{% endblock %}
 
 {% block main %}
 	<h1>Post : {{ slug }}</h1>
