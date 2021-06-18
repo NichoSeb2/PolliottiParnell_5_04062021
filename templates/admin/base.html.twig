@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        {% block head %}
+            <title>{% block title %}Mon blog{% endblock %}</title>
+        {% endblock %}
+    </head>
+    <body>
+		{% include "@admin/parts/_header.html.twig" %}
+
+		<main>{% block main %}{% endblock %}</main>
+
+		{% include "@admin/parts/_footer.html.twig" %}
+    </body>
+</html>

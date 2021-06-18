@@ -7,10 +7,12 @@ class BlogController extends Controller {
 	public function showPost() {
 		$slug = $this->params['slug'];
 
-		echo "Page du post : ". $slug;
+		$this->render("@client/pages/post.html.twig", [
+			'slug' => $slug
+		]);
 	}
 
 	public function showBlog() {
-		echo "Page du blog";
+		$this->render("@client/pages/blog.html.twig");
 	}
 }

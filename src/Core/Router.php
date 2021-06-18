@@ -1,6 +1,8 @@
 <?php
 namespace App\Core;
 
+use App\Exceptions\ConfigException;
+
 class Router {
 	private $controller;
 
@@ -13,25 +15,26 @@ class Router {
 	}
 
 	public function setController() {
-		try {
-			$routes = yaml_parse_file(CONF_DIR. "/routes.yml");
+		$confDir = CONF_DIR. "/routes.yml";
+		$routes = yaml_parse_file($confDir);
 
-			$request_uri = rtrim($_SERVER['REQUEST_URI'], "/");
+		if (!$routes) {
+			throw new ConfigException("Error loading ". $confDir);
+		}
 
-			foreach ($routes as $route) {
-				$route['uri'] = rtrim($route['uri'], "/");
+		$requestURI = rtrim($_SERVER['REQUEST_URI'], "/");
 
-				if (preg_match('#^'. $route['uri']. '$#', $request_uri, $matches)) {
-					$controller = "\\App\\Controllers\\". $route['controller'];
+		foreach ($routes as $route) {
+			$route['uri'] = rtrim($route['uri'], "/");
 
-					$params = array_combine($route['parameters'], array_slice($matches, 1));
+			if (preg_match('#^'. $route['uri']. '$#', $requestURI, $matches)) {
+				$controller = "\\App\\Controllers\\". $route['controller'];
 
-					$this->controller = new $controller($route['action'], $params);
-					return $this->controller;
-				}
+				$params = array_combine($route['parameters'], array_slice($matches, 1));
+
+				$this->controller = new $controller($route['action'], $params);
+				return $this->controller;
 			}
-		} catch (\Exception $e) {
-			echo "Config not found";
 		}
 	}
 }

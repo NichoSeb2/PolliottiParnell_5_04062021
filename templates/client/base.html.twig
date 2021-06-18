@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+
+        <!-- Basic HTML Meta Tags -->
+        <meta name="author" content="Parnell Polliotti">
+        <meta name="description" content="{% block description %}Bienvenue sur mon blog consacrée au développement back end{% endblock %}">
+        <meta name="copyright" content="Parnell Polliotti">
+
+        <!-- Twitter Meta Tags -->
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:site" content="Parnell Polliotti's blog">
+        <meta name="twitter:title" content="{% block title %}Parnell Polliotti's blog{% endblock %}">
+        <meta name="twitter:description" content="{{ block('description') }}">
+        <meta name="twitter:image" content="">
+
+        <!-- Open Graph Meta Tags -->
+        <meta property="og:type" content="website">
+        <meta property="og:site_name" content="Parnell Polliotti's blog">
+        <meta property="og:title" content="{{ block('title') }}">
+        <meta property="og:description" content="{{ block('description') }}">
+        <meta property="og:url" content="https://oc-p5.play-for-eternity.net/">
+        <meta property="og:locale" content="fr">
+
+        <title>{{ block('title') }}</title>
+    </head>
+    <body>
+		{% include "@client/parts/_header.html.twig" %}
+
+		<main>{% block main %}{% endblock %}</main>
+
+		{% include "@client/parts/_footer.html.twig" %}
+    </body>
+</html>
