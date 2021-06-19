@@ -1,6 +1,7 @@
-.vscode/
+.vscode/**
 
 config/db-config.yml
 config/mail.yml
 
+node_modules/**
 vendor/**
