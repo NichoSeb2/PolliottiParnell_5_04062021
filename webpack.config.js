@@ -5,7 +5,8 @@ const RemoveEmptyScriptsPlugin = require("webpack-remove-empty-scripts");
 module.exports = {
 	context: path.resolve(__dirname, "public/scss"),
 	entry: {
-		main: ["./main.scss"],
+		client: ["./client/main.scss"],
+		admin: ["./admin/main.scss"],
 	},
 	module: {
 		rules: [

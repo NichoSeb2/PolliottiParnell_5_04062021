@@ -15,6 +15,10 @@
 		"url": "https://github.com/NichoSeb2/PolliottiParnell_5_04062021/issues"
 	},
 	"homepage": "https://github.com/NichoSeb2/PolliottiParnell_5_04062021#readme",
+	"dependencies": {
+		"startbootstrap-clean-blog": "^6.0.3",
+		"startbootstrap-sb-admin-2": "^4.1.4"
+	},
 	"devDependencies": {
 		"autoprefixer": "^10.2.6",
 		"css-loader": "^5.2.6",
