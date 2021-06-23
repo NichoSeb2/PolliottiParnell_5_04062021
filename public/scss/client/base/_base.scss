@@ -1,0 +1,34 @@
+// Increase base font styling in the body only
+body {
+	font-size: $font-size-lg;
+}
+
+// Set horizontal rule color to border color
+hr {
+	background-color: $primary;
+	opacity: 1;
+}
+
+// Set defaults for the paragraph element
+p {
+	margin: 2rem 0;
+
+	a {
+		text-decoration: underline;
+	}
+}
+
+blockquote {
+	font-style: italic;
+	color: $gray-600;
+}
+
+// Add missing text-justify from bootstrap
+.text-justify {
+	text-align: justify;
+}
+
+// Add missing hover transition on link
+a:hover {
+	transition: color .15s ease-in-out, background-color .15s ease-in-out;
+}

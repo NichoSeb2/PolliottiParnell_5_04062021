@@ -1,0 +1,35 @@
+{
+	"name": "oc_p5",
+	"version": "1.0.0",
+	"author": "Parnell Polliotti",
+	"main": "index.js",
+	"scripts": {
+		"build": "webpack --config webpack.config.js --mode production",
+		"serve": "webpack --config webpack.config.js --watch --mode development"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/NichoSeb2/PolliottiParnell_5_04062021.git"
+	},
+	"bugs": {
+		"url": "https://github.com/NichoSeb2/PolliottiParnell_5_04062021/issues"
+	},
+	"homepage": "https://github.com/NichoSeb2/PolliottiParnell_5_04062021#readme",
+	"dependencies": {
+		"startbootstrap-clean-blog": "^6.0.3",
+		"startbootstrap-sb-admin-2": "^4.1.4"
+	},
+	"devDependencies": {
+		"autoprefixer": "^10.2.6",
+		"css-loader": "^5.2.6",
+		"cssnano": "^5.0.6",
+		"mini-css-extract-plugin": "^1.6.0",
+		"node-sass": "^6.0.0",
+		"postcss": "^8.3.5",
+		"postcss-loader": "^6.1.0",
+		"sass-loader": "^12.1.0",
+		"webpack": "^5.39.1",
+		"webpack-cli": "^4.7.2",
+		"webpack-remove-empty-scripts": "^0.7.1"
+	}
+}

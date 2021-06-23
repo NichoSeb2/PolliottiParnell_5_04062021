@@ -3,5 +3,36 @@
 {% block title %}Accueil - {{parent()}}{% endblock %}
 
 {% block main %}
-	<h1>Accueil</h1>
+	<div class="container px-2 px-lg-3">
+		<div class="row gx-2 gx-lg-3 justify-content-center">
+			<div class="col-md-10 col-lg-8 col-xl-7">
+				<h2 class="section-heading">À propos de moi :</h2>
+
+				{% include "@client/parts/_devider.html.twig" %}
+
+				<div class="row gx-2 gx-lg-3 p-2 p-sm-0 mb-5 justify-content-center">
+					<div class="col-12 col-sm-3 mb-3 mb-sm-0 d-flex align-items-center"><img class="w-100" src="/img/pdp.jpg" alt="Ma photo de profile"></div>
+					<p class="col-12 col-sm-9 m-0 text-justify">
+						Je suis un développeur back-end spécialisé dans le PHP et plus particulièrement dans le framework Symfony. 
+						Passionné d'informatique et de programmation depuis plus de 6 ans, j'ai donc tout naturellement décidé d'en faire mon métier. 
+						Sur mon blog, j'ai décidé de vous partager mon expérience et mon parcours dans le monde formidable du développement web.
+					</p>
+				</div>
+
+				<div class="d-flex justify-content-center mb-4"><a class="btn btn-primary text-uppercase text-light" href="#">Lien de téléchargement de mon CV <i class="fas fa-download"></i></a></div>
+
+				<h2 class="section-heading">Mes deux derniers articles :</h2>
+
+				{% for p in post %}
+					{% include "@client/parts/_devider.html.twig" %}
+
+					{% include "@client/parts/_post_preview.html.twig" with { 'post': p} only %}
+				{% endfor %}
+
+				{% include "@client/parts/_devider.html.twig" %}
+
+				<div class="d-flex justify-content-center mb-4"><a class="btn btn-primary text-uppercase text-light" href="/blog">Lire plus d'article !</a></div>
+			</div>
+		</div>
+	</div>
 {% endblock %}
