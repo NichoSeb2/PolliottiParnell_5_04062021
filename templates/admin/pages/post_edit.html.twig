@@ -1,8 +1,8 @@
 {% extends "@admin/base.html.twig" %}
 
-{% block title %}Edit post{% endblock %}
+{% block title %}Modifier article - {{parent()}}{% endblock %}
 
 {% block main %}
-	<h1>Edit post : {{ slug }}</h1>
-	{% include "@admin/forms/_post_edit.html.twig" %}
+	<h1 class="h3 mb-2 text-gray-800">Modifier un article</h1>
+	{% include "@admin/forms/_post.html.twig" with { post: post } only %}
 {% endblock %}

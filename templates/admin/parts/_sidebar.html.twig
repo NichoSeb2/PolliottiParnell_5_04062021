@@ -1,0 +1,47 @@
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+	<a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
+		<div class="sidebar-brand-icon">
+			<i class="fas fa-home"></i>
+		</div>
+		<div class="sidebar-brand-text mx-3">Accueil</div>
+	</a>
+
+	<hr class="sidebar-divider my-0">
+
+	<li class="nav-item {{ active == "profile" ? 'active' : ''}}">
+		<a class="nav-link" href="/admin">
+			<i class="fas fa-user-circle"></i>
+			<span>Profile</span>
+		</a>
+	</li>
+
+	<hr class="sidebar-divider">
+
+	<div class="sidebar-heading">Administration</div>
+
+	<li class="nav-item">
+		<a class="nav-link {{ active != "addPost" and active != "showPost" ? 'collapsed' : '' }}" href="#" data-toggle="collapse" data-target="#collapseArticles" aria-expanded="true" aria-controls="collapseArticles">
+			<i class="fas fa-newspaper"></i>
+			<span>Gestion articles</span>
+		</a>
+		<div id="collapseArticles" class="collapse {{ active == "addPost" or active == "showPost" ? 'show' : '' }}" aria-labelledby="headingArticles" data-parent="#accordionSidebar">
+			<div class="bg-white py-2 collapse-inner rounded">
+				<a class="collapse-item {{ active == "addPost" ? 'active' : ''}}" href="/admin/blog/add">Ajouter</a>
+				<a class="collapse-item {{ active == "showPost" ? 'active' : ''}}" href="/admin/blog">Lister les articles</a>
+			</div>
+		</div>
+	</li>
+
+	<li class="nav-item {{ active == "showComment" ? 'active' : ''}}">
+		<a class="nav-link" href="/admin/comment">
+			<i class="fas fa-comments"></i>
+			<span>Gestion commentaires</span>
+		</a>
+	</li>
+
+	<hr class="sidebar-divider d-none d-md-block">
+
+	<div class="text-center d-none d-md-inline">
+		<button class="rounded-circle border-0" id="sidebarToggle"></button>
+	</div>
+</ul>

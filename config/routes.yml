@@ -28,6 +28,16 @@ register:
   controller: AccountController
   action: register
   parameters: [ ]
+profile:
+  uri: /admin
+  controller: AdminController
+  action: showProfile
+  parameters: [ ]
+showPost:
+  uri: /admin/blog
+  controller: AdminController
+  action: showPost
+  parameters: [ ]
 addPost:
   uri: /admin/blog/add
   controller: AdminController
@@ -43,6 +53,11 @@ deletePost:
   controller: AdminController
   action: deletePost
   parameters: ["slug"]
+showComment:
+  uri: /admin/comment
+  controller: CommentController
+  action: showComment
+  parameters: [ ]
 putCommentOnline:
   uri: /admin/comment/([a-zA-Z0-9-]+)/put-online
   controller: CommentController

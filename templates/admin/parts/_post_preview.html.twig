@@ -1,0 +1,20 @@
+<tr>
+	<td>{{ post.author }}</td>
+	<td>{{ post.title }}</td>
+	<td>{{ post.createdAt }}</td>
+	<td>{{ post.updatedAt }}</td>
+	<td class="px-0 py-1 d-flex justify-content-around">
+		<a href="/admin/blog/{{ post.slug }}/edit" class="btn btn-info btn-icon-split">
+			<span class="icon text-white-50">
+				<i class="fas fa-edit"></i>
+			</span>
+			<span class="text">Modifier</span>
+		</a>
+		<a href="#" class="btn btn-danger btn-icon-split" data-toggle="modal" data-target="#deleteModal" data-slug="{{ post.slug }}">
+			<span class="icon text-white-50">
+				<i class="fas fa-trash-alt"></i>
+			</span>
+			<span class="text">Supprimer</span>
+		</a>
+	</td>
+</tr>

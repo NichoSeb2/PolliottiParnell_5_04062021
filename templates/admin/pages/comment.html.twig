@@ -1,0 +1,49 @@
+{% extends "@admin/base.html.twig" %}
+
+{% block title %}Commentaires - {{parent()}}{% endblock %}
+
+{% block extraCSS %}
+	<link href="/vendor/admin/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block extraJS %}
+    <script src="/vendor/admin/datatables/jquery.dataTables.min.js"></script>
+    <script src="/vendor/admin/datatables/dataTables.bootstrap4.min.js"></script>
+
+	<script src="/js/admin/comment_init_table.js"></script>
+{% endblock %}
+
+{% block main %}
+	<h1 class="h3 mb-2 text-gray-800">Liste des commentaires</h1>
+	<div class="card shadow mb-4">
+		<div class="card-body">
+			<div class="table-responsive">
+				<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+					<thead>
+						<tr>
+							<th>Auteur</th>
+							<th>Contenue</th>
+							<th>Date de création</th>
+							<th>Statut</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tfoot>
+						<tr>
+							<th>Auteur</th>
+							<th>Contenue</th>
+							<th>Date de création</th>
+							<th>Statut</th>
+							<th>Action</th>
+						</tr>
+					</tfoot>
+					<tbody>
+						{% for comment in comments %}
+							{% include "@admin/parts/_comment_preview.html.twig" with { comment: comment } only %}
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+{% endblock %}
