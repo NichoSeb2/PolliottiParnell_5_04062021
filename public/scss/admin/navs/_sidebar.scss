@@ -101,7 +101,7 @@
         &::after {
             font-weight: 900;
             content: '\f104';
-            font-family: 'Font Awesome 5 Free';
+            font-family: 'Font Awesome 5 Free', sans-serif;
             margin-right: 0.1rem;
         }
 
@@ -120,7 +120,7 @@
 
         #sidebarToggle::after {
             content: '\f105';
-            font-family: 'Font Awesome 5 Free';
+            font-family: 'Font Awesome 5 Free', sans-serif;
             margin-left: 0.25rem;
         }
 
@@ -219,7 +219,6 @@
 
             .nav-link {
                 display: block;
-                width: 100%;
                 text-align: left;
                 padding: 1rem;
                 width: $sidebar-base-width;
@@ -244,7 +243,7 @@
                         border: 0;
                         font-weight: 900;
                         content: '\f107';
-                        font-family: 'Font Awesome 5 Free';
+                        font-family: 'Font Awesome 5 Free', sans-serif;
                     }
 
                     &.collapsed::after {
