@@ -20,7 +20,7 @@
 	<div class="card shadow mb-4">
 		<div class="card-body">
 			<div class="table-responsive">
-				<table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+				<table class="table table-bordered" id="dataTable">
 					<thead>
 						<tr>
 							<th>Auteur</th>
@@ -30,6 +30,11 @@
 							<th>Action</th>
 						</tr>
 					</thead>
+					<tbody>
+						{% for p in post %}
+							{% include "@admin/parts/_post_preview.html.twig" with { post: p } only %}
+						{% endfor %}
+					</tbody>
 					<tfoot>
 						<tr>
 							<th>Auteur</th>
@@ -39,11 +44,6 @@
 							<th>Action</th>
 						</tr>
 					</tfoot>
-					<tbody>
-						{% for p in post %}
-							{% include "@admin/parts/_post_preview.html.twig" with { post: p } only %}
-						{% endfor %}
-					</tbody>
 				</table>
 			</div>
 		</div>
