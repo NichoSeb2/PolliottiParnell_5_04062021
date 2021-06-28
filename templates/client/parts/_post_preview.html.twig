@@ -1,8 +1,8 @@
 <div class="post-preview">
-	<a href="/blog/{{ post['slug'] }}">
-		<h2 class="post-title">{{ post['title'] }}</h2>
+	<a href="/blog/{{ post.slug }}">
+		<h2 class="post-title">{{ post.title }}</h2>
 	</a>
 	<p class="post-meta">
-		Posté par <b>{{ post['author'] }}</b> le {{ post['date'] }}
+		Posté par <b>{{ post.author }}</b> le {{ post.createdAt }}
 	</p>
 </div>

@@ -1,0 +1,22 @@
+<form action="" method="post">
+	<input type="hidden" name="slug" value="{{ post.slug }}">
+	<div class="form-group">
+		<label for="postTitle">Titre</label>
+		<input type="text" class="form-control" id="postTitle" value="{{ post.title }}">
+	</div>
+	<div class="form-group">
+		<label for="postContent">Contenu</label>
+		<textarea class="form-control" id="postContent" rows="3">{{ post.content }}</textarea>
+	</div>
+	<div class="row">
+		<div class="form-group col-12 col-md-6">
+			<label for="postCoverImageFile">Uploader l'image de couverture</label>
+			<input type="file" class="form-control-file" id="postCoverImageFile">
+		</div>
+		<div class="form-group col-12 col-md-6">
+			<label for="postCoverImageAlt">Description de l'image de couverture</label>
+			<input type="text" class="form-control" id="postCoverImageAlt" value="{{ post.coverageImageAlt }}">
+		</div>
+	</div>
+	<button type="submit" class="btn btn-primary">Sauvegarder</button>
+</form>

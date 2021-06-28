@@ -1,19 +1,35 @@
 // abstracts
-@import "./abstracts/variables";
 @import "./abstracts/typography";
+@import "./abstracts/variables";
+@import "./abstracts/mixins";
 
 // vendors
+@import "startbootstrap-sb-admin-2/vendor/bootstrap/scss/bootstrap";
 
 // base
+@import "./base/global";
 @import "./base/base";
 
-// layout
-@import "./layout/header";
-@import "./layout/navigation";
-@import "./layout/footer";
+// utilities
+@import "./utilities/animation";
+@import "./utilities/background";
+@import "./utilities/border";
+@import "./utilities/display";
+@import "./utilities/progress";
+@import "./utilities/rotate";
+@import "./utilities/text";
+
 
 // components
+@import "./components/buttons";
+@import "./components/cards";
+@import "./components/charts";
+@import "./components/dropdowns";
+@import "./components/error";
+@import "./components/footer";
+@import "./components/login";
 
-// pages
-
-// themes
+// navs
+@import "./navs/global.scss";
+@import "./navs/topbar.scss";
+@import "./navs/sidebar.scss";

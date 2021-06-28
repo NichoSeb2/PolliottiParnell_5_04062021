@@ -1,0 +1,18 @@
+<form action="" method="post">
+	<input type="hidden" name="id" value="{{ social.id }}">
+	<div class="form-group">
+		<label for="socialName">Nom du réseau social</label>
+		<input type="text" class="form-control" id="socialName" value="{{ social.name }}">
+	</div>
+	<div class="row">
+		<div class="form-group col-12 col-md-6">
+			<label for="socialURL">Lien du réseau social</label>
+			<input type="text" class="form-control" id="socialURL" value="{{ social.url }}">
+		</div>
+		<div class="form-group col-12 col-md-6">
+			<label for="socialIcon">Classe de l'icone font-awesome du réseau social</label>
+			<input type="text" class="form-control" id="socialIcon" value="{{ social.icon }}" placeholder="Ex : fab fa-twitter">
+		</div>
+	</div>
+	<button type="submit" class="btn btn-primary">Sauvegarder</button>
+</form>

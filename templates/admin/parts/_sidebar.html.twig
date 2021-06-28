@@ -1,0 +1,64 @@
+<ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+	<li>
+		<a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
+			<div class="sidebar-brand-icon">
+				<i class="fas fa-home"></i>
+			</div>
+			<div class="sidebar-brand-text mx-3">Accueil</div>
+		</a>
+	</li>
+
+	<li><hr class="sidebar-divider"></li>
+
+	<li><div class="sidebar-heading text-break">Personnalisation</div></li>
+
+	<li class="nav-item {{ active == "profile" ? 'active' : ''}}">
+		<a class="nav-link" href="/admin">
+			<i class="fas fa-user-circle"></i>
+			<span>Profile</span>
+		</a>
+	</li>
+
+	<li class="nav-item">
+		<a class="nav-link {{ active != "addSocial" and active != "showSocial" ? 'collapsed' : '' }}" href="#" data-toggle="collapse" data-target="#collapseSocial" aria-expanded="true" aria-controls="collapseArticles">
+			<i class="fas fa-users"></i>
+			<span>Gestion liens sociaux</span>
+		</a>
+		<div id="collapseSocial" class="collapse {{ active == "addSocial" or active == "showSocial" ? 'show' : '' }}" data-parent="#accordionSidebar">
+			<div class="bg-white py-2 collapse-inner rounded">
+				<a class="collapse-item {{ active == "addSocial" ? 'active' : ''}}" href="/admin/social/add">Ajouter</a>
+				<a class="collapse-item {{ active == "showSocial" ? 'active' : ''}}" href="/admin/social">Lister les liens sociaux</a>
+			</div>
+		</div>
+	</li>
+
+	<li><hr class="sidebar-divider"></li>
+
+	<li><div class="sidebar-heading text-break">Administration</div></li>
+
+	<li class="nav-item">
+		<a class="nav-link {{ active != "addPost" and active != "showPost" ? 'collapsed' : '' }}" href="#" data-toggle="collapse" data-target="#collapseArticles" aria-expanded="true" aria-controls="collapseArticles">
+			<i class="fas fa-newspaper"></i>
+			<span>Gestion articles</span>
+		</a>
+		<div id="collapseArticles" class="collapse {{ active == "addPost" or active == "showPost" ? 'show' : '' }}" data-parent="#accordionSidebar">
+			<div class="bg-white py-2 collapse-inner rounded">
+				<a class="collapse-item {{ active == "addPost" ? 'active' : ''}}" href="/admin/blog/add">Ajouter</a>
+				<a class="collapse-item {{ active == "showPost" ? 'active' : ''}}" href="/admin/blog">Lister les articles</a>
+			</div>
+		</div>
+	</li>
+
+	<li class="nav-item {{ active == "showComment" ? 'active' : ''}}">
+		<a class="nav-link" href="/admin/comment">
+			<i class="fas fa-comments"></i>
+			<span>Gestion commentaires</span>
+		</a>
+	</li>
+
+	<li><hr class="sidebar-divider d-none d-md-block"></li>
+
+	<li class="text-center d-none d-md-inline">
+		<button class="rounded-circle border-0" id="sidebarToggle"></button>
+	</li>
+</ul>

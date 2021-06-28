@@ -9,12 +9,12 @@ class IndexController extends Controller {
 			'slug' => 2, 
 			'title' => "Saepe nostrum ullam eveniet pariatur voluptates odit", 
 			'author' => "Parnell Polliotti", 
-			'date' => "22/06/2021", 
+			'createdAt' => "22/06/2021", 
 		], [
 			'slug' => 1, 
 			'title' => "Laborum aute elit cillum commodo minim occaecat", 
 			'author' => "Parnell Polliotti", 
-			'date' => "18/06/2021", 
+			'createdAt' => "18/06/2021", 
 		]];
 
 		$this->render("@client/pages/index.html.twig", [

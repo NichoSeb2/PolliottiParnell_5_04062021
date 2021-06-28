@@ -27,19 +27,19 @@
 		<!-- Font Awesome icons -->
         <script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" crossorigin="anonymous"></script>
 
-		<!-- Core theme CSS (includes Bootstrap)-->
+		<!-- Core theme CSS (includes Bootstrap) -->
         <link href="/css/client.min.css" rel="stylesheet" />
 
         <title>{{ block('title') }}</title>
     </head>
     <body>
-		{% include "@client/parts/_header.html.twig" %}
+		{% include "@client/parts/_header.html.twig" only %}
 
-		{% include "@client/parts/_nav.html.twig" %}
+		{% include "@client/parts/_nav.html.twig" only %}
 
 		<main>{% block main %}{% endblock %}</main>
 
-		{% include "@client/parts/_footer.html.twig" %}
+		{% include "@client/parts/_footer.html.twig" only %}
 
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>

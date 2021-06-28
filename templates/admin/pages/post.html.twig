@@ -1,0 +1,54 @@
+{% extends "@admin/base.html.twig" %}
+
+{% block title %}Articles - {{parent()}}{% endblock %}
+
+{% block extraCSS %}
+	<link href="/vendor/admin/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+{% endblock %}
+
+{% block extraJS %}
+    <script src="/vendor/admin/datatables/jquery.dataTables.min.js"></script>
+    <script src="/vendor/admin/datatables/dataTables.bootstrap4.min.js"></script>
+
+	<script src="/js/admin/post_init_table.js"></script>
+
+	<script src="/js/admin/modal_delete.js"></script>
+{% endblock %}
+
+{% block main %}
+	<h1 class="h3 mb-2 text-gray-800">Liste des articles</h1>
+
+	<div class="card shadow mb-4">
+		<div class="card-body">
+			<div class="table-responsive">
+				<table class="table table-bordered" id="dataTable">
+					<thead>
+						<tr>
+							<th>Auteur</th>
+							<th>Titre</th>
+							<th>Date de création</th>
+							<th>Date de dernière modification</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for p in post %}
+							{% include "@admin/parts/_post_preview.html.twig" with { post: p } only %}
+						{% endfor %}
+					</tbody>
+					<tfoot>
+						<tr>
+							<th>Auteur</th>
+							<th>Titre</th>
+							<th>Date de création</th>
+							<th>Date de dernière modification</th>
+							<th>Action</th>
+						</tr>
+					</tfoot>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	{% include "@admin/parts/_delete_modal.html.twig" only %}
+{% endblock %}
