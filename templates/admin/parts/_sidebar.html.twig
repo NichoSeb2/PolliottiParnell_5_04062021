@@ -8,13 +8,28 @@
 		</a>
 	</li>
 
-	<li><hr class="sidebar-divider my-0"></li>
+	<li><hr class="sidebar-divider"></li>
+
+	<li><div class="sidebar-heading text-break">Personnalisation</div></li>
 
 	<li class="nav-item {{ active == "profile" ? 'active' : ''}}">
 		<a class="nav-link" href="/admin">
 			<i class="fas fa-user-circle"></i>
 			<span>Profile</span>
 		</a>
+	</li>
+
+	<li class="nav-item">
+		<a class="nav-link {{ active != "addSocial" and active != "showSocial" ? 'collapsed' : '' }}" href="#" data-toggle="collapse" data-target="#collapseSocial" aria-expanded="true" aria-controls="collapseArticles">
+			<i class="fas fa-users"></i>
+			<span>Gestion liens sociaux</span>
+		</a>
+		<div id="collapseSocial" class="collapse {{ active == "addSocial" or active == "showSocial" ? 'show' : '' }}" data-parent="#accordionSidebar">
+			<div class="bg-white py-2 collapse-inner rounded">
+				<a class="collapse-item {{ active == "addSocial" ? 'active' : ''}}" href="/admin/social/add">Ajouter</a>
+				<a class="collapse-item {{ active == "showSocial" ? 'active' : ''}}" href="/admin/social">Lister les liens sociaux</a>
+			</div>
+		</div>
 	</li>
 
 	<li><hr class="sidebar-divider"></li>

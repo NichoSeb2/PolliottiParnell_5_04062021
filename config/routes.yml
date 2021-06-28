@@ -33,6 +33,26 @@ profile:
   controller: AdminController
   action: showProfile
   parameters: [ ]
+showSocial:
+  uri: /admin/social
+  controller: AdminController
+  action: showSocial
+  parameters: [ ]
+addSocial:
+  uri: /admin/social/add
+  controller: AdminController
+  action: addSocial
+  parameters: [ ]
+editSocial:
+  uri: /admin/social/([a-zA-Z0-9-]+)/edit
+  controller: AdminController
+  action: editSocial
+  parameters: ["id"]
+deleteSocial:
+  uri: /admin/social/([a-zA-Z0-9-]+)/delete
+  controller: AdminController
+  action: deleteSocial
+  parameters: ["id"]
 showPost:
   uri: /admin/blog
   controller: AdminController

@@ -79,4 +79,51 @@ class AdminController extends Controller {
 
 		// no render. action and after redirect
 	}
+
+	public function showSocial() {
+		$socials = [[
+			'id' => 1, 
+			'name' => "Twitter", 
+			'icon' => "fab fa-twitter", 
+			'url' => "https://twitter.com", 
+		], [
+			'id' => 2, 
+			'name' => "LinkedIn", 
+			'icon' => "fab fa-linkedin-in", 
+			'url' => "https://fr.linkedin.com/", 
+		]];
+
+		$this->render("@admin/pages/social.html.twig", [
+			'active' => "showSocial", 
+			'socials' => $socials
+		]);
+	}
+
+	public function addSocial() {
+		$this->render("@admin/pages/social_add.html.twig", [
+			'active' => "addSocial", 
+		]);
+	}
+
+	public function editSocial() {
+		$id = $this->params['id'];
+
+		$social = [
+			'id' => 1, 
+			'name' => "Twitter", 
+			'icon' => "fab fa-twitter", 
+			'url' => "https://twitter.com", 
+		];
+
+		$this->render("@admin/pages/social_edit.html.twig", [
+			'active' => "editSocial", 
+			'social' => $social, 
+		]);
+	}
+
+	public function deleteSocial() {
+		$id = $this->params['id'];
+
+		// no render. action and after redirect
+	}
 }

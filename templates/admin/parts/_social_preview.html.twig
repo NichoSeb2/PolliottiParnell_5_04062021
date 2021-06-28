@@ -1,0 +1,19 @@
+<tr>
+	<td>{{ social.name }}</td>
+	<td><i class="{{ social.icon }}"></i></td>
+	<td>{{ social.url }}</td>
+	<td class="px-0 py-1 d-flex justify-content-center">
+		<a href="/admin/social/{{ social.id }}/edit" class="btn btn-info btn-icon-split mx-2">
+			<span class="icon text-white-50">
+				<i class="fas fa-edit"></i>
+			</span>
+			<span class="text">Modifier</span>
+		</a>
+		<a href="#" class="btn btn-danger btn-icon-split mx-2" data-toggle="modal" data-target="#deleteModal" data-slug="{{ social.id }}" data-href-model="/admin/social/*slug*/delete">
+			<span class="icon text-white-50">
+				<i class="fas fa-trash-alt"></i>
+			</span>
+			<span class="text">Supprimer</span>
+		</a>
+	</td>
+</tr>

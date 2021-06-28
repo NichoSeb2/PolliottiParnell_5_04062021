@@ -1,6 +1,6 @@
 {% extends "@admin/base.html.twig" %}
 
-{% block title %}Commentaires - {{parent()}}{% endblock %}
+{% block title %}Liens sociaux - {{parent()}}{% endblock %}
 
 {% block extraCSS %}
 	<link href="/vendor/admin/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
@@ -10,39 +10,43 @@
     <script src="/vendor/admin/datatables/jquery.dataTables.min.js"></script>
     <script src="/vendor/admin/datatables/dataTables.bootstrap4.min.js"></script>
 
-	<script src="/js/admin/comment_init_table.js"></script>
-	<script src="/js/admin/comment_update.js"></script>
+	<script src="/js/admin/social_init_table.js"></script>
+
+	<script src="/js/admin/modal_delete.js"></script>
 {% endblock %}
 
 {% block main %}
-	<h1 class="h3 mb-2 text-gray-800">Liste des commentaires</h1>
+	<h1 class="h3 mb-2 text-gray-800">Liste des liens sociaux</h1>
+
 	<div class="card shadow mb-4">
 		<div class="card-body">
 			<div class="table-responsive">
 				<table class="table table-bordered" id="dataTable">
 					<thead>
 						<tr>
-							<th>Auteur</th>
-							<th>Contenue</th>
-							<th>Date de création</th>
-							<th>Statut</th>
+							<th>Nom</th>
+							<th>Icon</th>
+							<th>URL</th>
+							<th>Action</th>
 						</tr>
 					</thead>
 					<tbody>
-						{% for comment in comments %}
-							{% include "@admin/parts/_comment_preview.html.twig" with { comment: comment } only %}
+						{% for social in socials %}
+							{% include "@admin/parts/_social_preview.html.twig" with { social: social } only %}
 						{% endfor %}
 					</tbody>
 					<tfoot>
 						<tr>
-							<th>Auteur</th>
-							<th>Contenue</th>
-							<th>Date de création</th>
-							<th>Statut</th>
+							<th>Nom</th>
+							<th>Icon</th>
+							<th>URL</th>
+							<th>Action</th>
 						</tr>
 					</tfoot>
 				</table>
 			</div>
 		</div>
 	</div>
+
+	{% include "@admin/parts/_delete_modal.html.twig" only %}
 {% endblock %}

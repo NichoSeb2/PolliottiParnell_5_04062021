@@ -2,12 +2,13 @@
 	<td>{{ comment.author }}</td>
 	<td>{{ comment.content }}</td>
 	<td>{{ comment.createdAt }}</td>
-	<td>{{ comment.status == "online" ? "En ligne" : "Hors ligne" }}</td>
-	<td class="px-0 py-1 d-flex justify-content-around">
-		{% if comment.status == "online" %}
-			<a href="/admin/comment/{{ comment.id }}/put-offline" class="btn btn-primary">Mettre hors ligne</a>
-		{% else %}
-			<a href="/admin/comment/{{ comment.id }}/put-online" class="btn btn-primary">Mettre en ligne</a>
-		{% endif %}
+	<td>
+		<label for="{{ comment.id }}Comment" class="toggle-switchy" data-comment-id="{{ comment.id }}" data-style="rounded" data-text="false" data-size="sm" data-color="primary" data-label="right">
+			<input {{ comment.status == "online" ? "checked" : "" }} type="checkbox" id="{{ comment.id }}Comment" data-true-label="En ligne" data-false-label="Hors ligne">
+			<span class="toggle">
+				<span class="switch"></span>
+			</span>
+			<span class="label" id="{{ comment.id }}CommentLabel">{{ comment.status == "online" ? "En ligne" : "Hors ligne" }}</span>
+		</label>
 	</td>
 </tr>
