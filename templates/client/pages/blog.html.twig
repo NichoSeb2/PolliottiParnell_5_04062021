@@ -3,5 +3,21 @@
 {% block title %}Blog - {{parent()}}{% endblock %}
 
 {% block main %}
-	<h1>Blog</h1>
+	<div class="container px-2 px-lg-3">
+		<div class="row gx-2 gx-lg-3 justify-content-center">
+			<div class="col-md-10 col-lg-8 col-xl-7">
+				<h2 class="section-heading">Tout mes articles :</h2>
+
+				{% for p in post %}
+					{% include "@client/parts/_devider.html.twig" only %}
+
+					{% include "@client/parts/_post_preview.html.twig" with { 'post': p } only %}
+				{% endfor %}
+
+				{% include "@client/parts/_devider.html.twig" only %}
+
+				{% include "@client/parts/_paging.html.twig" with { firstPage, lastPage, previousPage, currentPage, nextPage } only %}
+			</div>
+		</div>
+	</div>
 {% endblock %}

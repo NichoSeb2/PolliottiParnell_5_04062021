@@ -18,7 +18,7 @@ class IndexController extends Controller {
 		]];
 
 		$this->render("@client/pages/index.html.twig", [
-			'post' => $post
+			'post' => $post, 
 		]);
 	}
 

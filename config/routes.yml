@@ -13,6 +13,11 @@ blog:
   controller: BlogController
   action: showBlog
   parameters: [ ]
+blogPaging:
+  uri: /blog/pages/([a-zA-Z0-9-]+)
+  controller: BlogController
+  action: showBlog
+  parameters: ["page"]
 singlePost:
   uri: /blog/([a-zA-Z0-9-]+)
   controller: BlogController

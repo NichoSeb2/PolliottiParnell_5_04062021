@@ -1,0 +1,19 @@
+<div class="d-flex justify-content-center mt-5 mb-5">
+	<nav aria-label="Page navigation example">
+		<ul class="pagination">
+			<li class="page-item {{ firstPage == currentPage ? 'disabled': '' }}"><a class="page-link" href="/blog/pages/{{ firstPage }}">Première page</a></li>
+
+			{% if previousPage != currentPage %}
+				<li class="page-item"><a class="page-link" href="/blog/pages/{{ previousPage }}">{{ previousPage }}</a></li>
+			{% endif %}
+
+			<li class="page-item active"><a class="page-link" href="/blog/pages/{{ currentPage }}">{{ currentPage }}</a></li>
+
+			{% if nextPage != currentPage %}
+				<li class="page-item"><a class="page-link" href="/blog/pages/{{ nextPage }}">{{ nextPage }}</a></li>
+			{% endif %}
+
+			<li class="page-item {{ lastPage == currentPage ? 'disabled': '' }}"><a class="page-link" href="/blog/pages/{{ lastPage }}">Dernière page</a></li>
+		</ul>
+	</nav>
+</div>
