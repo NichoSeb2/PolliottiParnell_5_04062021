@@ -42,12 +42,12 @@ class BlogController extends Controller {
 			'title' => "Exercitation non commodo elit ea est elit", 
 			'author' => AUTHOR, 
 			'createdAt' => "30/06/2021", 
-		],[
+		], [
 			'slug' => 6, 
 			'title' => "Ea consectetur commodo dolore quis deserunt", 
 			'author' => AUTHOR, 
 			'createdAt' => "29/06/2021", 
-		],[
+		], [
 			'slug' => 5, 
 			'title' => "Commodo proident nulla ut veniam exercitation", 
 			'author' => AUTHOR, 
