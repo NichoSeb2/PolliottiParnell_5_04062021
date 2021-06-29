@@ -34,41 +34,44 @@ class BlogController extends Controller {
 			$page = 0;
 		}
 
+		// temporary constant to pass sonar cloud
+		define("AUTHOR", "Parnell Polliotti");
+
 		$rawPost = [[
 			'slug' => 7, 
 			'title' => "Exercitation non commodo elit ea est elit", 
-			'author' => "Parnell Polliotti", 
-			'createdAt' => "22/06/2021", 
+			'author' => AUTHOR, 
+			'createdAt' => "30/06/2021", 
 		],[
 			'slug' => 6, 
 			'title' => "Ea consectetur commodo dolore quis deserunt", 
-			'author' => "Parnell Polliotti", 
-			'createdAt' => "22/06/2021", 
+			'author' => AUTHOR, 
+			'createdAt' => "29/06/2021", 
 		],[
 			'slug' => 5, 
 			'title' => "Commodo proident nulla ut veniam exercitation", 
-			'author' => "Parnell Polliotti", 
-			'createdAt' => "22/06/2021", 
+			'author' => AUTHOR, 
+			'createdAt' => "28/06/2021", 
 		], [
 			'slug' => 4, 
 			'title' => "Irure laborum reprehenderit sint irure", 
-			'author' => "Parnell Polliotti", 
-			'createdAt' => "22/06/2021", 
+			'author' => AUTHOR, 
+			'createdAt' => "27/06/2021", 
 		], [
 			'slug' => 3, 
 			'title' => "Magna proident do deserunt tempor nostrud", 
-			'author' => "Parnell Polliotti", 
-			'createdAt' => "22/06/2021", 
+			'author' => AUTHOR, 
+			'createdAt' => "26/06/2021", 
 		], [
 			'slug' => 2, 
 			'title' => "Saepe nostrum ullam eveniet pariatur voluptates odit", 
-			'author' => "Parnell Polliotti", 
-			'createdAt' => "22/06/2021", 
+			'author' => AUTHOR, 
+			'createdAt' => "25/06/2021", 
 		], [
 			'slug' => 1, 
 			'title' => "Laborum aute elit cillum commodo minim occaecat", 
-			'author' => "Parnell Polliotti", 
-			'createdAt' => "18/06/2021", 
+			'author' => AUTHOR, 
+			'createdAt' => "24/06/2021", 
 		]];
 
 		$this->maxPage = (int) ceil(sizeof($rawPost) / $this->nbPostPerPage);
