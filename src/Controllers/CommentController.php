@@ -22,8 +22,8 @@ class CommentController extends Controller {
 		]];
 
 		$this->render("@admin/pages/comment.html.twig", [
-			'active' => "showComment",
-			'comments' => $comments
+			'active' => "showComment", 
+			'comments' => $comments, 
 		]);
 	}
 

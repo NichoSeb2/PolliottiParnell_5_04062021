@@ -22,7 +22,7 @@ class Router {
 			throw new ConfigException("Error loading ". $confDir);
 		}
 
-		$requestURI = rtrim($_SERVER['REQUEST_URI'], "/");
+		$requestURI = explode("?", rtrim($_SERVER['REQUEST_URI'], "/"))[0];
 
 		foreach ($routes as $route) {
 			$route['uri'] = rtrim($route['uri'], "/");
