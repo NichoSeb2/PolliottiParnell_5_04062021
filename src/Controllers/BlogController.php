@@ -22,8 +22,18 @@ class BlogController extends Controller {
 	public function showPost() {
 		$slug = $this->params['slug'];
 
+		$post = [
+			'slug' => 7, 
+			'title' => "Exercitation non commodo elit ea est elit", 
+			'content' => "Labore minim ea adipisicing tempor ullamco elit ea labore qui irure sunt. Labore aliquip laboris deserunt ipsum reprehenderit. Ullamco culpa commodo commodo aute ullamco labore aute sint.", 
+			'author' => "Parnell Polliotti", 
+			'urlCoverageImage' => "https://via.placeholder.com/800x500", 
+			'altCoverageImage' => "Adipisicing sunt ex", 
+			'createdAt' => "30/06/2021", 
+		];
+
 		$this->render("@client/pages/post.html.twig", [
-			'slug' => $slug, 
+			'post' => $post, 
 		]);
 	}
 

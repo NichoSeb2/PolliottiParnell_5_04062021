@@ -10,7 +10,18 @@
     <script src="/vendor/admin/datatables/jquery.dataTables.min.js"></script>
     <script src="/vendor/admin/datatables/dataTables.bootstrap4.min.js"></script>
 
-	<script src="/js/admin/comment_init_table.js"></script>
+	<script src="/js/admin/init_table.js"></script>
+	<script>
+		initTable({
+			"paging": true, 
+			"info": true, 
+			"ordering": true, 
+			"bFilter": true, 
+			// Sort by the createdAt column in desc to have the newest in first
+			"order": [[ 2, "desc" ]], 
+		});
+	</script>
+
 	<script src="/js/admin/comment_update.js"></script>
 {% endblock %}
 
