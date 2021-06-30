@@ -1,13 +1,13 @@
 {% extends "@client/base.html.twig" %}
 
-{% block title %}Post - {{parent()}}{% endblock %}
+{% block title %}Article - {{parent()}}{% endblock %}
 
 {% block main %}
 	<div class="container px-2 px-lg-3">
 		<div class="row gx-2 gx-lg-3 justify-content-center">
 			<div class="col-md-10 col-lg-8 col-xl-7 post-preview">
 				<h2 class="section-heading">{{ post.title }}</h2>
-				<p class="post-meta text-capitalize">Posté par <b>{{ post.author }}</b> le {{ post.createdAt }}</p>
+				<p class="post-meta">Posté par <b>{{ post.author }}</b> le {{ post.createdAt }}</p>
 				<img class="img-fluid" src="{{ post.urlCoverageImage }}" alt="{{ post.altCoverageImage }}">
 				<p class="text-justify mb-5">{{ post.content }}</p>
 			</div>
