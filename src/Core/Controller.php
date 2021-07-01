@@ -1,23 +1,37 @@
 <?php
 namespace App\Core;
 
-class Controller {
-	protected $action;
-	protected $params;
-	protected $twig;
+use App\Core\Twig;
 
-	public function __construct($action, $params = null) {
+class Controller {
+	protected string $action;
+
+	protected array $params;
+
+	protected Twig $twig;
+
+	public function __construct(string $action, array $params = []) {
 		$this->action = $action;
 		$this->params = $params;
 		$this->twig = new Twig();
 	}
 
-	public function execute() {
+	/**
+	 * @return void
+	 */
+	public function execute(): void {
 		$method = $this->action;
+
 		$this->$method();
 	}
 
-	public function render($template, $array = []) {
+	/**
+	 * @param string $template
+	 * @param array $array
+	 * 
+	 * @return void
+	 */
+	public function render(string $template, array $array = []): void {
 		echo $this->twig->render($template, $array);
 	}
 }
