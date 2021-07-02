@@ -4,6 +4,8 @@ namespace App\Model;
 use App\Model\User;
 
 class Admin extends User {
+	private int $userId;
+
 	private string $catchPhrase;
 
 	private string $urlCV;
@@ -11,6 +13,22 @@ class Admin extends User {
 	private string $urlPicture;
 
 	private string $altPicture;
+
+	/**
+	 * @return int
+	 */
+	public function getUserId(): int {
+		return $this->userId;
+	}
+
+	/**
+	 * @param int $userId
+	 * 
+	 * @return void
+	 */
+	public function setUserId(int $userId): void {
+		$this->userId = $userId;
+	}
 
 	/**
 	 * @return string

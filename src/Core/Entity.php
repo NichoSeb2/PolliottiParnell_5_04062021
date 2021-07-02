@@ -10,10 +10,26 @@ class Entity {
 
 	private DateTime $updatedAt;
 
+	public function __construct(array $data = []) {
+		if (!empty($data)) {
+			$this->hydrate($data);
+		}
+	}
+
+	public function hydrate(array $data): void {
+		foreach ($data as $key => $value) {
+			$method = "set". str_replace("_", "", ucwords($key, "_"));
+
+			if (is_callable([$this, $method])) {
+				$this->$method($value);
+			}
+		}
+	}
+
 	/**
 	 * @return int
 	 */
-	protected function getId(): int {
+	public function getId(): int {
 		return $this->id;
 	}
 
@@ -22,39 +38,39 @@ class Entity {
 	 * 
 	 * @return void
 	 */
-	protected function setId(int $id): void {
+	public function setId(int $id): void {
 		$this->id = $id;
 	}
 
 	/**
 	 * @return DateTime
 	 */
-	protected function getCreatedAt(): DateTime {
+	public function getCreatedAt(): DateTime {
 		return $this->createdAt;
 	}
 
 	/**
-	 * @param DateTime $createdAt
+	 * @param string $createdAt
 	 * 
 	 * @return void
 	 */
-	protected function setCreatedAt(DateTime $createdAt): void {
-		$this->createdAt = $createdAt;
+	public function setCreatedAt(string $createdAt): void {
+		$this->createdAt = new DateTime($createdAt);
 	}
 
 	/**
 	 * @return DateTime
 	 */
-	protected function getUpdatedAt(): DateTime {
+	public function getUpdatedAt(): DateTime {
 		return $this->updatedAt;
 	}
 
 	/**
-	 * @param DateTime $updatedAt
+	 * @param string $updatedAt
 	 * 
 	 * @return void
 	 */
-	protected function setUpdatedAt(DateTime $updatedAt): void {
-		$this->updatedAt = $updatedAt;
+	public function setUpdatedAt(string $updatedAt): void {
+		$this->updatedAt = new DateTime($updatedAt);
 	}
 }

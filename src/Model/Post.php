@@ -4,6 +4,8 @@ namespace App\Model;
 use App\Core\Entity;
 
 class Post extends Entity {
+	private int $adminId;
+
 	private string $slug;
 
 	private string $title;
@@ -13,6 +15,22 @@ class Post extends Entity {
 	private string $urlCoverageImage;
 
 	private string $altCoverageImage;
+
+	/**
+	 * @return int
+	 */
+	public function getAdminId(): int {
+		return $this->adminId;
+	}
+
+	/**
+	 * @param int $adminId
+	 * 
+	 * @return void
+	 */
+	public function setAdminId(int $adminId): void {
+		$this->adminId = $adminId;
+	}
 
 	/**
 	 * @return string

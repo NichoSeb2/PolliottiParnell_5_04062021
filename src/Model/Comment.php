@@ -4,9 +4,45 @@ namespace App\Model;
 use App\Core\Entity;
 
 class Comment extends Entity {
+	private int $userId;
+
+	private int $postId;
+
 	private string $content;
 
 	private bool $status;
+
+	/**
+	 * @return int
+	 */
+	public function getUserId(): int {
+		return $this->userId;
+	}
+
+	/**
+	 * @param int $userId
+	 * 
+	 * @return void
+	 */
+	public function setUserId(int $userId): void {
+		$this->userId = $userId;
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getPostId(): int {
+		return $this->postId;
+	}
+
+	/**
+	 * @param int $postId
+	 * 
+	 * @return void
+	 */
+	public function setPostId(int $postId): void {
+		$this->postId = $postId;
+	}
 
 	/**
 	 * @return string
