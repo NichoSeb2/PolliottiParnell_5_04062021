@@ -8,9 +8,15 @@ use Twig\Extension\DebugExtension;
 use App\Exceptions\ConfigException;
 
 class Twig {
-	private $config;
-	private $twig;
+	private array $config;
 
+	private Environment $twig;
+
+	/**
+	 * __construct
+	 *
+	 * @return void
+	 */
 	public function __construct() {
 		$confDir = CONF_DIR. "/config.yml";
 		$this->config = yaml_parse_file($confDir);
@@ -32,10 +38,17 @@ class Twig {
 
 		$this->twig = $twig;
 	}
-
-	public function render($template, $array) {
+	
+	/**
+	 * render
+	 *
+	 * @param  string $template
+	 * @param  array $args
+	 * @return string
+	 */	
+	public function render(string $template, array $args): string {
         try {
-            return $this->twig->render($template, $array);
+            return $this->twig->render($template, $args);
         } catch (\Exception $e) {
 			throw new TwigException($e);
         }

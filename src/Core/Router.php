@@ -1,20 +1,27 @@
 <?php
 namespace App\Core;
 
+use App\Core\Controller;
 use App\Exceptions\ConfigException;
 
 class Router {
 	private $controller;
 
 	public function __construct() {
-		$this->setController();
+		$this->initController();
 	}
 
-	public function getController() {
+	/**
+	 * @return Controller
+	 */
+	public function getController(): Controller {
 		return $this->controller;
 	}
 
-	public function setController() {
+	/**
+	 * @return Controller
+	 */
+	public function initController(): Controller {
 		$confDir = CONF_DIR. "/routes.yml";
 		$routes = yaml_parse_file($confDir);
 

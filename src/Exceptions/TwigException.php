@@ -1,4 +1,6 @@
 <?php
 namespace App\Exceptions;
 
-class TwigException extends \Exception {}
+use Exception;
+
+class TwigException extends Exception {}
