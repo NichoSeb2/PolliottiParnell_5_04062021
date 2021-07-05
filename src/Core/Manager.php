@@ -2,10 +2,13 @@
 namespace App\Core;
 
 use PDO;
+use DateTime;
 use App\Core\Entity;
 use ReflectionClass;
 
 class Manager {
+	private string $dateFormat = "Y-m-d H:i:s";
+
 	private PDO $pdo;
 
 	private string $tableName;
@@ -47,17 +50,15 @@ class Manager {
 	 * 
 	 * @return array
 	 */
-	private function _extractFromEntity(Entity $entity): array {
+	private function _extractFromEntity(Entity $entity, array $excludeGetter = ['getId', 'getCreatedAt', 'getUpdatedAt']): array {
 		$result = [];
 
 		foreach (get_class_methods($entity) as $function) {
-			if (strpos($function, "get") !== false) {
-				if (!in_array($function, ['getId', 'getCreatedAt', 'getUpdatedAt'])) {
-					// Convert PascalCase to snake_case
-					$key = strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', str_replace("get", "", $function)));
+			if (strpos($function, "get") !== false && !in_array($function, $excludeGetter)) {
+				// Convert PascalCase to snake_case
+				$key = strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', str_replace("get", "", $function)));
 
-					$result[$key] = $entity->$function();
-				}
+				$result[$key] = $entity->$function();
 			}
 		}
 
@@ -80,7 +81,7 @@ class Manager {
 	 */
 	private function _escapeArray(array $values): array {
 		foreach ($values as $key => $value) {
-			if(is_string($value)) {
+			if (is_string($value)) {
 				$values[$key] = $this->_escapeString($value);
 			}
 		}
@@ -97,7 +98,12 @@ class Manager {
 		$result = [];
 
 		foreach ($data as $key => $value) {
-			if(is_string($value)) {
+			// this conversion need to be in first so the date formatted can be escaped as a string
+			if ($value instanceof DateTime) {
+				$value = $value->format($this->dateFormat);
+			}
+
+			if (is_string($value)) {
 				$value = $this->_escapeString($value);
 			}
 
@@ -197,7 +203,7 @@ class Manager {
 
 		$results = $this->findBy($where, $orderBy, $limit, $offset);
 
-		if (sizeof($results) == 0) {
+		if (empty($results)) {
 			return null;
 		} else {
 			return $results[0];
@@ -232,8 +238,11 @@ class Manager {
 	public function update(Entity $entity): void {
 		$sql = "UPDATE ". $this->tableName. " SET ";
 
+		// set updatedAt to the current time
+		$entity->setUpdatedAt(date($this->dateFormat));
+
 		// keys and values to update
-		$data = $this->_mergeKeyValue($this->_extractFromEntity($entity));
+		$data = $this->_mergeKeyValue($this->_extractFromEntity($entity, ['getId', 'getCreatedAt']));
 
 		$sql .= implode(", ", $data). " WHERE id = ". $entity->getId();
 

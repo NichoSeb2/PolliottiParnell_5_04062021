@@ -26,7 +26,11 @@ class User extends Entity {
 	 * 
 	 * @return void
 	 */
-	public function setRole(string $role): void {
+	public function setRole(string $role = null): void {
+		if (is_null($role)) {
+			$role = "user";
+		}
+
 		$this->role = $role;
 	}
 
