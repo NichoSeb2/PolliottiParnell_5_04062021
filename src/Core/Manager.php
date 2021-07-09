@@ -7,20 +7,20 @@ use App\Core\Entity;
 use ReflectionClass;
 
 class Manager {
-	private string $dateFormat = "Y-m-d H:i:s";
+	protected string $dateFormat = "Y-m-d H:i:s";
 
-	private PDO $pdo;
+	protected PDO $pdo;
 
-	private string $tableName;
+	protected string $tableName;
 
-	private string $entity;
+	protected string $entity;
 
 	/**
 	 * @param array $where
 	 * 
 	 * @return string
 	 */
-	private function _computeWhere(array $where): string {
+	protected function _computeWhere(array $where): string {
 		$groups = [];
 
 		foreach ($where as $key => $value) {
@@ -35,7 +35,7 @@ class Manager {
 	 * 
 	 * @return string
 	 */
-	private function _computeOrderBy(array $orderBy): string {
+	protected function _computeOrderBy(array $orderBy): string {
 		$groups = [];
 
 		foreach ($orderBy as $key => $value) {
@@ -50,7 +50,7 @@ class Manager {
 	 * 
 	 * @return array
 	 */
-	private function _extractFromEntity(Entity $entity, array $excludeGetter = ['getId', 'getCreatedAt', 'getUpdatedAt']): array {
+	protected function _extractFromEntity(Entity $entity, array $excludeGetter = ['getId', 'getCreatedAt', 'getUpdatedAt']): array {
 		$result = [];
 
 		foreach (get_class_methods($entity) as $function) {
@@ -70,7 +70,7 @@ class Manager {
 	 * 
 	 * @return string
 	 */
-	private function _escapeString(string $value): string {
+	protected function _escapeString(string $value): string {
 		return "\"". $value. "\"";
 	}
 
@@ -79,7 +79,7 @@ class Manager {
 	 * 
 	 * @return array
 	 */
-	private function _escapeArray(array $values): array {
+	protected function _escapeArray(array $values): array {
 		foreach ($values as $key => $value) {
 			if (is_string($value)) {
 				$values[$key] = $this->_escapeString($value);
@@ -94,7 +94,7 @@ class Manager {
 	 * 
 	 * @return array
 	 */
-	private function _mergeKeyValue(array $data): array {
+	protected function _mergeKeyValue(array $data): array {
 		$result = [];
 
 		foreach ($data as $key => $value) {

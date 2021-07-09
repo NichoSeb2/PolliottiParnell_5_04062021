@@ -2,9 +2,12 @@
 namespace App\Model;
 
 use App\Core\Entity;
+use App\Managers\AdminManager;
 
 class Post extends Entity {
 	private int $adminId;
+
+	private Admin $admin;
 
 	private string $slug;
 
@@ -30,6 +33,26 @@ class Post extends Entity {
 	 */
 	public function setAdminId(int $adminId): void {
 		$this->adminId = $adminId;
+
+		$adminManager = new AdminManager();
+
+		$this->setAdmin($adminManager->findById($adminId));
+	}
+
+	/**
+	 * @return Admin
+	 */
+	public function getAdmin(): Admin {
+		return $this->admin;
+	}
+
+	/**
+	 * @param Admin $admin
+	 * 
+	 * @return void
+	 */
+	public function setAdmin(Admin $admin): void {
+		$this->admin = $admin;
 	}
 
 	/**
