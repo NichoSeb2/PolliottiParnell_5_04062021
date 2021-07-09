@@ -3,7 +3,7 @@ namespace App\Model;
 
 use App\Core\Entity;
 
-class SocialNetwork extends Entity {
+class Social extends Entity {
 	private string $name;
 
 	private string $icon;

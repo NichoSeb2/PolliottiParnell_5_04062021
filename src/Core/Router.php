@@ -5,7 +5,7 @@ use App\Core\Controller;
 use App\Exceptions\ConfigException;
 
 class Router {
-	private $controller;
+	private Controller $controller;
 
 	public function __construct() {
 		$this->initController();
