@@ -4,6 +4,7 @@ namespace App\Core;
 use PDO;
 use DateTime;
 use App\Core\Entity;
+use App\Exceptions\SQLException;
 use ReflectionClass;
 
 class Manager {
@@ -39,6 +40,12 @@ class Manager {
 		$groups = [];
 
 		foreach ($orderBy as $key => $value) {
+			$value = strtoupper($value);
+
+			if (!in_array($value, ['ASC', 'DESC'])) {
+				throw new SQLException("\"$value\" isn't a valid order value");
+			}
+
 			$groups[] = $key. " ". $value;
 		}
 

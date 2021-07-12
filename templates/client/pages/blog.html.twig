@@ -11,7 +11,9 @@
 				{% for p in post %}
 					{% include "@client/parts/_devider.html.twig" only %}
 
-					{% include "@client/parts/_post_preview.html.twig" with { 'post': p } only %}
+					{% include "@client/parts/_post_preview.html.twig" with { post: p } only %}
+				{% else %}
+					<p class="text-center">Aucun article n'a encore été publier, mais cela de devrait tarder !</p>
 				{% endfor %}
 
 				{% include "@client/parts/_devider.html.twig" only %}
