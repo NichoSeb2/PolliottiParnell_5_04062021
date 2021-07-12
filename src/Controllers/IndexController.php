@@ -2,27 +2,48 @@
 namespace App\Controllers;
 
 use App\Core\Controller;
+use App\Managers\PostManager;
+use App\Managers\AdminManager;
+use App\Managers\SocialManager;
 
 class IndexController extends Controller {	
 	public function showHome() {
-		$post = [[
-			'slug' => 2, 
-			'title' => "Saepe nostrum ullam eveniet pariatur voluptates odit", 
-			'author' => "Parnell Polliotti", 
-			'createdAt' => "22/06/2021", 
-		], [
-			'slug' => 1, 
-			'title' => "Laborum aute elit cillum commodo minim occaecat", 
-			'author' => "Parnell Polliotti", 
-			'createdAt' => "18/06/2021", 
-		]];
+		$adminManager = new AdminManager();
+
+		$admin = $adminManager->findById(1);
+
+		$postManager = new PostManager();
+
+		$post = $postManager->findBy([], [
+			'created_at' => "DESC", 
+		], 2, 0);
+
+		$socialManager = new SocialManager();
+
+		$socials = $socialManager->findAll();
 
 		$this->render("@client/pages/index.html.twig", [
 			'post' => $post, 
+			'socials' => $socials, 
+			'catchPhrase' => $admin->getCatchPhrase(), 
+			'urlPicture' => $admin->getUrlPicture(), 
+			'altPicture' => $admin->getAltPicture(), 
+			'urlCV' => $admin->getUrlCV(), 
 		]);
 	}
 
 	public function showContact() {
-		$this->render("@client/pages/contact.html.twig");
+		$adminManager = new AdminManager();
+
+		$admin = $adminManager->findById(1);
+
+		$socialManager = new SocialManager();
+
+		$socials = $socialManager->findAll();
+
+		$this->render("@client/pages/contact.html.twig", [
+			'socials' => $socials, 
+			'catchPhrase' => $admin->getCatchPhrase(), 
+		]);
 	}
 }

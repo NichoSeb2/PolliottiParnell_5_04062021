@@ -7,9 +7,22 @@
 		<div class="row gx-2 gx-lg-3 justify-content-center">
 			<div class="col-md-10 col-lg-8 col-xl-7 post-preview">
 				<h2 class="section-heading">{{ post.title }}</h2>
-				<p class="post-meta">Posté par <b>{{ post.author }}</b> le {{ post.createdAt }}</p>
+				<p class="post-meta">Posté par <b>{{ post.admin.firstName }} {{ post.admin.lastName }}</b> le {{ post.createdAt|date("d/m/Y à H:i:s") }}</p>
 				<img class="img-fluid" src="{{ post.urlCoverageImage }}" alt="{{ post.altCoverageImage }}">
 				<p class="text-justify mb-5">{{ post.content }}</p>
+
+				{% include "@client/parts/_devider.html.twig" only %}
+				<h2 class="section-heading">Commentaire : </h2>
+
+				{% include "@client/forms/_comment.html.twig" %}
+
+				{% for comment in comments %}
+					{% include "@client/parts/_devider.html.twig" with { style: "background-color: #ced4da;" } only %}
+
+					{% include "@client/parts/_comment.html.twig" with { comment } only %}
+				{% else %}
+					<p class="text-center">Il n'y a pas encore de commentaire sur cette publication, soyer le premier a donner votre avis !</p>
+				{% endfor %}
 			</div>
 		</div>
 	</div>

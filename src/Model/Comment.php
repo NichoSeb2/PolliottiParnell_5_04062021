@@ -1,12 +1,20 @@
 <?php
 namespace App\Model;
 
+use App\Model\Post;
+use App\Model\User;
 use App\Core\Entity;
+use App\Managers\PostManager;
+use App\Managers\UserManager;
 
 class Comment extends Entity {
 	private int $userId;
 
+	private User $user;
+
 	private int $postId;
+
+	private Post $post;
 
 	private string $content;
 
@@ -26,6 +34,28 @@ class Comment extends Entity {
 	 */
 	public function setUserId(int $userId): void {
 		$this->userId = $userId;
+
+		$userManager = new UserManager();
+
+		$this->setUser($userManager->findOneBy([
+			'id' => $userId, 
+		]));
+	}
+
+	/**
+	 * @return User
+	 */
+	public function getUser(): User {
+		return $this->user;
+	}
+
+	/**
+	 * @param User $user
+	 * 
+	 * @return void
+	 */
+	public function setUser(User $user): void {
+		$this->user = $user;
 	}
 
 	/**
@@ -42,6 +72,28 @@ class Comment extends Entity {
 	 */
 	public function setPostId(int $postId): void {
 		$this->postId = $postId;
+
+		$postManager = new PostManager();
+
+		$this->setPost($postManager->findOneBy([
+			'id' => $postId, 
+		]));
+	}
+
+	/**
+	 * @return Post
+	 */
+	public function getPost(): Post {
+		return $this->post;
+	}
+
+	/**
+	 * @param Post $post
+	 * 
+	 * @return void
+	 */
+	public function setPost(Post $post): void {
+		$this->post = $post;
 	}
 
 	/**

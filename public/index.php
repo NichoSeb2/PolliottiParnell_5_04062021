@@ -6,6 +6,7 @@ define('TEMPLATE_DIR', ROOT_DIR. '/templates');
 require_once(ROOT_DIR. '/vendor/autoload.php');
 
 use App\Core\Router;
+use App\Exceptions\SQLException;
 use App\Exceptions\TwigException;
 use App\Exceptions\ConfigException;
 use App\Controllers\ErrorController;
@@ -21,7 +22,7 @@ try {
 
 	$controller->execute();
 } 
-catch (TwigException | ConfigException $e) {
+catch (TwigException | ConfigException | SQLException | PDOException $e) {
 	$controller = new ErrorController("show500", [
 		"message" => $e
 	]);
@@ -30,7 +31,7 @@ catch (TwigException | ConfigException $e) {
 }
 catch (\Exception $e) {
 	$controller = new ErrorController("show500", [
-		"message" => "Router initialization failed with default exception. ". $e
+		"message" => "Router initialization failed with unhandled exception : ". $e
 	]);
 
 	$controller->execute();

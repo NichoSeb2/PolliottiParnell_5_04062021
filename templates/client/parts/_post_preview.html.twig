@@ -3,6 +3,6 @@
 		<h2 class="post-title">{{ post.title }}</h2>
 	</a>
 	<p class="post-meta">
-		Posté par <b>{{ post.author }}</b> le {{ post.createdAt }}
+		Posté par <b>{{ post.admin.firstName }} {{ post.admin.lastName }}</b> le {{ post.createdAt|date("d/m/Y à H:i:s") }}
 	</p>
 </div>
