@@ -12,7 +12,14 @@ class BlogController extends Controller {
 	private $minPage = 1;
 	private $nbPostPerPage = 3;
 
-	private function _validatePage($page, $minPage, $maxPage) {
+	/**
+	 * @param int $page
+	 * @param int $minPage
+	 * @param int $maxPage
+	 * 
+	 * @return int
+	 */
+	private function _validatePage(int $page, int $minPage, int $maxPage): int {
 		if ($page < $minPage) {
 			$page = $minPage;
 		}
@@ -24,7 +31,23 @@ class BlogController extends Controller {
 		return $page;
 	}
 
-	public function showPost() {
+	/**
+	 * @param array $post
+	 * 
+	 * @return array
+	 */
+	private function _filterPost(array $post): array {
+		$post = array_filter($post, function($index) {
+			return $index >= $this->firstPostToDisplay && $index <= $this->lastPostToDisplay;
+		}, ARRAY_FILTER_USE_KEY);
+
+		return $post;
+	}
+
+	/**
+	 * @return void
+	 */
+	public function showPost(): void {
 		$slug = $this->params['slug'];
 
 		$postManager = new PostManager();
@@ -59,36 +82,37 @@ class BlogController extends Controller {
 		$socials = $socialManager->findAll();
 
 		$this->render("@client/pages/post.html.twig", [
+			'admin' => $admin, 
 			'post' => $post, 
 			'comments' => $comments, 
 			'socials' => $socials, 
-			'catchPhrase' => $admin->getCatchPhrase(), 
 		]);
 	}
 
-	public function showBlog() {
+	/**
+	 * @return void
+	 */
+	public function showBlog(): void {
+		$page = 0;
+
 		if (isset($this->params['page'])) {
 			$page = (int) $this->params['page'];
-		} else {
-			$page = 0;
 		}
 
 		$postManager = new PostManager();
 
-		$rawPost = $postManager->findBy([], [
+		$post = $postManager->findBy([], [
 			'created_at' => "DESC", 
 		]);
 
-		$this->maxPage = (int) ceil(sizeof($rawPost) / $this->nbPostPerPage);
+		$maxPage = (int) ceil(sizeof($post) / $this->nbPostPerPage);
 
-		$page = $this->_validatePage($page, $this->minPage, $this->maxPage);
+		$page = $this->_validatePage($page, $this->minPage, $maxPage);
 
 		$this->firstPostToDisplay = ($page - 1) * $this->nbPostPerPage;
 		$this->lastPostToDisplay = ($page * $this->nbPostPerPage) - 1;
 
-		$post = array_filter($rawPost, function($index) {
-			return $index >= $this->firstPostToDisplay && $index <= $this->lastPostToDisplay;
-		}, ARRAY_FILTER_USE_KEY);
+		$post = $this->_filterPost($post);
 
 		$adminManager = new AdminManager();
 
@@ -99,14 +123,14 @@ class BlogController extends Controller {
 		$socials = $socialManager->findAll();
 
 		$this->render("@client/pages/blog.html.twig", [
+			'admin' => $admin, 
 			'post' => $post, 
 			'firstPage' => $this->minPage, 
-			'lastPage' => $this->maxPage, 
-			'previousPage' => $this->_validatePage($page - 1, $this->minPage, $this->maxPage), 
+			'lastPage' => $maxPage, 
+			'previousPage' => $this->_validatePage($page - 1, $this->minPage, $maxPage), 
 			'currentPage' => $page, 
-			'nextPage' => $this->_validatePage($page + 1, $this->minPage, $this->maxPage), 
+			'nextPage' => $this->_validatePage($page + 1, $this->minPage, $maxPage), 
 			'socials' => $socials, 
-			'catchPhrase' => $admin->getCatchPhrase(), 
 		]);
 	}
 }

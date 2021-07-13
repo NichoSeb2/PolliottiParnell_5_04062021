@@ -16,6 +16,11 @@ class Entity {
 		}
 	}
 
+	/**
+	 * @param array $data
+	 * 
+	 * @return void
+	 */
 	public function hydrate(array $data): void {
 		foreach ($data as $key => $value) {
 			$method = "set". str_replace("_", "", ucwords($key, "_"));

@@ -7,7 +7,7 @@
 	<form action="" method="post">
 		<div class="form-group">
 			<label for="catchPhrase">Phrase d'accroche</label>
-			<input type="text" class="form-control" id="catchPhrase" value="{{ userData.catchPhrase }}">
+			<input type="text" class="form-control" id="catchPhrase" value="{{ admin.catchPhrase }}">
 		</div>
 		<div class="form-group">
 			<label for="CVFile">Uploader le curriculum vitæ</label>
@@ -20,7 +20,7 @@
 			</div>
 			<div class="form-group col-12 col-md-6">
 				<label for="pictureAlt">Description de la photo d'identity</label>
-				<input type="text" class="form-control" id="pictureAlt" value="{{ userData.pictureAlt }}">
+				<input type="text" class="form-control" id="pictureAlt" value="{{ admin.altPicture }}">
 			</div>
 		</div>
 		<button type="submit" class="btn btn-primary">Sauvegarder</button>

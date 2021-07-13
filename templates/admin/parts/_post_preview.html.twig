@@ -1,8 +1,8 @@
 <tr>
-	<td>{{ post.author }}</td>
+	<td>{{ post.admin.firstName }} {{ post.admin.lastName }}</td>
 	<td>{{ post.title }}</td>
-	<td>{{ post.createdAt }}</td>
-	<td>{{ post.updatedAt }}</td>
+	<td>{{ post.createdAt|date("d/m/Y à H:i:s") }}</td>
+	<td>{{ post.updatedAt|date("d/m/Y à H:i:s") }}</td>
 	<td class="px-0 py-1 d-flex justify-content-center">
 		<a href="/admin/blog/{{ post.slug }}/edit" class="btn btn-info btn-icon-split mx-2">
 			<span class="icon text-white-50">

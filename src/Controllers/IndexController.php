@@ -7,7 +7,10 @@ use App\Managers\AdminManager;
 use App\Managers\SocialManager;
 
 class IndexController extends Controller {	
-	public function showHome() {
+	/**
+	 * @return void
+	 */
+	public function showHome(): void {
 		$adminManager = new AdminManager();
 
 		$admin = $adminManager->findById(1);
@@ -23,16 +26,16 @@ class IndexController extends Controller {
 		$socials = $socialManager->findAll();
 
 		$this->render("@client/pages/index.html.twig", [
+			'admin' => $admin, 
 			'post' => $post, 
 			'socials' => $socials, 
-			'catchPhrase' => $admin->getCatchPhrase(), 
-			'urlPicture' => $admin->getUrlPicture(), 
-			'altPicture' => $admin->getAltPicture(), 
-			'urlCV' => $admin->getUrlCV(), 
 		]);
 	}
 
-	public function showContact() {
+	/**
+	 * @return void
+	 */
+	public function showContact(): void {
 		$adminManager = new AdminManager();
 
 		$admin = $adminManager->findById(1);
@@ -42,8 +45,8 @@ class IndexController extends Controller {
 		$socials = $socialManager->findAll();
 
 		$this->render("@client/pages/contact.html.twig", [
+			'admin' => $admin, 
 			'socials' => $socials, 
-			'catchPhrase' => $admin->getCatchPhrase(), 
 		]);
 	}
 }
