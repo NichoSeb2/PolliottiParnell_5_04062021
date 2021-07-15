@@ -2,126 +2,171 @@
 namespace App\Controllers;
 
 use App\Core\Controller;
+use App\Managers\PostManager;
+use App\Managers\AdminManager;
+use App\Managers\SocialManager;
 
 class AdminController extends Controller {
-	public function showProfile() {
-		$userDate = [
-			'catchPhrase' => "Lorem elit !", 
-			'pictureAlt' => "Est ut proident est nulla", 
-		];
+	//! temporary
+	private int $loggedUserId = 1;
+
+	/**
+	 * @return void
+	 */
+	public function showProfile(): void {
+		$adminManager = new AdminManager();
+
+		$admin = $adminManager->findById($this->loggedUserId);
 
 		$this->render("@admin/pages/profile.html.twig", [
 			'active' => "profile", 
-			'userData' => $userDate, 
+			'admin' => $admin, 
 		]);
 	}
 
-	public function showPost() {
-		$post = [[
-			'slug' => 4, 
-			'title' => "In sint dolore quis sint aliqua nostrud quis", 
-			'author' => "Parnell Polliotti", 
-			'createdAt' => "24/06/2021", 
-			'updatedAt' => "25/06/2021", 
-		], [
-			'slug' => 3, 
-			'title' => "Mollit ad laboris occaecat veniam laborum", 
-			'author' => "Parnell Polliotti", 
-			'createdAt' => "23/06/2021", 
-			'updatedAt' => "25/06/2021", 
-		], [
-			'slug' => 2, 
-			'title' => "Saepe nostrum ullam eveniet pariatur voluptates odit", 
-			'author' => "Parnell Polliotti", 
-			'createdAt' => "22/06/2021", 
-			'updatedAt' => "25/06/2021", 
-		], [
-			'slug' => 1, 
-			'title' => "Laborum aute elit cillum commodo minim occaecat", 
-			'author' => "Parnell Polliotti", 
-			'createdAt' => "18/06/2021", 
-			'updatedAt' => "18/06/2021", 
-		]];
+	/**
+	 * @return void
+	 */
+	public function showPost(): void {
+		$adminManager = new AdminManager();
+
+		$admin = $adminManager->findById($this->loggedUserId);
+
+		$postManager = new PostManager();
+
+		$post = $postManager->findBy([], [
+			'created_at' => "DESC", 
+		]);
 
 		$this->render("@admin/pages/post.html.twig", [
 			'active' => "showPost", 
+			'admin' => $admin, 
 			'post' => $post, 
 		]);
 	}
 
-	public function addPost() {
+	/**
+	 * @return void
+	 */
+	public function addPost(): void {
+		$adminManager = new AdminManager();
+
+		$admin = $adminManager->findById($this->loggedUserId);
+
 		$this->render("@admin/pages/post_add.html.twig", [
-			'active' => "addPost"
+			'active' => "addPost", 
+			'admin' => $admin, 
 		]);
 	}
 
-	public function editPost() {
+	/**
+	 * @return void
+	 */
+	public function editPost(): void {
+		$adminManager = new AdminManager();
+
+		$admin = $adminManager->findById($this->loggedUserId);
+
 		$slug = $this->params['slug'];
 
-		$post = [
-			'slug' => 1, 
-			'title' => "Laborum aute elit cillum commodo minim occaecat", 
-			'content' => "Ea id est aliqua commodo minim anim commodo aliqua laborum. Sunt cillum enim irure duis nisi commodo proident esse excepteur.\nConsequat ad sit sunt Lorem irure dolore.\nTempor ut sit est adipisicing irure non exercitation nulla quis mollit dolor officia voluptate cillum.\nCommodo ut eiusmod consectetur minim nulla laboris est enim velit nisi esse amet minim do.", 
-			'author' => "Parnell Polliotti", 
-			'coverageImageAlt' => "Anim amet aute dolor amet", 
-			'createdAt' => "18/06/2021", 
-			'updatedAt' => "18/06/2021", 
-		];
+		$postManager = new PostManager();
+
+		$post = $postManager->findOneBy([
+			'slug' => $slug, 
+		]);
+
+		if (is_null($post)) {
+			$controller = new ErrorController("show404");
+
+			$controller->execute();
+
+			return;
+		}
 
 		$this->render("@admin/pages/post_edit.html.twig", [
 			'active' => "editPost", 
+			'admin' => $admin, 
 			'post' => $post, 
 		]);
 	}
 
-	public function deletePost() {
+	/**
+	 * @return void
+	 */
+	public function deletePost(): void {
 		$slug = $this->params['slug'];
 
 		// no render. action and after redirect
 	}
 
-	public function showSocial() {
-		$socials = [[
-			'id' => 1, 
-			'name' => "Twitter", 
-			'icon' => "fab fa-twitter", 
-			'url' => "https://twitter.com", 
-		], [
-			'id' => 2, 
-			'name' => "LinkedIn", 
-			'icon' => "fab fa-linkedin-in", 
-			'url' => "https://fr.linkedin.com/", 
-		]];
+	/**
+	 * @return void
+	 */
+	public function showSocial(): void {
+		$adminManager = new AdminManager();
+
+		$admin = $adminManager->findById($this->loggedUserId);
+
+		$socialManager = new SocialManager();
+
+		$socials = $socialManager->findAll();
 
 		$this->render("@admin/pages/social.html.twig", [
 			'active' => "showSocial", 
-			'socials' => $socials
+			'admin' => $admin, 
+			'socials' => $socials, 
 		]);
 	}
 
-	public function addSocial() {
+	/**
+	 * @return void
+	 */
+	public function addSocial(): void {
+		$adminManager = new AdminManager();
+
+		$admin = $adminManager->findById($this->loggedUserId);
+
 		$this->render("@admin/pages/social_add.html.twig", [
 			'active' => "addSocial", 
+			'admin' => $admin, 
 		]);
 	}
 
-	public function editSocial() {
+	/**
+	 * @return void
+	 */
+	public function editSocial(): void {
+		$adminManager = new AdminManager();
+
+		$admin = $adminManager->findById($this->loggedUserId);
+
 		$id = $this->params['id'];
 
-		$social = [
-			'id' => 1, 
-			'name' => "Twitter", 
-			'icon' => "fab fa-twitter", 
-			'url' => "https://twitter.com", 
-		];
+		$socialManager = new SocialManager();
+
+		$social = $socialManager->findOneBy([
+			'id' => $id, 
+		]);
+
+		if (is_null($social)) {
+			$controller = new ErrorController("show404");
+
+			$controller->execute();
+
+			return;
+		}
 
 		$this->render("@admin/pages/social_edit.html.twig", [
 			'active' => "editSocial", 
+			'admin' => $admin, 
 			'social' => $social, 
 		]);
 	}
 
-	public function deleteSocial() {
+	/**
+	 * @return void
+	 */
+	public function deleteSocial(): void {
 		$id = $this->params['id'];
 
 		// no render. action and after redirect

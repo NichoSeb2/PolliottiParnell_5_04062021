@@ -25,11 +25,11 @@
     </head>
     <body id="page-top">
 		<div id="wrapper">
-			{% include "@admin/parts/_sidebar.html.twig" with { active: active } only %}
+			{% include "@admin/parts/_sidebar.html.twig" with { active } only %}
 
 			<div id="content-wrapper" class="d-flex flex-column">
 				<div id="content">
-					{% include "@admin/parts/_topbar.html.twig" only %}
+					{% include "@admin/parts/_topbar.html.twig" with { admin } only %}
 
 					<div class="container-fluid">{% block main %}{% endblock %}</div>
 				</div>

@@ -1,7 +1,7 @@
 <tr>
-	<td>{{ comment.author }}</td>
+	<td>{{ comment.user.firstName }} {{ comment.user.lastName }}</td>
 	<td>{{ comment.content }}</td>
-	<td>{{ comment.createdAt }}</td>
+	<td>{{ comment.createdAt|date("d/m/Y à H:i:s") }}</td>
 	<td>
 		<label for="{{ comment.id }}Comment" class="toggle-switchy" data-comment-id="{{ comment.id }}" data-style="rounded" data-text="false" data-size="sm" data-color="primary" data-label="right">
 			<input {{ comment.status == "online" ? "checked" : "" }} type="checkbox" id="{{ comment.id }}Comment" data-true-label="En ligne" data-false-label="Hors ligne">

@@ -6,7 +6,10 @@ use App\Managers\AdminManager;
 use App\Managers\SocialManager;
 
 class AccountController extends Controller {
-	public function login() {
+	/**
+	 * @return void
+	 */
+	public function login(): void {
 		$adminManager = new AdminManager();
 
 		$admin = $adminManager->findById(1);
@@ -16,12 +19,15 @@ class AccountController extends Controller {
 		$socials = $socialManager->findAll();
 
 		$this->render("@client/pages/login.html.twig", [
+			'admin' => $admin, 
 			'socials' => $socials, 
-			'catchPhrase' => $admin->getCatchPhrase(), 
 		]);
 	}
 
-	public function register() {
+	/**
+	 * @return void
+	 */
+	public function register(): void {
 		$adminManager = new AdminManager();
 
 		$admin = $adminManager->findById(1);
@@ -31,8 +37,8 @@ class AccountController extends Controller {
 		$socials = $socialManager->findAll();
 
 		$this->render("@client/pages/register.html.twig", [
+			'admin' => $admin, 
 			'socials' => $socials, 
-			'catchPhrase' => $admin->getCatchPhrase(), 
 		]);
 	}
 }

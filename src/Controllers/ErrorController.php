@@ -4,11 +4,17 @@ namespace App\Controllers;
 use App\Core\Controller;
 
 class ErrorController extends Controller {
-	public function show404() {
+	/**
+	 * @return void
+	 */
+	public function show404(): void {
 		$this->render("@client/errors/404.html.twig");
 	}
 
-	public function show500() {
+	/**
+	 * @return void
+	 */
+	public function show500(): void {
 		$error = $this->params['message'];
 
 		if (is_string($error)) {
