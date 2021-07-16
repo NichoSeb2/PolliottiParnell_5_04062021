@@ -1,17 +1,21 @@
-<form action="" method="post" class="m-auto" style="max-width: 500px;">
+<form action="/login" method="post" class="m-auto" style="max-width: 500px;">
 	<div class="form-floating">
-		<input class="form-control" id="email" type="email" placeholder="Entrer votre E-mail..." required>
+		<input class="form-control" id="email" name="email" type="email" placeholder="Entrer votre E-mail..." required="" value="{{ form.email }}">
 		<label for="email">Adresse e-mail</label>
 	</div>
 	<div class="form-floating">
-		<input class="form-control" id="password" type="password" placeholder="Entrez votre mot de passe..." required>
+		<input class="form-control" id="password" name="password" type="password" placeholder="Entrez votre mot de passe..." required="">
 		<label for="password">Mot de passe</label>
 	</div>
+
+	{% if error is defined %}
+		<p class="text-justify text-danger">{{ error }}</p>
+	{% endif %}
 
 	<br>
 
 	<div class="d-flex justify-content-center">
-		<button class="btn btn-primary text-uppercase text-light w-100" id="submitButton" type="submit">Connexion</button>
+		<button class="btn btn-primary text-uppercase text-light w-100" id="submitButton" name="submitButton" type="submit">Connexion</button>
 	</div>
 
 	<div class="d-flex justify-content-center mt-4 mb-4">

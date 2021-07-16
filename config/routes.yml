@@ -28,6 +28,11 @@ login:
   controller: AccountController
   action: login
   parameters: [ ]
+logout:
+  uri: /logout
+  controller: AccountController
+  action: logout
+  parameters: [ ]
 register:
   uri: /register
   controller: AccountController

@@ -7,21 +7,18 @@ use App\Managers\AdminManager;
 use App\Managers\SocialManager;
 
 class AdminController extends Controller {
-	//! temporary
-	private int $loggedUserId = 1;
-
 	/**
 	 * @return void
 	 */
 	public function showProfile(): void {
 		$adminManager = new AdminManager();
 
-		$admin = $adminManager->findById($this->loggedUserId);
-
-		$this->render("@admin/pages/profile.html.twig", [
-			'active' => "profile", 
-			'admin' => $admin, 
-		]);
+		$adminManager->adminLogged(function($admin) {
+			$this->render("@admin/pages/profile.html.twig", [
+				'active' => "profile", 
+				'admin' => $admin, 
+			]);
+		});
 	}
 
 	/**
@@ -30,19 +27,19 @@ class AdminController extends Controller {
 	public function showPost(): void {
 		$adminManager = new AdminManager();
 
-		$admin = $adminManager->findById($this->loggedUserId);
+		$adminManager->adminLogged(function($admin) {
+			$postManager = new PostManager();
 
-		$postManager = new PostManager();
+			$post = $postManager->findBy([], [
+				'created_at' => "DESC", 
+			]);
 
-		$post = $postManager->findBy([], [
-			'created_at' => "DESC", 
-		]);
-
-		$this->render("@admin/pages/post.html.twig", [
-			'active' => "showPost", 
-			'admin' => $admin, 
-			'post' => $post, 
-		]);
+			$this->render("@admin/pages/post.html.twig", [
+				'active' => "showPost", 
+				'admin' => $admin, 
+				'post' => $post, 
+			]);
+		});
 	}
 
 	/**
@@ -51,12 +48,12 @@ class AdminController extends Controller {
 	public function addPost(): void {
 		$adminManager = new AdminManager();
 
-		$admin = $adminManager->findById($this->loggedUserId);
-
-		$this->render("@admin/pages/post_add.html.twig", [
-			'active' => "addPost", 
-			'admin' => $admin, 
-		]);
+		$adminManager->adminLogged(function($admin) {
+			$this->render("@admin/pages/post_add.html.twig", [
+				'active' => "addPost", 
+				'admin' => $admin, 
+			]);
+		});
 	}
 
 	/**
@@ -65,29 +62,29 @@ class AdminController extends Controller {
 	public function editPost(): void {
 		$adminManager = new AdminManager();
 
-		$admin = $adminManager->findById($this->loggedUserId);
+		$adminManager->adminLogged(function($admin) {
+			$slug = $this->params['slug'];
 
-		$slug = $this->params['slug'];
+			$postManager = new PostManager();
 
-		$postManager = new PostManager();
+			$post = $postManager->findOneBy([
+				'slug' => $slug, 
+			]);
 
-		$post = $postManager->findOneBy([
-			'slug' => $slug, 
-		]);
+			if (is_null($post)) {
+				$controller = new ErrorController("show404");
 
-		if (is_null($post)) {
-			$controller = new ErrorController("show404");
+				$controller->execute();
 
-			$controller->execute();
+				return;
+			}
 
-			return;
-		}
-
-		$this->render("@admin/pages/post_edit.html.twig", [
-			'active' => "editPost", 
-			'admin' => $admin, 
-			'post' => $post, 
-		]);
+			$this->render("@admin/pages/post_edit.html.twig", [
+				'active' => "showPost", 
+				'admin' => $admin, 
+				'post' => $post, 
+			]);
+		});
 	}
 
 	/**
@@ -105,17 +102,17 @@ class AdminController extends Controller {
 	public function showSocial(): void {
 		$adminManager = new AdminManager();
 
-		$admin = $adminManager->findById($this->loggedUserId);
+		$adminManager->adminLogged(function($admin) {
+			$socialManager = new SocialManager();
 
-		$socialManager = new SocialManager();
+			$socials = $socialManager->findAll();
 
-		$socials = $socialManager->findAll();
-
-		$this->render("@admin/pages/social.html.twig", [
-			'active' => "showSocial", 
-			'admin' => $admin, 
-			'socials' => $socials, 
-		]);
+			$this->render("@admin/pages/social.html.twig", [
+				'active' => "showSocial", 
+				'admin' => $admin, 
+				'socials' => $socials, 
+			]);
+		});
 	}
 
 	/**
@@ -124,12 +121,12 @@ class AdminController extends Controller {
 	public function addSocial(): void {
 		$adminManager = new AdminManager();
 
-		$admin = $adminManager->findById($this->loggedUserId);
-
-		$this->render("@admin/pages/social_add.html.twig", [
-			'active' => "addSocial", 
-			'admin' => $admin, 
-		]);
+		$adminManager->adminLogged(function($admin) {
+			$this->render("@admin/pages/social_add.html.twig", [
+				'active' => "addSocial", 
+				'admin' => $admin, 
+			]);
+		});
 	}
 
 	/**
@@ -138,29 +135,29 @@ class AdminController extends Controller {
 	public function editSocial(): void {
 		$adminManager = new AdminManager();
 
-		$admin = $adminManager->findById($this->loggedUserId);
+		$adminManager->adminLogged(function($admin) {
+			$id = $this->params['id'];
 
-		$id = $this->params['id'];
+			$socialManager = new SocialManager();
 
-		$socialManager = new SocialManager();
+			$social = $socialManager->findOneBy([
+				'id' => $id, 
+			]);
 
-		$social = $socialManager->findOneBy([
-			'id' => $id, 
-		]);
+			if (is_null($social)) {
+				$controller = new ErrorController("show404");
 
-		if (is_null($social)) {
-			$controller = new ErrorController("show404");
+				$controller->execute();
 
-			$controller->execute();
+				return;
+			}
 
-			return;
-		}
-
-		$this->render("@admin/pages/social_edit.html.twig", [
-			'active' => "editSocial", 
-			'admin' => $admin, 
-			'social' => $social, 
-		]);
+			$this->render("@admin/pages/social_edit.html.twig", [
+				'active' => "showSocial", 
+				'admin' => $admin, 
+				'social' => $social, 
+			]);
+		});
 	}
 
 	/**

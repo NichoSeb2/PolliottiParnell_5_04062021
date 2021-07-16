@@ -26,6 +26,7 @@ class IndexController extends Controller {
 		$socials = $socialManager->findAll();
 
 		$this->render("@client/pages/index.html.twig", [
+			'connected' => !empty($_SESSION['id']) && is_numeric($_SESSION['id']), 
 			'admin' => $admin, 
 			'post' => $post, 
 			'socials' => $socials, 
@@ -45,6 +46,7 @@ class IndexController extends Controller {
 		$socials = $socialManager->findAll();
 
 		$this->render("@client/pages/contact.html.twig", [
+			'connected' => !empty($_SESSION['id']) && is_numeric($_SESSION['id']), 
 			'admin' => $admin, 
 			'socials' => $socials, 
 		]);

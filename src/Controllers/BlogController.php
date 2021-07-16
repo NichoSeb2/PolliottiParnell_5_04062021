@@ -82,6 +82,7 @@ class BlogController extends Controller {
 		$socials = $socialManager->findAll();
 
 		$this->render("@client/pages/post.html.twig", [
+			'connected' => !empty($_SESSION['id']) && is_numeric($_SESSION['id']), 
 			'admin' => $admin, 
 			'post' => $post, 
 			'comments' => $comments, 
@@ -123,6 +124,7 @@ class BlogController extends Controller {
 		$socials = $socialManager->findAll();
 
 		$this->render("@client/pages/blog.html.twig", [
+			'connected' => !empty($_SESSION['id']) && is_numeric($_SESSION['id']), 
 			'admin' => $admin, 
 			'post' => $post, 
 			'firstPage' => $this->minPage, 

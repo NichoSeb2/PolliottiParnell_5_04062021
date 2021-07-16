@@ -6,28 +6,25 @@ use App\Managers\AdminManager;
 use App\Managers\CommentManager;
 
 class CommentController extends Controller {
-	//! temporary
-	private int $loggedUserId = 1;
-
 	/**
 	 * @return void
 	 */
 	public function showComment(): void {
 		$adminManager = new AdminManager();
 
-		$admin = $adminManager->findById($this->loggedUserId);
+		$adminManager->adminLogged(function($admin) {
+			$commentManager = new CommentManager();
 
-		$commentManager = new CommentManager();
+			$comments = $commentManager->findBy([], [
+				'created_at' => "DESC", 
+			]);
 
-		$comments = $commentManager->findBy([], [
-			'created_at' => "DESC", 
-		]);
-
-		$this->render("@admin/pages/comment.html.twig", [
-			'active' => "showComment", 
-			'admin' => $admin, 
-			'comments' => $comments, 
-		]);
+			$this->render("@admin/pages/comment.html.twig", [
+				'active' => "showComment", 
+				'admin' => $admin, 
+				'comments' => $comments, 
+			]);
+		});
 	}
 
 	/**
