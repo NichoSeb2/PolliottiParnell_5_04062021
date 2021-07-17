@@ -10,11 +10,9 @@ class UserManager extends Manager {
 	 */
 	public function findConnected() {
 		if (isset($_SESSION['id']) && is_numeric($_SESSION['id'])) {
-			$user = $this->findOneBy([
+			return $this->findOneBy([
 				'id' => $_SESSION['id'], 
 			]);
-
-			return $user;
 		} else {
 			return null;
 		}
