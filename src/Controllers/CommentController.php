@@ -29,7 +29,7 @@ class CommentController extends Controller {
 	 * @return void
 	 */
 	public function putOnline(): void {
-		(new AdminLogged)->adminLogged(function($admin) {
+		(new AdminLogged)->adminLogged(function() {
 			$id = $this->params['id'];
 
 			// only action since called by ajax
@@ -40,7 +40,7 @@ class CommentController extends Controller {
 	 * @return void
 	 */
 	public function putOffline(): void {
-		(new AdminLogged)->adminLogged(function($admin) {
+		(new AdminLogged)->adminLogged(function() {
 			$id = $this->params['id'];
 
 			// only action since called by ajax

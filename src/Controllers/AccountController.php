@@ -5,22 +5,12 @@ use App\Model\User;
 use App\Core\Controller;
 use App\Service\UserLogged;
 use App\Managers\UserManager;
-use App\Managers\AdminManager;
-use App\Managers\SocialManager;
 
 class AccountController extends Controller {
 	/**
 	 * @return void
 	 */
 	public function login(): void {
-		$adminManager = new AdminManager();
-
-		$admin = $adminManager->findById(1);
-
-		$socialManager = new SocialManager();
-
-		$socials = $socialManager->findAll();
-
 		if (isset($_POST['submitButton'])) {
 			extract($_POST);
 
@@ -47,8 +37,6 @@ class AccountController extends Controller {
 			}
 
 			$this->render("@client/pages/login.html.twig", [
-				'admin' => $admin, 
-				'socials' => $socials, 
 				'error' => $error, 
 				'form' => [
 					'email' => $email, 
@@ -58,10 +46,7 @@ class AccountController extends Controller {
 			exit();
 		}
 
-		$this->render("@client/pages/login.html.twig", [
-			'admin' => $admin, 
-			'socials' => $socials, 
-		]);
+		$this->render("@client/pages/login.html.twig");
 	}
 
 	/**
@@ -80,14 +65,6 @@ class AccountController extends Controller {
 	 * @return void
 	 */
 	public function register(): void {
-		$adminManager = new AdminManager();
-
-		$admin = $adminManager->findById(1);
-
-		$socialManager = new SocialManager();
-
-		$socials = $socialManager->findAll();
-
 		if (isset($_POST['submitButton'])) {
 			extract($_POST);
 
@@ -131,8 +108,6 @@ class AccountController extends Controller {
 			}
 
 			$this->render("@client/pages/register.html.twig", [
-				'admin' => $admin, 
-				'socials' => $socials, 
 				'error' => $error, 
 				'form' => [
 					'firstName' => $firstName, 
@@ -144,9 +119,6 @@ class AccountController extends Controller {
 			exit();
 		}
 
-		$this->render("@client/pages/register.html.twig", [
-			'admin' => $admin, 
-			'socials' => $socials, 
-		]);
+		$this->render("@client/pages/register.html.twig");
 	}
 }

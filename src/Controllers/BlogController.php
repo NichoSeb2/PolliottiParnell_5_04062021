@@ -4,8 +4,6 @@ namespace App\Controllers;
 use App\Core\Controller;
 use App\Service\PostDisplay;
 use App\Managers\PostManager;
-use App\Managers\AdminManager;
-use App\Managers\SocialManager;
 use App\Managers\CommentManager;
 use App\Controllers\ErrorController;
 
@@ -42,20 +40,9 @@ class BlogController extends Controller {
 			'created_at' => "DESC", 
 		]);
 
-		$adminManager = new AdminManager();
-
-		$admin = $adminManager->findById(1);
-
-		$socialManager = new SocialManager();
-
-		$socials = $socialManager->findAll();
-
 		$this->render("@client/pages/post.html.twig", [
-			'connected' => !empty($_SESSION['id']) && is_numeric($_SESSION['id']), 
-			'admin' => $admin, 
 			'post' => $post, 
 			'comments' => $comments, 
-			'socials' => $socials, 
 		]);
 	}
 
@@ -79,29 +66,15 @@ class BlogController extends Controller {
 
 		$page = (new PostDisplay)->validatePage($page, $this->minPage, $maxPage);
 
-		$firstPostToDisplay = ($page - 1) * $this->nbPostPerPage;
-		$lastPostToDisplay = ($page * $this->nbPostPerPage) - 1;
-
-		$post = (new PostDisplay)->filterPost($post, $firstPostToDisplay, $lastPostToDisplay);
-
-		$adminManager = new AdminManager();
-
-		$admin = $adminManager->findById(1);
-
-		$socialManager = new SocialManager();
-
-		$socials = $socialManager->findAll();
+		$post = (new PostDisplay)->filterPost($post, ($page - 1) * $this->nbPostPerPage, ($page * $this->nbPostPerPage) - 1);
 
 		$this->render("@client/pages/blog.html.twig", [
-			'connected' => !empty($_SESSION['id']) && is_numeric($_SESSION['id']), 
-			'admin' => $admin, 
 			'post' => $post, 
 			'firstPage' => $this->minPage, 
 			'lastPage' => $maxPage, 
 			'previousPage' => (new PostDisplay)->validatePage($page - 1, $this->minPage, $maxPage), 
 			'currentPage' => $page, 
 			'nextPage' => (new PostDisplay)->validatePage($page + 1, $this->minPage, $maxPage), 
-			'socials' => $socials, 
 		]);
 	}
 }

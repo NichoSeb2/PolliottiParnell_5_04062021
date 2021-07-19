@@ -6,6 +6,7 @@ use App\Exceptions\TwigException;
 use Twig\Loader\FilesystemLoader;
 use Twig\Extension\DebugExtension;
 use App\Exceptions\ConfigException;
+use App\Service\TwigGlobalVariable;
 
 class Twig {
 	private array $config;
@@ -30,6 +31,10 @@ class Twig {
 		]);
 
 		$twig->addExtension(new DebugExtension());
+
+		$twig->addGlobal('connected', (!empty($_SESSION['id']) && is_numeric($_SESSION['id'])));
+		$twig->addGlobal('socials', TwigGlobalVariable::getSocials());
+		$twig->addGlobal('admin', TwigGlobalVariable::getAdmin());
 
 		$this->twig = $twig;
 	}

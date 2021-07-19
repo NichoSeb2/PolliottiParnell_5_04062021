@@ -83,7 +83,7 @@ class AdminController extends Controller {
 	 * @return void
 	 */
 	public function deletePost(): void {
-		(new AdminLogged)->adminLogged(function($admin) {
+		(new AdminLogged)->adminLogged(function() {
 			$slug = $this->params['slug'];
 
 			// no render. action and after redirect
@@ -152,7 +152,7 @@ class AdminController extends Controller {
 	 * @return void
 	 */
 	public function deleteSocial(): void {
-		(new AdminLogged)->adminLogged(function($admin) {
+		(new AdminLogged)->adminLogged(function() {
 			$id = $this->params['id'];
 
 			// no render. action and after redirect
