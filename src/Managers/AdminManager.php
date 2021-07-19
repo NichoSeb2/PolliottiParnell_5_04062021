@@ -26,39 +26,4 @@ class AdminManager extends Manager {
 			return $entities[0];
 		}
 	}
-
-	/**
-	 * @param User $user
-	 * 
-	 * @return bool
-	 */
-	public function isAdmin(User $user): bool {
-		return !is_null($this->findOneBy([
-			'user_id' => $user->getId(), 
-		]));
-	}
-
-	/**
-	 * @param callable $function
-	 * 
-	 * @return void
-	 */
-	public function adminLogged($function): void {
-		if (is_callable($function)) {
-			$userManager = new UserManager();
-			$adminManager = new AdminManager();
-
-			$user = $userManager->findConnected();
-
-			if (!is_null($user) && $adminManager->isAdmin($user)) {
-				$admin = $adminManager->findById($user->getId());
-
-				$function($admin);
-			} else {
-				$controller = new ErrorController("show403");
-
-				$controller->execute();
-			}
-		}
-	}
 }

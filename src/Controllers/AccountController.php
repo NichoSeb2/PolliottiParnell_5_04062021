@@ -3,28 +3,12 @@ namespace App\Controllers;
 
 use App\Model\User;
 use App\Core\Controller;
+use App\Service\UserLogged;
 use App\Managers\UserManager;
 use App\Managers\AdminManager;
 use App\Managers\SocialManager;
 
 class AccountController extends Controller {
-	/**
-	 * @param User $user
-	 * 
-	 * @return void
-	 */
-	private function _redirectUser(User $user): void {
-		$adminManager = new AdminManager();
-
-		$_SESSION['id'] = $user->getId();
-
-		if ($adminManager->isAdmin($user)) {
-			header("Location: /admin");
-		} else {
-			header("Location: /blog");
-		}
-	}
-
 	/**
 	 * @return void
 	 */
@@ -49,7 +33,7 @@ class AccountController extends Controller {
 
 				if (!is_null($user)) {
 					if (password_verify($password, $user->getPassword())) {
-						$this->_redirectUser($user);
+						(new UserLogged)->redirectUser($user);
 
 						exit();
 					} else {
@@ -133,7 +117,7 @@ class AccountController extends Controller {
 							'email' => $_POST['email'], 
 						]);
 
-						$this->_redirectUser($user);
+						(new UserLogged)->redirectUser($user);
 
 						exit();
 					} else {

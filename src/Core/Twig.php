@@ -12,11 +12,6 @@ class Twig {
 
 	private Environment $twig;
 
-	/**
-	 * __construct
-	 *
-	 * @return void
-	 */
 	public function __construct() {
 		$confDir = CONF_DIR. "/config.yml";
 		$this->config = yaml_parse_file($confDir);
@@ -38,14 +33,13 @@ class Twig {
 
 		$this->twig = $twig;
 	}
-	
+
 	/**
-	 * render
-	 *
-	 * @param  string $template
-	 * @param  array $args
+	 * @param string $template
+	 * @param array $args
+	 * 
 	 * @return string
-	 */	
+	 */
 	public function render(string $template, array $args): string {
         try {
             return $this->twig->render($template, $args);

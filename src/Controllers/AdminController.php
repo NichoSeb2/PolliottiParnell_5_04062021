@@ -2,8 +2,8 @@
 namespace App\Controllers;
 
 use App\Core\Controller;
+use App\Service\AdminLogged;
 use App\Managers\PostManager;
-use App\Managers\AdminManager;
 use App\Managers\SocialManager;
 
 class AdminController extends Controller {
@@ -11,9 +11,7 @@ class AdminController extends Controller {
 	 * @return void
 	 */
 	public function showProfile(): void {
-		$adminManager = new AdminManager();
-
-		$adminManager->adminLogged(function($admin) {
+		(new AdminLogged)->adminLogged(function($admin) {
 			$this->render("@admin/pages/profile.html.twig", [
 				'active' => "profile", 
 				'admin' => $admin, 
@@ -25,9 +23,7 @@ class AdminController extends Controller {
 	 * @return void
 	 */
 	public function showPost(): void {
-		$adminManager = new AdminManager();
-
-		$adminManager->adminLogged(function($admin) {
+		(new AdminLogged)->adminLogged(function($admin) {
 			$postManager = new PostManager();
 
 			$post = $postManager->findBy([], [
@@ -46,9 +42,7 @@ class AdminController extends Controller {
 	 * @return void
 	 */
 	public function addPost(): void {
-		$adminManager = new AdminManager();
-
-		$adminManager->adminLogged(function($admin) {
+		(new AdminLogged)->adminLogged(function($admin) {
 			$this->render("@admin/pages/post_add.html.twig", [
 				'active' => "addPost", 
 				'admin' => $admin, 
@@ -60,9 +54,7 @@ class AdminController extends Controller {
 	 * @return void
 	 */
 	public function editPost(): void {
-		$adminManager = new AdminManager();
-
-		$adminManager->adminLogged(function($admin) {
+		(new AdminLogged)->adminLogged(function($admin) {
 			$slug = $this->params['slug'];
 
 			$postManager = new PostManager();
@@ -91,18 +83,18 @@ class AdminController extends Controller {
 	 * @return void
 	 */
 	public function deletePost(): void {
-		$slug = $this->params['slug'];
+		(new AdminLogged)->adminLogged(function($admin) {
+			$slug = $this->params['slug'];
 
-		// no render. action and after redirect
+			// no render. action and after redirect
+		});
 	}
 
 	/**
 	 * @return void
 	 */
 	public function showSocial(): void {
-		$adminManager = new AdminManager();
-
-		$adminManager->adminLogged(function($admin) {
+		(new AdminLogged)->adminLogged(function($admin) {
 			$socialManager = new SocialManager();
 
 			$socials = $socialManager->findAll();
@@ -119,9 +111,7 @@ class AdminController extends Controller {
 	 * @return void
 	 */
 	public function addSocial(): void {
-		$adminManager = new AdminManager();
-
-		$adminManager->adminLogged(function($admin) {
+		(new AdminLogged)->adminLogged(function($admin) {
 			$this->render("@admin/pages/social_add.html.twig", [
 				'active' => "addSocial", 
 				'admin' => $admin, 
@@ -133,9 +123,7 @@ class AdminController extends Controller {
 	 * @return void
 	 */
 	public function editSocial(): void {
-		$adminManager = new AdminManager();
-
-		$adminManager->adminLogged(function($admin) {
+		(new AdminLogged)->adminLogged(function($admin) {
 			$id = $this->params['id'];
 
 			$socialManager = new SocialManager();
@@ -164,8 +152,10 @@ class AdminController extends Controller {
 	 * @return void
 	 */
 	public function deleteSocial(): void {
-		$id = $this->params['id'];
+		(new AdminLogged)->adminLogged(function($admin) {
+			$id = $this->params['id'];
 
-		// no render. action and after redirect
+			// no render. action and after redirect
+		});
 	}
 }

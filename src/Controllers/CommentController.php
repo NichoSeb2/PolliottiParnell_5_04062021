@@ -2,7 +2,7 @@
 namespace App\Controllers;
 
 use App\Core\Controller;
-use App\Managers\AdminManager;
+use App\Service\AdminLogged;
 use App\Managers\CommentManager;
 
 class CommentController extends Controller {
@@ -10,9 +10,7 @@ class CommentController extends Controller {
 	 * @return void
 	 */
 	public function showComment(): void {
-		$adminManager = new AdminManager();
-
-		$adminManager->adminLogged(function($admin) {
+		(new AdminLogged)->adminLogged(function($admin) {
 			$commentManager = new CommentManager();
 
 			$comments = $commentManager->findBy([], [
@@ -31,17 +29,21 @@ class CommentController extends Controller {
 	 * @return void
 	 */
 	public function putOnline(): void {
-		$id = $this->params['id'];
+		(new AdminLogged)->adminLogged(function($admin) {
+			$id = $this->params['id'];
 
-		// only action since called by ajax
+			// only action since called by ajax
+		});
 	}
 
 	/**
 	 * @return void
 	 */
 	public function putOffline(): void {
-		$id = $this->params['id'];
+		(new AdminLogged)->adminLogged(function($admin) {
+			$id = $this->params['id'];
 
-		// only action since called by ajax
+			// only action since called by ajax
+		});
 	}
 }
