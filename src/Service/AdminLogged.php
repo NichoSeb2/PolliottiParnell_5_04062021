@@ -4,7 +4,7 @@ namespace App\Service;
 use App\Model\User;
 use App\Managers\UserManager;
 use App\Managers\AdminManager;
-use App\Controllers\ErrorController;
+use App\Exceptions\AccessDeniedException;
 
 class AdminLogged {
 	/**
@@ -35,9 +35,7 @@ class AdminLogged {
 
 				$function($admin);
 			} else {
-				$controller = new ErrorController("show403");
-
-				$controller->execute();
+				throw new AccessDeniedException();
 			}
 		}
 	}
