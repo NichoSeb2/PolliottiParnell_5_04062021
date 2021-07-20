@@ -18,7 +18,7 @@ class AccountController extends Controller {
 				$userManager = new UserManager();
 
 				$user = $userManager->findOneBy([
-					'email' => $_POST['email'], 
+					'email' => $email, 
 				]);
 
 				if (!is_null($user)) {
@@ -73,7 +73,7 @@ class AccountController extends Controller {
 					$userManager = new UserManager();
 
 					$user = $userManager->findOneBy([
-						'email' => $_POST['email'], 
+						'email' => $email, 
 					]);
 
 					if (is_null($user)) {
@@ -91,7 +91,7 @@ class AccountController extends Controller {
 						$userManager->create($user);
 
 						$user = $userManager->findOneBy([
-							'email' => $_POST['email'], 
+							'email' => $email, 
 						]);
 
 						(new UserLogged)->redirectUser($user);

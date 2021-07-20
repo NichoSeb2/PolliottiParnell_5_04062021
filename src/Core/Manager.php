@@ -183,11 +183,11 @@ class Manager {
 			$sql .= " ". $this->_computeOrderBy($orderBy);
 		}
 
-		if (!is_null($limit)) {
-			$sql .= " LIMIT ". $limit;
+		if (!is_null($limit) && is_numeric($limit)) {
+			$sql .= " LIMIT ". ((int) $limit);
 
-			if (!is_null($offset)) {
-				$sql .= " OFFSET ". $offset;
+			if (!is_null($offset) && is_numeric($offset)) {
+				$sql .= " OFFSET ". ((int) $offset);
 			}
 		}
 
