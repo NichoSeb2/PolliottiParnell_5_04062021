@@ -35,7 +35,7 @@
 	<body>
 		{% include "@client/parts/_header.html.twig" with { admin } only %}
 
-		{% include "@client/parts/_nav.html.twig" only %}
+		{% include "@client/parts/_nav.html.twig" with { connected } only %}
 
 		<main>{% block main %}{% endblock %}</main>
 

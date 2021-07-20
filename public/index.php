@@ -1,4 +1,6 @@
 <?php
+session_start();
+
 define('ROOT_DIR', realpath(dirname(__DIR__)));
 define('CONF_DIR', ROOT_DIR. '/config');
 define('TEMPLATE_DIR', ROOT_DIR. '/templates');
@@ -10,6 +12,7 @@ use App\Exceptions\SQLException;
 use App\Exceptions\TwigException;
 use App\Exceptions\ConfigException;
 use App\Controllers\ErrorController;
+use App\Exceptions\AccessDeniedException;
 
 try {
 	$router = new Router();
@@ -21,7 +24,12 @@ try {
 	}
 
 	$controller->execute();
-} 
+}
+catch (AccessDeniedException $e) {
+	$controller = new ErrorController("show403");
+
+	$controller->execute();
+}
 catch (TwigException | ConfigException | SQLException | PDOException $e) {
 	$controller = new ErrorController("show500", [
 		"message" => $e

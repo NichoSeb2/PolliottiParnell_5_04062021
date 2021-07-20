@@ -2,47 +2,14 @@
 namespace App\Controllers;
 
 use App\Core\Controller;
+use App\Service\PostDisplay;
 use App\Managers\PostManager;
-use App\Managers\AdminManager;
-use App\Managers\SocialManager;
 use App\Managers\CommentManager;
 use App\Controllers\ErrorController;
 
 class BlogController extends Controller {
 	private $minPage = 1;
 	private $nbPostPerPage = 3;
-
-	/**
-	 * @param int $page
-	 * @param int $minPage
-	 * @param int $maxPage
-	 * 
-	 * @return int
-	 */
-	private function _validatePage(int $page, int $minPage, int $maxPage): int {
-		if ($page < $minPage) {
-			$page = $minPage;
-		}
-
-		if ($page > $maxPage) {
-			$page = $maxPage;
-		}
-
-		return $page;
-	}
-
-	/**
-	 * @param array $post
-	 * 
-	 * @return array
-	 */
-	private function _filterPost(array $post): array {
-		$post = array_filter($post, function($index) {
-			return $index >= $this->firstPostToDisplay && $index <= $this->lastPostToDisplay;
-		}, ARRAY_FILTER_USE_KEY);
-
-		return $post;
-	}
 
 	/**
 	 * @return void
@@ -73,19 +40,9 @@ class BlogController extends Controller {
 			'created_at' => "DESC", 
 		]);
 
-		$adminManager = new AdminManager();
-
-		$admin = $adminManager->findById(1);
-
-		$socialManager = new SocialManager();
-
-		$socials = $socialManager->findAll();
-
 		$this->render("@client/pages/post.html.twig", [
-			'admin' => $admin, 
 			'post' => $post, 
 			'comments' => $comments, 
-			'socials' => $socials, 
 		]);
 	}
 
@@ -107,30 +64,17 @@ class BlogController extends Controller {
 
 		$maxPage = (int) ceil(sizeof($post) / $this->nbPostPerPage);
 
-		$page = $this->_validatePage($page, $this->minPage, $maxPage);
+		$page = (new PostDisplay)->validatePage($page, $this->minPage, $maxPage);
 
-		$this->firstPostToDisplay = ($page - 1) * $this->nbPostPerPage;
-		$this->lastPostToDisplay = ($page * $this->nbPostPerPage) - 1;
-
-		$post = $this->_filterPost($post);
-
-		$adminManager = new AdminManager();
-
-		$admin = $adminManager->findById(1);
-
-		$socialManager = new SocialManager();
-
-		$socials = $socialManager->findAll();
+		$post = (new PostDisplay)->filterPost($post, ($page - 1) * $this->nbPostPerPage, ($page * $this->nbPostPerPage) - 1);
 
 		$this->render("@client/pages/blog.html.twig", [
-			'admin' => $admin, 
 			'post' => $post, 
 			'firstPage' => $this->minPage, 
 			'lastPage' => $maxPage, 
-			'previousPage' => $this->_validatePage($page - 1, $this->minPage, $maxPage), 
+			'previousPage' => (new PostDisplay)->validatePage($page - 1, $this->minPage, $maxPage), 
 			'currentPage' => $page, 
-			'nextPage' => $this->_validatePage($page + 1, $this->minPage, $maxPage), 
-			'socials' => $socials, 
+			'nextPage' => (new PostDisplay)->validatePage($page + 1, $this->minPage, $maxPage), 
 		]);
 	}
 }

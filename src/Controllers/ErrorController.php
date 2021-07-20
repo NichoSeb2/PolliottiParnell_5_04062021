@@ -7,6 +7,13 @@ class ErrorController extends Controller {
 	/**
 	 * @return void
 	 */
+	public function show403(): void {
+		$this->render("@client/errors/403.html.twig");
+	}
+
+	/**
+	 * @return void
+	 */
 	public function show404(): void {
 		$this->render("@client/errors/404.html.twig");
 	}

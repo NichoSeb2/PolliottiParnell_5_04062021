@@ -18,6 +18,10 @@ class User extends Entity {
 	 * @return string
 	 */
 	public function getRole(): string {
+		if (!isset($this->role)) {
+			$this->setRole();
+		}
+
 		return $this->role;
 	}
 

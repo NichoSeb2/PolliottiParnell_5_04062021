@@ -14,7 +14,7 @@
 				{% include "@client/parts/_devider.html.twig" only %}
 				<h2 class="section-heading">Commentaire : </h2>
 
-				{% include "@client/forms/_comment.html.twig" %}
+				{% include "@client/forms/_comment.html.twig" with { connected } only %}
 
 				{% for comment in comments %}
 					{% include "@client/parts/_devider.html.twig" with { style: "background-color: #ced4da;" } only %}

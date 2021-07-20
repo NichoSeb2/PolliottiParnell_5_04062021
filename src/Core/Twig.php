@@ -6,17 +6,13 @@ use App\Exceptions\TwigException;
 use Twig\Loader\FilesystemLoader;
 use Twig\Extension\DebugExtension;
 use App\Exceptions\ConfigException;
+use App\Service\TwigGlobalVariable;
 
 class Twig {
 	private array $config;
 
 	private Environment $twig;
 
-	/**
-	 * __construct
-	 *
-	 * @return void
-	 */
 	public function __construct() {
 		$confDir = CONF_DIR. "/config.yml";
 		$this->config = yaml_parse_file($confDir);
@@ -36,16 +32,19 @@ class Twig {
 
 		$twig->addExtension(new DebugExtension());
 
+		$twig->addGlobal('connected', (!empty($_SESSION['id']) && is_numeric($_SESSION['id'])));
+		$twig->addGlobal('socials', TwigGlobalVariable::getSocials());
+		$twig->addGlobal('admin', TwigGlobalVariable::getAdmin());
+
 		$this->twig = $twig;
 	}
-	
+
 	/**
-	 * render
-	 *
-	 * @param  string $template
-	 * @param  array $args
+	 * @param string $template
+	 * @param array $args
+	 * 
 	 * @return string
-	 */	
+	 */
 	public function render(string $template, array $args): string {
         try {
             return $this->twig->render($template, $args);

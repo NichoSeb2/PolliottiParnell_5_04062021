@@ -10,7 +10,11 @@
 				<li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/">Accueil</a></li>
 				<li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/blog">Blog</a></li>
 				<li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/contact">Contact</a></li>
-				<li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/login">Connexion</a></li>
+				{% if connected %}
+					<li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/logout">Déconnexion</a></li>
+				{% else %}
+					<li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/login">Connexion</a></li>
+				{% endif %}
 			</ul>
 		</div>
 	</div>
