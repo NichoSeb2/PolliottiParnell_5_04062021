@@ -17,6 +17,35 @@ class Manager {
 	protected string $entity;
 
 	/**
+	 * @param string $sql
+	 * @param array $where
+	 * @param array $orderBy
+	 * @param int|null $limit
+	 * @param int|null $offset
+	 * 
+	 * @return string
+	 */
+	protected function _appendIfCorrect(string $sql, array $where = [], array $orderBy = [], int $limit = null, int $offset = null): string {
+		if (!empty($where)) {
+			$sql .= " ". $this->_computeWhere($where);
+		}
+
+		if (!empty($orderBy)) {
+			$sql .= " ". $this->_computeOrderBy($orderBy);
+		}
+
+		if (!is_null($limit) && is_numeric($limit)) {
+			$sql .= " LIMIT ". ((int) $limit);
+
+			if (!is_null($offset) && is_numeric($offset)) {
+				$sql .= " OFFSET ". ((int) $offset);
+			}
+		}
+
+		return $sql;
+	}
+
+	/**
 	 * @param array $field
 	 * @param string|null $table
 	 * 
@@ -26,11 +55,7 @@ class Manager {
 		$groups = [];
 
 		foreach ($field as $key => $value) {
-			if (is_string($key)) {
-				$groups[] = (!is_null($table) ? $table. "." : ""). $key. " AS ". $value;
-			} else {
-				$groups[] = (!is_null($table) ? $table. "." : ""). $value;
-			}
+			$groups[] = (!is_null($table) ? $table. "." : ""). (is_string($key) ? $key. " AS " : ""). $value;
 		}
 
 		return implode(", ", $groups);
@@ -195,21 +220,7 @@ class Manager {
 	public function findBy(array $where = [], array $orderBy = [], int $limit = null, int $offset = null): array {
 		$sql = "SELECT * FROM ". $this->tableName;
 
-		if (!empty($where)) {
-			$sql .= " ". $this->_computeWhere($where);
-		}
-
-		if (!empty($orderBy)) {
-			$sql .= " ". $this->_computeOrderBy($orderBy);
-		}
-
-		if (!is_null($limit) && is_numeric($limit)) {
-			$sql .= " LIMIT ". ((int) $limit);
-
-			if (!is_null($offset) && is_numeric($offset)) {
-				$sql .= " OFFSET ". ((int) $offset);
-			}
-		}
+		$sql = $this->_appendIfCorrect($sql, $where, $orderBy, $limit, $offset);
 
 		$request = $this->pdo->query($sql);
 		$results = $request->fetchAll();

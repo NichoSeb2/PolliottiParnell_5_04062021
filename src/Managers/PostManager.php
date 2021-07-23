@@ -27,21 +27,7 @@ class PostManager extends Manager {
 			'content' => "temp_comment_content", 
 		], "c"). " FROM post AS p JOIN comment AS c ON p.id = c.post_id";
 
-		if (!empty($where)) {
-			$sql .= " ". $this->_computeWhere($where);
-		}
-
-		if (!empty($orderBy)) {
-			$sql .= " ". $this->_computeOrderBy($orderBy);
-		}
-
-		if (!is_null($limit) && is_numeric($limit)) {
-			$sql .= " LIMIT ". ((int) $limit);
-
-			if (!is_null($offset) && is_numeric($offset)) {
-				$sql .= " OFFSET ". ((int) $offset);
-			}
-		}
+		$sql = $this->_appendIfCorrect($sql, $where, $orderBy, $limit, $offset);
 
 		$request = $this->pdo->query($sql);
 		$results = $request->fetchAll();
