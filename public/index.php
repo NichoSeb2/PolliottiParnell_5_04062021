@@ -12,7 +12,9 @@ use App\Exceptions\SQLException;
 use App\Exceptions\TwigException;
 use App\Exceptions\ConfigException;
 use App\Controllers\ErrorController;
+use App\Exceptions\ControllerNotFound;
 use App\Exceptions\AccessDeniedException;
+use App\Exceptions\RequestedEntityNotFound;
 
 try {
 	$router = new Router();
@@ -20,13 +22,18 @@ try {
 	$controller = $router->getController();
 
 	if (is_null($controller)) {
-		$controller = new ErrorController("show404");
+		throw new ControllerNotFound();
 	}
 
 	$controller->execute();
 }
 catch (AccessDeniedException $e) {
 	$controller = new ErrorController("show403");
+
+	$controller->execute();
+}
+catch (ControllerNotFound | RequestedEntityNotFound $e) {
+	$controller = new ErrorController("show404");
 
 	$controller->execute();
 }

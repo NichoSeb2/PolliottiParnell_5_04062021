@@ -4,8 +4,7 @@ namespace App\Controllers;
 use App\Core\Controller;
 use App\Service\PostDisplay;
 use App\Managers\PostManager;
-use App\Managers\CommentManager;
-use App\Controllers\ErrorController;
+use App\Exceptions\RequestedEntityNotFound;
 
 class BlogController extends Controller {
 	private $minPage = 1;
@@ -25,11 +24,7 @@ class BlogController extends Controller {
 		]);
 
 		if (is_null($post)) {
-			$controller = new ErrorController("show404");
-
-			$controller->execute();
-
-			return;
+			throw new RequestedEntityNotFound("Post not found");
 		}
 
 		$this->render("@client/pages/post.html.twig", [
