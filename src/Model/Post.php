@@ -19,6 +19,8 @@ class Post extends Entity {
 
 	private string $altCoverageImage;
 
+	private array $comments;
+
 	/**
 	 * @return int
 	 */
@@ -133,5 +135,30 @@ class Post extends Entity {
 	 */
 	public function setAltCoverageImage(string $altCoverageImage): void {
 		$this->altCoverageImage = $altCoverageImage;
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getComments(): array {
+		return $this->comments;
+	}
+
+	/**
+	 * @param array $comments
+	 * 
+	 * @return void
+	 */
+	public function setComments(array $comments): void {
+		$this->comments = $comments;
+	}
+
+	/**
+	 * @param Comment $comment
+	 * 
+	 * @return void
+	 */
+	public function addComment(Comment $comment): void {
+		$this->comments[] = $comment;
 	}
 }

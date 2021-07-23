@@ -16,7 +16,7 @@
 
 				{% include "@client/forms/_comment.html.twig" with { connected } only %}
 
-				{% for comment in comments %}
+				{% for comment in post.comments %}
 					{% include "@client/parts/_devider.html.twig" with { style: "background-color: #ced4da;" } only %}
 
 					{% include "@client/parts/_comment.html.twig" with { comment } only %}

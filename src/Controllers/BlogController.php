@@ -19,8 +19,9 @@ class BlogController extends Controller {
 
 		$postManager = new PostManager();
 
-		$post = $postManager->findOneBy([
-			'slug' => $slug
+		$post = $postManager->findOneByWithComment([
+			'p.slug' => $slug, 
+			'c.status' => true, 
 		]);
 
 		if (is_null($post)) {
@@ -31,18 +32,8 @@ class BlogController extends Controller {
 			return;
 		}
 
-		$commentManager = new CommentManager();
-
-		$comments = $commentManager->findBy([
-			'post_id' => $post->getId(), 
-			'status' => 1, 
-		], [
-			'created_at' => "DESC", 
-		]);
-
 		$this->render("@client/pages/post.html.twig", [
 			'post' => $post, 
-			'comments' => $comments, 
 		]);
 	}
 
@@ -56,25 +47,25 @@ class BlogController extends Controller {
 			$page = (int) $this->params['page'];
 		}
 
-		$postManager = new PostManager();
-
-		$post = $postManager->findBy([], [
+		$post = (new PostManager)->findBy([], [
 			'created_at' => "DESC", 
 		]);
 
 		$maxPage = (int) ceil(sizeof($post) / $this->nbPostPerPage);
 
-		$page = (new PostDisplay)->validatePage($page, $this->minPage, $maxPage);
+		$postDisplay = new PostDisplay();
 
-		$post = (new PostDisplay)->filterPost($post, ($page - 1) * $this->nbPostPerPage, ($page * $this->nbPostPerPage) - 1);
+		$page = $postDisplay->validatePage($page, $this->minPage, $maxPage);
+
+		$post = $postDisplay->filterPost($post, ($page - 1) * $this->nbPostPerPage, ($page * $this->nbPostPerPage) - 1);
 
 		$this->render("@client/pages/blog.html.twig", [
 			'post' => $post, 
 			'firstPage' => $this->minPage, 
 			'lastPage' => $maxPage, 
-			'previousPage' => (new PostDisplay)->validatePage($page - 1, $this->minPage, $maxPage), 
+			'previousPage' => $postDisplay->validatePage($page - 1, $this->minPage, $maxPage), 
 			'currentPage' => $page, 
-			'nextPage' => (new PostDisplay)->validatePage($page + 1, $this->minPage, $maxPage), 
+			'nextPage' => $postDisplay->validatePage($page + 1, $this->minPage, $maxPage), 
 		]);
 	}
 }

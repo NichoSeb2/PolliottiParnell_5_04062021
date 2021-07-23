@@ -17,6 +17,26 @@ class Manager {
 	protected string $entity;
 
 	/**
+	 * @param array $field
+	 * @param string|null $table
+	 * 
+	 * @return string
+	 */
+	protected function _computeField(array $field, string $table = null): string {
+		$groups = [];
+
+		foreach ($field as $key => $value) {
+			if (is_string($key)) {
+				$groups[] = (!is_null($table) ? $table. "." : ""). $key. " AS ". $value;
+			} else {
+				$groups[] = (!is_null($table) ? $table. "." : ""). $value;
+			}
+		}
+
+		return implode(", ", $groups);
+	}
+
+	/**
 	 * @param array $where
 	 * 
 	 * @return string
