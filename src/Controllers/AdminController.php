@@ -5,6 +5,7 @@ use App\Core\Controller;
 use App\Service\AdminLogged;
 use App\Managers\PostManager;
 use App\Managers\SocialManager;
+use App\Exceptions\RequestedEntityNotFound;
 
 class AdminController extends Controller {
 	/**
@@ -64,11 +65,7 @@ class AdminController extends Controller {
 			]);
 
 			if (is_null($post)) {
-				$controller = new ErrorController("show404");
-
-				$controller->execute();
-
-				return;
+				throw new RequestedEntityNotFound("Post not found");
 			}
 
 			$this->render("@admin/pages/post_edit.html.twig", [
@@ -133,11 +130,7 @@ class AdminController extends Controller {
 			]);
 
 			if (is_null($social)) {
-				$controller = new ErrorController("show404");
-
-				$controller->execute();
-
-				return;
+				throw new RequestedEntityNotFound("Social not found");
 			}
 
 			$this->render("@admin/pages/social_edit.html.twig", [
