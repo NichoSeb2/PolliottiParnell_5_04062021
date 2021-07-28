@@ -2,6 +2,8 @@
 namespace App\Controllers;
 
 use App\Core\Controller;
+use App\Core\Mail;
+use App\Core\Twig;
 use App\Managers\PostManager;
 
 class IndexController extends Controller {	
@@ -24,6 +26,34 @@ class IndexController extends Controller {
 	 * @return void
 	 */
 	public function showContact(): void {
-		$this->render("@client/pages/contact.html.twig");
+		$success = null;
+		$error = null;
+
+		if (isset($_POST['submitButton'])) {
+			extract($_POST);
+
+			if (!empty($name) && !empty($email) && !empty($message)) {
+				$mail = new Mail();
+
+				$twig = new Twig();
+
+				$html = $twig->render("@mail/pages/contact.html.twig", [
+					'from' => $name, 
+					'subject' => $subject, 
+					'text' => $message, 
+				]);
+
+				$mail->send([$email, $name], [[$mail->getAdminEmail(), $mail->getAdminName()]], $subject, $html, "Message de contact provenant de : $name\nDissant : $message");
+
+				$success = "Votre message a bien été envoyé, une réponse vous sera transmise au plus vite.";
+			} else {
+				$error = "Un champ n'est pas correctement remplie.";
+			}
+		}
+
+		$this->render("@client/pages/contact.html.twig", [
+			'success' => $success, 
+			'error' => $error, 
+		]);
 	}
 }

@@ -23,8 +23,9 @@ class Twig {
 
 		$loader = new FilesystemLoader(TEMPLATE_DIR);
 
-		$loader->addPath(TEMPLATE_DIR. '/client', 'client');
         $loader->addPath(TEMPLATE_DIR. '/admin', 'admin');
+		$loader->addPath(TEMPLATE_DIR. '/client', 'client');
+		$loader->addPath(TEMPLATE_DIR. '/mail', 'mail');
 
 		$twig = new Environment($loader, [
 			'debug' => $this->config['env'] === 'dev'
