@@ -75,18 +75,4 @@ class Mail {
 			throw new MailException($mail->ErrorInfo);
 		}
 	}
-
-	/**
-	 * @return string
-	 */
-	public function getAdminEmail(): string {
-		return $this->mailConfig['admin_email'];
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getAdminName(): string {
-		return $this->mailConfig['admin_name'];
-	}
 }

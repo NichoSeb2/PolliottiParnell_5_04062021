@@ -2,5 +2,3 @@ mail_host:
 mail_port:
 mail_username:
 mail_password:
-admin_email:
-admin_name:

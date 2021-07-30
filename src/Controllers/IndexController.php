@@ -1,10 +1,11 @@
 <?php
 namespace App\Controllers;
 
-use App\Core\Controller;
 use App\Core\Mail;
 use App\Core\Twig;
+use App\Core\Controller;
 use App\Managers\PostManager;
+use App\Managers\AdminManager;
 
 class IndexController extends Controller {	
 	/**
@@ -43,7 +44,9 @@ class IndexController extends Controller {
 					'text' => $message, 
 				]);
 
-				$mail->send([$email, $name], [[$mail->getAdminEmail(), $mail->getAdminName()]], $subject, $html, "Message de contact provenant de : $name\nDissant : $message");
+				$admin = (new AdminManager)->findById(1);
+
+				$mail->send([$email, $name], [[$admin->getEmail(), $admin->getFirstName(). " ". $admin->getLastName()]], $subject, $html, "Message de contact provenant de : $name\nDissant : $message");
 
 				$success = "Votre message a bien été envoyé, une réponse vous sera transmise au plus vite.";
 			} else {
