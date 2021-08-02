@@ -2,6 +2,7 @@
 namespace App\Model;
 
 use App\Core\Entity;
+use TypeError;
 
 class User extends Entity {
 	private string $role;
@@ -13,6 +14,10 @@ class User extends Entity {
 	private string $email;
 
 	private string $password;
+
+	private bool $verified;
+
+	private $verificationToken;
 
 	/**
 	 * @return string
@@ -100,5 +105,41 @@ class User extends Entity {
 	 */
 	public function setPassword(string $password): void {
 		$this->password = $password;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getVerified() : bool {
+		return $this->verified;
+	}
+
+	/**
+	 * @param bool $verified
+	 * 
+	 * @return void
+	 */
+	public function setVerified(bool $verified): void {
+		$this->verified = $verified;
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getVerificationToken() : string {
+		return $this->verificationToken;
+	}
+
+	/**
+	 * @param string|null $verificationToken
+	 * 
+	 * @return void
+	 */
+	public function setVerificationToken($verificationToken): void {
+		if (!is_null($verificationToken) && !is_string($verificationToken)) {
+			throw new TypeError("verificationToken must be of the type string or null");
+		}
+
+		$this->verificationToken = $verificationToken;
 	}
 }

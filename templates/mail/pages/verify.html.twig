@@ -1,0 +1,9 @@
+{% extends "@mail/base.html.twig" %}
+
+{% block title %}Vérification de votre compte{% endblock %}
+
+{% block mail %}
+	<h2>Pour vérifier votre compte cliquez sur le lien ci-dessous ou copier le dans votre navigateur internet :</h2>
+
+	<p><a href="{{ link }}" target="_blank">{{ link }}</a></p>
+{% endblock %}

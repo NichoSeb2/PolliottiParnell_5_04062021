@@ -38,6 +38,16 @@ register:
   controller: AccountController
   action: register
   parameters: [ ]
+resend:
+  uri: /resend
+  controller: AccountController
+  action: resend
+  parameters: [ ]
+verify:
+  uri: /verify/([a-zA-Z0-9-]+)
+  controller: AccountController
+  action: verify
+  parameters: [verificationToken]
 profile:
   uri: /admin
   controller: AdminController

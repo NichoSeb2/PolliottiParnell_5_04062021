@@ -127,6 +127,15 @@ class Manager {
 	}
 
 	/**
+	 * @param bool $value
+	 * 
+	 * @return int
+	 */
+	protected function _escapeBool(bool $value): int {
+		return $value ? 1 : 0;
+	}
+
+	/**
 	 * @param array $values
 	 * 
 	 * @return array
@@ -135,6 +144,8 @@ class Manager {
 		foreach ($values as $key => $value) {
 			if (is_string($value)) {
 				$values[$key] = $this->_escapeString($value);
+			} else if (is_bool($value)) {
+				$values[$key] = $this->_escapeBool($value);
 			}
 		}
 

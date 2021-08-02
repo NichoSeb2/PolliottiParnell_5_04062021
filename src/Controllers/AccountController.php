@@ -2,7 +2,9 @@
 namespace App\Controllers;
 
 use App\Model\User;
+use Ramsey\Uuid\Uuid;
 use App\Core\Controller;
+use App\Service\SendMail;
 use App\Service\UserLogged;
 use App\Managers\UserManager;
 
@@ -86,15 +88,17 @@ class AccountController extends Controller {
 							'lastName' => $lastName, 
 							'email' => $email, 
 							'password' => password_hash($password, PASSWORD_BCRYPT, $options), 
+							'verified' => false, 
+							'verificationToken' => Uuid::uuid4()->toString(), 
 						]);
 
 						$userManager->create($user);
 
-						$user = $userManager->findOneBy([
-							'email' => $email, 
-						]);
+						(new SendMail)->sendVerificationMail($user);
 
-						(new UserLogged)->redirectUser($user);
+						$this->render("@client/pages/register.html.twig", [
+							'success' => true, 
+						]);
 
 						exit();
 					} else {
@@ -120,5 +124,85 @@ class AccountController extends Controller {
 		}
 
 		$this->render("@client/pages/register.html.twig");
+	}
+
+	/**
+	 * @return void
+	 */
+	public function resend(): void {
+		if (isset($_POST['submitButton'])) {
+			extract($_POST);
+
+			if (!empty($email)) {
+				$userManager = new UserManager();
+
+				$user = $userManager->findOneBy([
+					'email' => $email, 
+				]);
+
+				if (!is_null($user)) {
+					if (!$user->getVerified()) {
+						(new SendMail)->sendVerificationMail($user);
+
+						$success = "Le mail de verification a bien été renvoyer.";
+
+						$this->render("@client/pages/resend.html.twig", [
+							'success' => $success, 
+						]);
+
+						exit();
+					} else {
+						$error = "Votre compte est déjà vérifier.";
+					}
+				} else {
+					$error = "Aucun compte n'existe avec cette adresse email.";
+				}
+			} else {
+				$error = "Un champ n'est pas correctement remplie.";
+			}
+
+			$this->render("@client/pages/resend.html.twig", [
+				'error' => $error, 
+			]);
+
+			exit();
+		}
+
+		$this->render("@client/pages/resend.html.twig");
+	}
+
+	/**
+	 * @return void
+	 */
+	public function verify(): void {
+		$verificationToken = $this->params['verificationToken'];
+
+		$userManager = new UserManager();
+
+		$user = $userManager->findOneBy([
+			'verification_token' => $verificationToken, 
+		]);
+
+		if (!is_null($user)) {
+			if (!$user->getVerified()) {
+				$user->setVerified(true);
+
+				$userManager->update($user);
+
+				$this->render("@client/pages/verify.html.twig", [
+					'success' => "Votre compte a bien été vérifier.", 
+				]);
+
+				exit();
+			} else {
+				$error = "Ce token de vérification a déjà été utiliser, votre compte est déjà vérifier.";
+			}
+		} else {
+			$error = "Aucun compte n'est associé a ce token de vérification, essayer de demander un réenvoie.";
+		}
+
+		$this->render("@client/pages/verify.html.twig", [
+			'error' => $error, 
+		]);
 	}
 }

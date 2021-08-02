@@ -36,8 +36,13 @@ class Mail {
 			if ($this->globalConfig['env'] === "dev") {
 				$mail->SMTPDebug = SMTP::DEBUG_SERVER;
 			}
-			$mail->isSMTP();  
+
+			$mail->isSMTP();
+			$mail->SMTPSecure = false;
+			$mail->SMTPAutoTLS = false;
+
 			$mail->Host = $this->mailConfig['mail_host'];
+			$mail->Port = $this->mailConfig['mail_port'];
 
 			if (!empty($this->mailConfig['mail_username']) && !empty($this->mailConfig['mail_password'])) {
 				$mail->SMTPAuth = true;
@@ -45,9 +50,7 @@ class Mail {
 				$mail->Password = $this->mailConfig['mail_password'];
 			}
 
-			$mail->Port = $this->mailConfig['mail_port'];
-			$mail->SMTPSecure = false;
-			$mail->SMTPAutoTLS = false;
+			$mail->CharSet = "utf-8";
 
 			//Recipients
 			if (sizeof($from) == 2) {
