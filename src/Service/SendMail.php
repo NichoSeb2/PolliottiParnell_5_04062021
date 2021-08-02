@@ -42,7 +42,7 @@ class SendMail {
 
 		$twig = new Twig();
 
-		$verificationLink = "http://". $_SERVER['HTTP_HOST']. "/verify/". $user->getVerificationToken();
+		$verificationLink = "http". "://". $_SERVER['HTTP_HOST']. "/verify/". $user->getVerificationToken();
 
 		$html = $twig->render("@mail/pages/verify.html.twig", [
 			'link' => $verificationLink, 

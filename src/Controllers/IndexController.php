@@ -4,6 +4,7 @@ namespace App\Controllers;
 use App\Core\Controller;
 use App\Service\SendMail;
 use App\Managers\PostManager;
+use App\Service\FormReturnMessage;
 
 class IndexController extends Controller {	
 	/**
@@ -34,9 +35,9 @@ class IndexController extends Controller {
 			if (!empty($name) && !empty($email) && !empty($message) && !empty($subject)) {
 				(new SendMail)->sendContactMail($name, $email, $subject, $message);
 
-				$success = "Votre message a bien été envoyé, une réponse vous sera transmise au plus vite.";
+				$success = FormReturnMessage::MESSAGE_SUCCESSFULLY_SEND;
 			} else {
-				$error = "Un champ n'est pas correctement remplie.";
+				$error = FormReturnMessage::MISSING_FIELD;
 			}
 		}
 

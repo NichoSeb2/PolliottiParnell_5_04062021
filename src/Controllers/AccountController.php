@@ -7,6 +7,7 @@ use App\Core\Controller;
 use App\Service\SendMail;
 use App\Service\UserLogged;
 use App\Managers\UserManager;
+use App\Service\FormReturnMessage;
 
 class AccountController extends Controller {
 	/**
@@ -29,13 +30,13 @@ class AccountController extends Controller {
 
 						exit();
 					} else {
-						$error = "Mot de passe incorrect.";
+						$error = FormReturnMessage::WRONG_PASSWORD;
 					}
 				} else {
-					$error = "Aucun compte n'existe avec cette adresse email.";
+					$error = FormReturnMessage::NO_ACCOUNT_FOR_EMAIL;
 				}
 			} else {
-				$error = "Un champ n'est pas correctement remplie.";
+				$error = FormReturnMessage::MISSING_FIELD;
 			}
 
 			$this->render("@client/pages/login.html.twig", [
@@ -67,6 +68,8 @@ class AccountController extends Controller {
 	 * @return void
 	 */
 	public function register(): void {
+		$template = "@client/pages/register.html.twig";
+
 		if (isset($_POST['submitButton'])) {
 			extract($_POST);
 
@@ -96,22 +99,22 @@ class AccountController extends Controller {
 
 						(new SendMail)->sendVerificationMail($user);
 
-						$this->render("@client/pages/register.html.twig", [
+						$this->render($template, [
 							'success' => true, 
 						]);
 
 						exit();
 					} else {
-						$error = "Un compte existe déjà avec cette adresse email.";
+						$error = FormReturnMessage::ACCOUNT_ALREADY_EXIST;
 					}
 				} else {
-					$error = "Le mot de passe et la confirmation du mot de passe doivent être identique.";
+					$error = FormReturnMessage::PASSWORD_CPASSWORD_NOT_MATCH;
 				}
 			} else {
-				$error = "Un champ n'est pas correctement remplie.";
+				$error = FormReturnMessage::MISSING_FIELD;
 			}
 
-			$this->render("@client/pages/register.html.twig", [
+			$this->render($template, [
 				'error' => $error, 
 				'form' => [
 					'firstName' => $firstName, 
@@ -123,13 +126,15 @@ class AccountController extends Controller {
 			exit();
 		}
 
-		$this->render("@client/pages/register.html.twig");
+		$this->render($template);
 	}
 
 	/**
 	 * @return void
 	 */
 	public function resend(): void {
+		$template = "@client/pages/resend.html.twig";
+
 		if (isset($_POST['submitButton'])) {
 			extract($_POST);
 
@@ -144,31 +149,31 @@ class AccountController extends Controller {
 					if (!$user->getVerified()) {
 						(new SendMail)->sendVerificationMail($user);
 
-						$success = "Le mail de verification a bien été renvoyer.";
+						$success = FormReturnMessage::VERIFICATION_MAIL_RESEND;
 
-						$this->render("@client/pages/resend.html.twig", [
+						$this->render($template, [
 							'success' => $success, 
 						]);
 
 						exit();
 					} else {
-						$error = "Votre compte est déjà vérifier.";
+						$error = FormReturnMessage::ACCOUNT_ALREADY_VERIFIED;
 					}
 				} else {
-					$error = "Aucun compte n'existe avec cette adresse email.";
+					$error = FormReturnMessage::NO_ACCOUNT_FOR_EMAIL;
 				}
 			} else {
-				$error = "Un champ n'est pas correctement remplie.";
+				$error = FormReturnMessage::MISSING_FIELD;
 			}
 
-			$this->render("@client/pages/resend.html.twig", [
+			$this->render($template, [
 				'error' => $error, 
 			]);
 
 			exit();
 		}
 
-		$this->render("@client/pages/resend.html.twig");
+		$this->render($template);
 	}
 
 	/**
@@ -190,15 +195,15 @@ class AccountController extends Controller {
 				$userManager->update($user);
 
 				$this->render("@client/pages/verify.html.twig", [
-					'success' => "Votre compte a bien été vérifier.", 
+					'success' => FormReturnMessage::ACCOUNT_SUCCESSFULLY_VERIFIED, 
 				]);
 
 				exit();
 			} else {
-				$error = "Ce token de vérification a déjà été utiliser, votre compte est déjà vérifier.";
+				$error = FormReturnMessage::VERIFICATION_TOKEN_ALREADY_USED;
 			}
 		} else {
-			$error = "Aucun compte n'est associé a ce token de vérification, essayer de demander un réenvoie.";
+			$error = FormReturnMessage::NO_ACCOUNT_FOR_VERIFICATION_TOKEN;
 		}
 
 		$this->render("@client/pages/verify.html.twig", [
