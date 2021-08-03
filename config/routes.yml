@@ -48,6 +48,16 @@ verify:
   controller: AccountController
   action: verify
   parameters: [verificationToken]
+forget:
+  uri: /forget
+  controller: AccountController
+  action: forget
+  parameters: []
+newPassword:
+  uri: /forget/([a-zA-Z0-9-]+)
+  controller: AccountController
+  action: forget
+  parameters: [forgotPasswordToken]
 profile:
   uri: /admin
   controller: AdminController

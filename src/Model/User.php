@@ -19,6 +19,8 @@ class User extends Entity {
 
 	private $verificationToken;
 
+	private $forgotPasswordToken;
+
 	/**
 	 * @return string
 	 */
@@ -124,9 +126,9 @@ class User extends Entity {
 	}
 
 	/**
-	 * @return string
+	 * @return string|null
 	 */
-	public function getVerificationToken() : string {
+	public function getVerificationToken() {
 		return $this->verificationToken;
 	}
 
@@ -141,5 +143,25 @@ class User extends Entity {
 		}
 
 		$this->verificationToken = $verificationToken;
+	}
+
+	/**
+	 * @return string|null
+	 */
+	public function getForgotPasswordToken() {
+		return $this->forgotPasswordToken;
+	}
+
+	/**
+	 * @param string|null $forgotPasswordToken
+	 * 
+	 * @return void
+	 */
+	public function setForgotPasswordToken($forgotPasswordToken): void {
+		if (!is_null($forgotPasswordToken) && !is_string($forgotPasswordToken)) {
+			throw new TypeError("forgotPasswordToken must be of the type string or null");
+		}
+
+		$this->forgotPasswordToken = $forgotPasswordToken;
 	}
 }

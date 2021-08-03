@@ -55,4 +55,28 @@ class SendMail {
 			[$user->getEmail(), $user->getFirstName(). " ". $user->getLastName()]
 		], "Vérification de votre compte", $html, "Bonjour, pour vérifier votre compte merci de suivre le lien ci-dessous :\n\n". $verificationLink);
 	}
+
+	/**
+	 * @param User $user
+	 * 
+	 * @return void
+	 */
+	public function sendForgotPasswordMail(User $user): void {
+		$mail = new Mail();
+
+		$twig = new Twig();
+
+		$forgotPasswordLink = "http". "://". $_SERVER['HTTP_HOST']. "/forget/". $user->getForgotPasswordToken();
+
+		$html = $twig->render("@mail/pages/forget.html.twig", [
+			'link' => $forgotPasswordLink, 
+		]);
+
+		$mail->send([
+			"no-reply@play-for-eternity.net", 
+			"Parnell Polliotti's Blog"
+		], [
+			[$user->getEmail(), $user->getFirstName(). " ". $user->getLastName()]
+		], "Mot de passe oublié", $html, "Bonjour, pour changer votre mot de passe merci de suivre le lien ci-dessous :\n\n". $forgotPasswordLink);
+	}
 }
