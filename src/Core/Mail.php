@@ -28,7 +28,17 @@ class Mail {
 		}
 	}
 
-	public function send(array $from, array $tos, string $subject, string $html, string $text): void {
+	/**
+	 * @param array $from
+	 * @param array $tos
+	 * @param string $subject
+	 * @param string $html
+	 * @param string $text
+	 * @param array $reply
+	 * 
+	 * @return void
+	 */
+	public function send(array $from, array $tos, string $subject, string $html, string $text, array $reply = []): void {
 		$mail = new PHPMailer(true);
 
 		try {
@@ -64,6 +74,14 @@ class Mail {
 					$mail->addAddress($to[0], $to[1]);
 				} else {
 					$mail->addAddress($to[0]);
+				}
+			}
+
+			foreach ($reply as $r) {
+				if (sizeof($r) == 2) {
+					$mail->addReplyTo($r[0], $r[1]);
+				} else {
+					$mail->addReplyTo($r[0]);
 				}
 			}
 

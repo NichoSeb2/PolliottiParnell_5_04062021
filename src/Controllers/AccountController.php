@@ -14,46 +14,46 @@ class AccountController extends Controller {
 	 * @return void
 	 */
 	public function login(): void {
-		if (isset($_POST['submitButton'])) {
-			extract($_POST);
-
-			if (!empty($email) && !empty($password)) {
-				$userManager = new UserManager();
-
-				$user = $userManager->findOneBy([
-					'email' => $email, 
-				]);
-
-				if (!is_null($user)) {
-					if ($user->getVerified()) {
-						if (password_verify($password, $user->getPassword())) {
-							(new UserLogged)->redirectUser($user);
-
-							exit();
-						} else {
-							$error = FormReturnMessage::WRONG_PASSWORD;
-						}
-					} else {
-						$error = FormReturnMessage::ACCOUNT_NOT_VERIFIED;
-					}
-				} else {
-					$error = FormReturnMessage::NO_ACCOUNT_FOR_EMAIL;
-				}
-			} else {
-				$error = FormReturnMessage::MISSING_FIELD;
-			}
-
-			$this->render("@client/pages/login.html.twig", [
-				'error' => $error, 
-				'form' => [
-					'email' => $email, 
-				], 
-			]);
+		if (!isset($_POST['submitButton'])) {
+			$this->render("@client/pages/login.html.twig");
 
 			exit();
 		}
 
-		$this->render("@client/pages/login.html.twig");
+		extract($_POST);
+
+		if (isset($email, $password)) {
+			$userManager = new UserManager();
+
+			$user = $userManager->findOneBy([
+				'email' => $email, 
+			]);
+
+			if (!is_null($user)) {
+				if ($user->getVerified()) {
+					if (password_verify($password, $user->getPassword())) {
+						(new UserLogged)->redirectUser($user);
+
+						exit();
+					} else {
+						$error = FormReturnMessage::WRONG_PASSWORD;
+					}
+				} else {
+					$error = FormReturnMessage::ACCOUNT_NOT_VERIFIED;
+				}
+			} else {
+				$error = FormReturnMessage::NO_ACCOUNT_FOR_EMAIL;
+			}
+		} else {
+			$error = FormReturnMessage::MISSING_FIELD;
+		}
+
+		$this->render("@client/pages/login.html.twig", [
+			'error' => $error, 
+			'form' => [
+				'email' => $email, 
+			], 
+		]);
 	}
 
 	/**
@@ -267,11 +267,7 @@ class AccountController extends Controller {
 	public function newPassword(): void {
 		$template = "@client/pages/newPassword.html.twig";
 
-		$forgotPasswordToken = null;
-
-		if (isset($this->params['forgotPasswordToken'])) {
-			$forgotPasswordToken = $this->params['forgotPasswordToken'];
-		}
+		$forgotPasswordToken = $this->params['forgotPasswordToken'];
 
 		$userManager = new UserManager();
 
