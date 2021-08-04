@@ -19,7 +19,7 @@ class Post extends Entity {
 
 	private string $altCoverageImage;
 
-	private array $comments;
+	private array $comments = [];
 
 	/**
 	 * @return int

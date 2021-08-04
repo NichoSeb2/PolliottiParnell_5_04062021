@@ -127,15 +127,39 @@ class Manager {
 	}
 
 	/**
+	 * @param bool $value
+	 * 
+	 * @return int
+	 */
+	protected function _escapeBool(bool $value): int {
+		return $value ? 1 : 0;
+	}
+
+	/**
+	 * @param mixed $value
+	 * 
+	 * @return mixed
+	 */
+	protected function _escapeValue($value) {
+		if (is_string($value)) {
+			$value = $this->_escapeString($value);
+		} else if (is_bool($value)) {
+			$value = $this->_escapeBool($value);
+		} else if (is_null($value)) {
+			$value = "NULL";
+		}
+
+		return $value;
+	}
+
+	/**
 	 * @param array $values
 	 * 
 	 * @return array
 	 */
 	protected function _escapeArray(array $values): array {
 		foreach ($values as $key => $value) {
-			if (is_string($value)) {
-				$values[$key] = $this->_escapeString($value);
-			}
+			$values[$key] = $this->_escapeValue($value);
 		}
 
 		return $values;
@@ -150,14 +174,12 @@ class Manager {
 		$result = [];
 
 		foreach ($data as $key => $value) {
-			// this conversion need to be in first so the date formatted can be escaped as a string
+			// this conversion need to be in first and separated so the date formatted can be escaped as a string
 			if ($value instanceof DateTime) {
 				$value = $value->format($this->dateFormat);
 			}
 
-			if (is_string($value)) {
-				$value = $this->_escapeString($value);
-			}
+			$value = $this->_escapeValue($value);
 
 			$result[] = $key. " = ". $value;
 		}

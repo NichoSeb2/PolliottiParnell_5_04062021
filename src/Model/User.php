@@ -2,6 +2,7 @@
 namespace App\Model;
 
 use App\Core\Entity;
+use TypeError;
 
 class User extends Entity {
 	private string $role;
@@ -13,6 +14,12 @@ class User extends Entity {
 	private string $email;
 
 	private string $password;
+
+	private bool $verified;
+
+	private $verificationToken;
+
+	private $forgotPasswordToken;
 
 	/**
 	 * @return string
@@ -100,5 +107,61 @@ class User extends Entity {
 	 */
 	public function setPassword(string $password): void {
 		$this->password = $password;
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function getVerified() : bool {
+		return $this->verified;
+	}
+
+	/**
+	 * @param bool $verified
+	 * 
+	 * @return void
+	 */
+	public function setVerified(bool $verified): void {
+		$this->verified = $verified;
+	}
+
+	/**
+	 * @return string|null
+	 */
+	public function getVerificationToken() {
+		return $this->verificationToken;
+	}
+
+	/**
+	 * @param string|null $verificationToken
+	 * 
+	 * @return void
+	 */
+	public function setVerificationToken($verificationToken): void {
+		if (!is_null($verificationToken) && !is_string($verificationToken)) {
+			throw new TypeError("verificationToken must be of the type string or null");
+		}
+
+		$this->verificationToken = $verificationToken;
+	}
+
+	/**
+	 * @return string|null
+	 */
+	public function getForgotPasswordToken() {
+		return $this->forgotPasswordToken;
+	}
+
+	/**
+	 * @param string|null $forgotPasswordToken
+	 * 
+	 * @return void
+	 */
+	public function setForgotPasswordToken($forgotPasswordToken): void {
+		if (!is_null($forgotPasswordToken) && !is_string($forgotPasswordToken)) {
+			throw new TypeError("forgotPasswordToken must be of the type string or null");
+		}
+
+		$this->forgotPasswordToken = $forgotPasswordToken;
 	}
 }

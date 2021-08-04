@@ -2,7 +2,9 @@
 namespace App\Controllers;
 
 use App\Core\Controller;
+use App\Service\SendMail;
 use App\Managers\PostManager;
+use App\Service\FormReturnMessage;
 
 class IndexController extends Controller {	
 	/**
@@ -24,6 +26,24 @@ class IndexController extends Controller {
 	 * @return void
 	 */
 	public function showContact(): void {
-		$this->render("@client/pages/contact.html.twig");
+		$success = null;
+		$error = null;
+
+		if (isset($_POST['submitButton'])) {
+			extract($_POST);
+
+			if (!empty($name) && !empty($email) && !empty($message) && !empty($subject)) {
+				(new SendMail)->sendContactMail($name, $email, $subject, $message);
+
+				$success = FormReturnMessage::MESSAGE_SUCCESSFULLY_SEND;
+			} else {
+				$error = FormReturnMessage::MISSING_FIELD;
+			}
+		}
+
+		$this->render("@client/pages/contact.html.twig", [
+			'success' => $success, 
+			'error' => $error, 
+		]);
 	}
 }
