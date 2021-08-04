@@ -22,6 +22,8 @@ class FormReturnMessage {
 
 	const ACCOUNT_SUCCESSFULLY_VERIFIED = "Votre compte a bien été vérifier.";
 
+	const ACCOUNT_NOT_VERIFIED = "Votre compte n'est pas vérifié, vous ne pouvez donc pas vous connecter.";
+
 	const VERIFICATION_MAIL_RESEND = "Le mail de verification a bien été renvoyer.";
 
 	const MESSAGE_SUCCESSFULLY_SEND = "Votre message a bien été envoyé, une réponse vous sera transmise au plus vite.";

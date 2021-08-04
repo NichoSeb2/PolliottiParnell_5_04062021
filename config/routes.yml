@@ -56,7 +56,7 @@ forget:
 newPassword:
   uri: /forget/([a-zA-Z0-9-]+)
   controller: AccountController
-  action: forget
+  action: newPassword
   parameters: [forgotPasswordToken]
 profile:
   uri: /admin

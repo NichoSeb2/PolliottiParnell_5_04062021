@@ -25,12 +25,16 @@ class AccountController extends Controller {
 				]);
 
 				if (!is_null($user)) {
-					if (password_verify($password, $user->getPassword())) {
-						(new UserLogged)->redirectUser($user);
+					if ($user->getVerified()) {
+						if (password_verify($password, $user->getPassword())) {
+							(new UserLogged)->redirectUser($user);
 
-						exit();
+							exit();
+						} else {
+							$error = FormReturnMessage::WRONG_PASSWORD;
+						}
 					} else {
-						$error = FormReturnMessage::WRONG_PASSWORD;
+						$error = FormReturnMessage::ACCOUNT_NOT_VERIFIED;
 					}
 				} else {
 					$error = FormReturnMessage::NO_ACCOUNT_FOR_EMAIL;
@@ -216,6 +220,53 @@ class AccountController extends Controller {
 	 * @return void
 	 */
 	public function forget(): void {
+		$template = "@client/pages/forget.html.twig";
+
+		if (isset($_POST['submitButton'])) {
+			extract($_POST);
+
+			if (!empty($email)) {
+				$userManager = new UserManager();
+
+				$user = $userManager->findOneBy([
+					'email' => $email, 
+				]);
+
+				if (!is_null($user)) {
+					$user->setForgotPasswordToken(Uuid::uuid4()->toString());
+
+					$userManager->update($user);
+
+					(new SendMail)->sendForgotPasswordMail($user);
+
+					$this->render($template, [
+						'success' => FormReturnMessage::FORGOT_PASSWORD_MAIL_SEND, 
+					]);
+
+					exit();
+				} else {
+					$error = FormReturnMessage::NO_ACCOUNT_FOR_EMAIL;
+				}
+			} else {
+				$error = FormReturnMessage::MISSING_FIELD;
+			}
+
+			$this->render($template, [
+				'error' => $error, 
+			]);
+
+			exit();
+		}
+
+		$this->render($template);
+	}
+
+	/**
+	 * @return void
+	 */
+	public function newPassword(): void {
+		$template = "@client/pages/newPassword.html.twig";
+
 		$forgotPasswordToken = null;
 
 		if (isset($this->params['forgotPasswordToken'])) {
@@ -224,86 +275,52 @@ class AccountController extends Controller {
 
 		$userManager = new UserManager();
 
-		if (!is_null($forgotPasswordToken)) {
-			$user = $userManager->findOneBy([
-				'forgot_password_token' => $forgotPasswordToken, 
-			]);
+		$user = $userManager->findOneBy([
+			'forgot_password_token' => $forgotPasswordToken, 
+		]);
 
-			if (!is_null($user)) {
-				if (isset($_POST['submitButton'])) {
-					extract($_POST);
-
-					if (!empty($password) && !empty($confirmPassword)) {
-						if ($password === $confirmPassword) {
-							$options = [
-								'cost' => 12,
-							];
-
-							$user->setPassword(password_hash($password, PASSWORD_BCRYPT, $options));
-
-							$userManager->update($user);
-
-							$this->render("@client/pages/newPassword.html.twig", [
-								'forgotPasswordToken' => $forgotPasswordToken, 
-								'success' => FormReturnMessage::PASSWORD_SUCCESSFULLY_CHANGED, 
-							]);
-
-							exit();
-						} else {
-							$error = FormReturnMessage::PASSWORD_CPASSWORD_NOT_MATCH;
-						}
-					} else {
-						$error = FormReturnMessage::MISSING_FIELD;
-					}
-				} else {
-					$this->render("@client/pages/newPassword.html.twig", [
-						'forgotPasswordToken' => $forgotPasswordToken, 
-					]);
-
-					exit();
-				}
-			} else {
-				$error = FormReturnMessage::NO_ACCOUNT_FOR_FORGOT_PASSWORD_TOKEN;
-			}
-
-			$this->render("@client/pages/newPassword.html.twig", [
-				'forgotPasswordToken' => $forgotPasswordToken, 
-				'error' => $error, 
-			]);
-		} else {
+		if (!is_null($user)) {
 			if (isset($_POST['submitButton'])) {
 				extract($_POST);
 
-				if (!empty($email)) {
-					$user = $userManager->findOneBy([
-						'email' => $email, 
-					]);
+				if (!empty($password) && !empty($confirmPassword)) {
+					if ($password === $confirmPassword) {
+						$options = [
+							'cost' => 12,
+						];
 
-					if (!is_null($user)) {
-						$user->setForgotPasswordToken(Uuid::uuid4()->toString());
+						$user->setPassword(password_hash($password, PASSWORD_BCRYPT, $options));
+
+						$user->setForgotPasswordToken(null);
 
 						$userManager->update($user);
 
-						(new SendMail)->sendForgotPasswordMail($user);
-
-						$this->render("@client/pages/forget.html.twig", [
-							'success' => FormReturnMessage::FORGOT_PASSWORD_MAIL_SEND, 
+						$this->render($template, [
+							'forgotPasswordToken' => $forgotPasswordToken, 
+							'success' => FormReturnMessage::PASSWORD_SUCCESSFULLY_CHANGED, 
 						]);
 
 						exit();
 					} else {
-						$error = FormReturnMessage::NO_ACCOUNT_FOR_EMAIL;
+						$error = FormReturnMessage::PASSWORD_CPASSWORD_NOT_MATCH;
 					}
 				} else {
 					$error = FormReturnMessage::MISSING_FIELD;
 				}
-
-				$this->render("@client/pages/forget.html.twig", [
-					'error' => $error, 
+			} else {
+				$this->render($template, [
+					'forgotPasswordToken' => $forgotPasswordToken, 
 				]);
-			}
 
-			$this->render("@client/pages/forget.html.twig");
+				exit();
+			}
+		} else {
+			$error = FormReturnMessage::NO_ACCOUNT_FOR_FORGOT_PASSWORD_TOKEN;
 		}
+
+		$this->render($template, [
+			'forgotPasswordToken' => $forgotPasswordToken, 
+			'error' => $error, 
+		]);
 	}
 }
