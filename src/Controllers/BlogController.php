@@ -42,17 +42,15 @@ class BlogController extends Controller {
 			$page = (int) $this->params['page'];
 		}
 
-		$post = (new PostManager)->findBy([], [
-			'created_at' => "DESC", 
-		]);
-
-		$maxPage = (int) ceil(sizeof($post) / $this->nbPostPerPage);
+		$maxPage = (int) ceil((new PostManager)->count() / $this->nbPostPerPage);
 
 		$postDisplay = new PostDisplay();
 
 		$page = $postDisplay->validatePage($page, $this->minPage, $maxPage);
 
-		$post = $postDisplay->filterPost($post, ($page - 1) * $this->nbPostPerPage, ($page * $this->nbPostPerPage) - 1);
+		$post = (new PostManager)->findBy([], [
+			'created_at' => "DESC", 
+		], $this->nbPostPerPage, ($page - 1) * $this->nbPostPerPage);
 
 		$this->render("@client/pages/blog.html.twig", [
 			'post' => $post, 

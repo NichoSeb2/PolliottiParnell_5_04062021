@@ -319,4 +319,16 @@ class Manager {
 
 		$this->pdo->query($sql);
 	}
+
+	/**
+	 * @return int
+	 */
+	public function count(): int {
+		$sql = "SELECT COUNT(*) FROM ". $this->tableName;
+
+		$request = $this->pdo->query($sql);
+		$result = $request->fetch();
+
+		return (int) $result[0];
+	}
 }
