@@ -4,8 +4,8 @@ namespace App\Core;
 use PDO;
 use DateTime;
 use App\Core\Entity;
-use App\Exceptions\SQLException;
 use ReflectionClass;
+use App\Exceptions\SQLException;
 
 class Manager {
 	protected string $dateFormat = "Y-m-d H:i:s";
@@ -110,7 +110,14 @@ class Manager {
 				// Convert PascalCase to snake_case
 				$key = strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', str_replace("get", "", $function)));
 
-				$result[$key] = $entity->$function();
+				$value = $entity->$function();
+
+				// discard all entity
+				if ($value instanceof Entity) {
+					continue;
+				}
+
+				$result[$key] = $value;
 			}
 		}
 
@@ -174,6 +181,11 @@ class Manager {
 		$result = [];
 
 		foreach ($data as $key => $value) {
+			// discard all entity
+			if ($value instanceof Entity) {
+				continue;
+			}
+
 			// this conversion need to be in first and separated so the date formatted can be escaped as a string
 			if ($value instanceof DateTime) {
 				$value = $value->format($this->dateFormat);
