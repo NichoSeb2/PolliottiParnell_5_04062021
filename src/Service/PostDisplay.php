@@ -20,20 +20,4 @@ class PostDisplay {
 
 		return $page;
 	}
-
-	/**
-	 * @param array $post
-	 * 
-	 * @return array
-	 */
-	public function filterPost(array $post, int $firstPostToDisplay, int $lastPostToDisplay): array {
-		$this->firstPostToDisplay = $firstPostToDisplay;
-		$this->lastPostToDisplay = $lastPostToDisplay;
-
-		$post = array_filter($post, function($index) {
-			return $index >= $this->firstPostToDisplay && $index <= $this->lastPostToDisplay;
-		}, ARRAY_FILTER_USE_KEY);
-
-		return $post;
-	}
 }

@@ -25,9 +25,11 @@ class PostManager extends Manager {
 			'created_at' => "temp_comment_created_at", 
 			'updated_at' => "temp_comment_updated_at", 
 			'content' => "temp_comment_content", 
-		], "c"). " FROM post AS p JOIN comment AS c ON p.id = c.post_id";
+		], "c"). " FROM post AS p LEFT JOIN comment AS c ON p.id = c.post_id";
 
 		$sql = $this->_appendIfCorrect($sql, $where, $orderBy, $limit, $offset);
+
+		$sql .= " OR c.status IS NULL";
 
 		$request = $this->pdo->query($sql);
 		$results = $request->fetchAll();
@@ -45,14 +47,16 @@ class PostManager extends Manager {
 			foreach ($results as $result) {
 				$tempCommentData = $result;
 
-				$tempCommentData['id'] = $tempCommentData['temp_comment_id'];
-				$tempCommentData['created_at'] = $tempCommentData['temp_comment_created_at'];
-				$tempCommentData['updated_at'] = $tempCommentData['temp_comment_updated_at'];
-				$tempCommentData['content'] = $tempCommentData['temp_comment_content'];
+				if (!is_null($tempCommentData['temp_comment_id'])) {
+					$tempCommentData['id'] = $tempCommentData['temp_comment_id'];
+					$tempCommentData['created_at'] = $tempCommentData['temp_comment_created_at'];
+					$tempCommentData['updated_at'] = $tempCommentData['temp_comment_updated_at'];
+					$tempCommentData['content'] = $tempCommentData['temp_comment_content'];
 
-				$comment = new Comment($tempCommentData);
+					$comment = new Comment($tempCommentData);
 
-				$post->addComment($comment);
+					$post->addComment($comment);
+				}
 			}
 
 			return $post;
