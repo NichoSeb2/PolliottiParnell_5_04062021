@@ -116,6 +116,10 @@ class Comment extends Entity {
 	 * @return bool
 	 */
 	public function getStatus(): bool {
+		if (!isset($this->status)) {
+			$this->status = false;
+		}
+
 		return $this->status;
 	}
 
