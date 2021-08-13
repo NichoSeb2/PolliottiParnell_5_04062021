@@ -20,7 +20,6 @@ class BlogController extends Controller {
 
 		$post = $postManager->findOneByWithComment([
 			'p.slug' => $slug, 
-			'c.status' => true, 
 		]);
 
 		if (is_null($post)) {

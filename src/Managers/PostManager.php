@@ -47,7 +47,7 @@ class PostManager extends Manager {
 			foreach ($results as $result) {
 				$tempCommentData = $result;
 
-				if (!is_null($tempCommentData['temp_comment_id']) && $tempCommentData['status'] == true) {
+				if (!is_null($tempCommentData['temp_comment_id']) && ((bool) $tempCommentData['status'])) {
 					$tempCommentData['id'] = $tempCommentData['temp_comment_id'];
 					$tempCommentData['created_at'] = $tempCommentData['temp_comment_created_at'];
 					$tempCommentData['updated_at'] = $tempCommentData['temp_comment_updated_at'];
@@ -61,11 +61,9 @@ class PostManager extends Manager {
 
 			return $post;
 		} else {
-			$post = $this->findOneBy([
+			return $this->findOneBy([
 				'slug' => $where['p.slug'], 
 			]);
-
-			return $post;
 		}
 	}
 }
