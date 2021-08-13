@@ -2,8 +2,9 @@
 namespace App\Controllers;
 
 use App\Core\Controller;
-use App\Service\SendMail;
+use App\Service\FormHandler;
 use App\Managers\PostManager;
+use App\Exceptions\FormException;
 use App\Service\FormReturnMessage;
 
 class IndexController extends Controller {	
@@ -26,24 +27,24 @@ class IndexController extends Controller {
 	 * @return void
 	 */
 	public function showContact(): void {
-		$success = null;
-		$error = null;
+		if (!isset($_POST['submitButton'])) {
+			$this->render("@client/pages/contact.html.twig");
 
-		if (isset($_POST['submitButton'])) {
-			extract($_POST);
-
-			if (!empty($name) && !empty($email) && !empty($message) && !empty($subject)) {
-				(new SendMail)->sendContactMail($name, $email, $subject, $message);
-
-				$success = FormReturnMessage::MESSAGE_SUCCESSFULLY_SEND;
-			} else {
-				$error = FormReturnMessage::MISSING_FIELD;
-			}
+			exit();
 		}
 
-		$this->render("@client/pages/contact.html.twig", [
-			'success' => $success, 
-			'error' => $error, 
-		]);
+		if (isset($_POST['submitButton'])) {
+			try {
+				(new FormHandler)->contact($_POST);
+
+				$this->render("@client/pages/contact.html.twig", [
+					'success' => FormReturnMessage::MESSAGE_SUCCESSFULLY_SEND, 
+				]);
+			} catch (FormException $e) {
+				$this->render("@client/pages/contact.html.twig", [
+					'error' => $e->getMessage(), 
+				]);
+			}
+		}
 	}
 }

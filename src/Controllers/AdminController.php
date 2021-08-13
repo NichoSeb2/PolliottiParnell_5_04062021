@@ -3,8 +3,10 @@ namespace App\Controllers;
 
 use App\Core\Controller;
 use App\Service\AdminLogged;
+use App\Service\FormHandler;
 use App\Managers\PostManager;
 use App\Managers\SocialManager;
+use App\Exceptions\FormException;
 use App\Exceptions\RequestedEntityNotFound;
 
 class AdminController extends Controller {
@@ -13,6 +15,28 @@ class AdminController extends Controller {
 	 */
 	public function showProfile(): void {
 		(new AdminLogged)->adminLogged(function($admin) {
+			if (isset($_POST['submitButtonAccount'])) {
+				try {
+					(new FormHandler)->editAccount($_POST);
+
+					$admin = (new AdminLogged)->refreshAdmin($admin);
+
+					$this->render("@admin/pages/profile.html.twig", [
+						'active' => "profile", 
+						'admin' => $admin, 
+						'accountSuccess' => true, 
+					]);
+				} catch (FormException $e) {
+					$this->render("@admin/pages/profile.html.twig", [
+						'active' => "profile", 
+						'admin' => $admin, 
+						'accountError' => $e->getMessage(), 
+					]);
+				}
+
+				exit();
+			}
+
 			$this->render("@admin/pages/profile.html.twig", [
 				'active' => "profile", 
 				'admin' => $admin, 

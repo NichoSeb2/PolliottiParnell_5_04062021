@@ -23,11 +23,6 @@ singlePost:
   controller: BlogController
   action: showPost
   parameters: ["slug"]
-addComment:
-  uri: /blog/([a-zA-Z0-9-]+)/comment/add
-  controller: CommentController
-  action: addComment
-  parameters: ["slug"]
 login:
   uri: /login
   controller: AccountController
