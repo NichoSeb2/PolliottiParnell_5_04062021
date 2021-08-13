@@ -15,12 +15,12 @@ class PostManager extends Manager {
 	 * @return Post|null
 	 */
 	public function findOneByWithComment(array $where = [], array $orderBy = [], int $limit = null, int $offset = null) {
-		$sql = "SELECT *, ". $this->_computeField([
+		$sql = "SELECT p.*, ". $this->_computeField([
 			'id' => "temp_post_id", 
 			'created_at' => "temp_post_created_at", 
 			'updated_at' => "temp_post_updated_at", 
 			'content' => "temp_post_content", 
-		], "p"). ", ". $this->_computeField([
+		], "p"). ", c.*, ". $this->_computeField([
 			'id' => "temp_comment_id", 
 			'created_at' => "temp_comment_created_at", 
 			'updated_at' => "temp_comment_updated_at", 
@@ -29,7 +29,7 @@ class PostManager extends Manager {
 
 		$sql = $this->_appendIfCorrect($sql, $where, $orderBy, $limit, $offset);
 
-		$sql .= " OR c.status IS NULL";
+		$sql .= " AND (c.status = true OR c.status IS NULL)";
 
 		$request = $this->pdo->query($sql);
 		$results = $request->fetchAll();
@@ -47,7 +47,7 @@ class PostManager extends Manager {
 			foreach ($results as $result) {
 				$tempCommentData = $result;
 
-				if (!is_null($tempCommentData['temp_comment_id'])) {
+				if (!is_null($tempCommentData['temp_comment_id']) && $tempCommentData['status'] == true) {
 					$tempCommentData['id'] = $tempCommentData['temp_comment_id'];
 					$tempCommentData['created_at'] = $tempCommentData['temp_comment_created_at'];
 					$tempCommentData['updated_at'] = $tempCommentData['temp_comment_updated_at'];
@@ -61,7 +61,11 @@ class PostManager extends Manager {
 
 			return $post;
 		} else {
-			return null;
+			$post = $this->findOneBy([
+				'slug' => $where['p.slug'], 
+			]);
+
+			return $post;
 		}
 	}
 }

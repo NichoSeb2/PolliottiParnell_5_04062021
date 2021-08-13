@@ -36,6 +36,7 @@ class Twig {
 		$twig->addGlobal('connected', (!empty($_SESSION['id']) && is_numeric($_SESSION['id'])));
 		$twig->addGlobal('socials', TwigGlobalVariable::getSocials());
 		$twig->addGlobal('admin', TwigGlobalVariable::getAdmin());
+		$twig->addGlobal('blog', TwigGlobalVariable::getBlog());
 
 		$this->twig = $twig;
 	}

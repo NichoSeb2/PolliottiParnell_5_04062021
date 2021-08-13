@@ -14,6 +14,7 @@ use App\Exceptions\ConfigException;
 use App\Controllers\ErrorController;
 use App\Exceptions\ControllerNotFound;
 use App\Exceptions\AccessDeniedException;
+use App\Exceptions\MailException;
 use App\Exceptions\RequestedEntityNotFound;
 
 try {
@@ -37,7 +38,7 @@ catch (ControllerNotFound | RequestedEntityNotFound $e) {
 
 	$controller->execute();
 }
-catch (TwigException | ConfigException | SQLException | PDOException $e) {
+catch (TwigException | ConfigException | SQLException | PDOException | MailException $e) {
 	$controller = new ErrorController("show500", [
 		"message" => $e
 	]);
