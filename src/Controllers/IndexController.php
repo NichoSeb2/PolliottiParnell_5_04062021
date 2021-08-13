@@ -27,8 +27,10 @@ class IndexController extends Controller {
 	 * @return void
 	 */
 	public function showContact(): void {
+		$template = "@client/pages/contact.html.twig";
+
 		if (!isset($_POST['submitButton'])) {
-			$this->render("@client/pages/contact.html.twig");
+			$this->render($template);
 
 			exit();
 		}
@@ -37,11 +39,11 @@ class IndexController extends Controller {
 			try {
 				(new FormHandler)->contact($_POST);
 
-				$this->render("@client/pages/contact.html.twig", [
+				$this->render($template, [
 					'success' => FormReturnMessage::MESSAGE_SUCCESSFULLY_SEND, 
 				]);
 			} catch (FormException $e) {
-				$this->render("@client/pages/contact.html.twig", [
+				$this->render($template, [
 					'error' => $e->getMessage(), 
 				]);
 			}

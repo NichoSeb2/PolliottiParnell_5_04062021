@@ -15,19 +15,21 @@ class AdminController extends Controller {
 	 */
 	public function showProfile(): void {
 		(new AdminLogged)->adminLogged(function($admin) {
+			$template = "@admin/pages/profile.html.twig";
+
 			if (isset($_POST['submitButtonAccount'])) {
 				try {
 					(new FormHandler)->editAccount($_POST);
 
 					$admin = (new AdminLogged)->refreshAdmin($admin);
 
-					$this->render("@admin/pages/profile.html.twig", [
+					$this->render($template, [
 						'active' => "profile", 
 						'admin' => $admin, 
 						'accountSuccess' => true, 
 					]);
 				} catch (FormException $e) {
-					$this->render("@admin/pages/profile.html.twig", [
+					$this->render($template, [
 						'active' => "profile", 
 						'admin' => $admin, 
 						'accountError' => $e->getMessage(), 
@@ -37,7 +39,7 @@ class AdminController extends Controller {
 				exit();
 			}
 
-			$this->render("@admin/pages/profile.html.twig", [
+			$this->render($template, [
 				'active' => "profile", 
 				'admin' => $admin, 
 			]);
