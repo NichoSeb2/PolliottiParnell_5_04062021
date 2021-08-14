@@ -159,19 +159,21 @@ class AdminController extends Controller {
 	 */
 	public function addSocial(): void {
 		(new AdminLogged)->adminLogged(function($admin) {
+			$template = "@admin/pages/social_add.html.twig";
+
 			if (isset($_POST['submitButton'])) {
 				try {
 					$social = (new FormHandler)->editSocial($_POST);
 
 					(new SocialManager)->create($social);
 
-					$this->render("@admin/pages/social_add.html.twig", [
+					$this->render($template, [
 						'active' => "addSocial", 
 						'admin' => $admin, 
 						'success' => "Le lien social a bien été ajouter.", 
 					]);
 				} catch (FormException $e) {
-					$this->render("@admin/pages/social_add.html.twig", [
+					$this->render($template, [
 						'active' => "addSocial", 
 						'admin' => $admin, 
 						'error' => $e->getMessage(), 
@@ -181,7 +183,7 @@ class AdminController extends Controller {
 				exit();
 			}
 
-			$this->render("@admin/pages/social_add.html.twig", [
+			$this->render($template, [
 				'active' => "addSocial", 
 				'admin' => $admin, 
 			]);
@@ -193,6 +195,8 @@ class AdminController extends Controller {
 	 */
 	public function editSocial(): void {
 		(new AdminLogged)->adminLogged(function($admin) {
+			$template = "@admin/pages/social_edit.html.twig";
+
 			$id = $this->params['id'];
 
 			$socialManager = new SocialManager();
@@ -211,14 +215,14 @@ class AdminController extends Controller {
 
 					(new SocialManager)->update($social);
 
-					$this->render("@admin/pages/social_edit.html.twig", [
+					$this->render($template, [
 						'active' => "showSocial", 
 						'admin' => $admin, 
 						'social' => $social, 
 						'success' => "Le lien social a bien été mise a jour", 
 					]);
 				} catch (FormException $e) {
-					$this->render("@admin/pages/social_edit.html.twig", [
+					$this->render($template, [
 						'active' => "showSocial", 
 						'admin' => $admin, 
 						'social' => $social, 
@@ -229,7 +233,7 @@ class AdminController extends Controller {
 				exit();
 			}
 
-			$this->render("@admin/pages/social_edit.html.twig", [
+			$this->render($template, [
 				'active' => "showSocial", 
 				'admin' => $admin, 
 				'social' => $social, 
