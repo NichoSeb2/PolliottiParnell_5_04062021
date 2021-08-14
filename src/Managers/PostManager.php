@@ -25,11 +25,9 @@ class PostManager extends Manager {
 			'created_at' => "temp_comment_created_at", 
 			'updated_at' => "temp_comment_updated_at", 
 			'content' => "temp_comment_content", 
-		], "c"). " FROM post AS p LEFT JOIN comment AS c ON p.id = c.post_id";
+		], "c"). " FROM post AS p LEFT JOIN comment AS c ON p.id = c.post_id AND c.status = true";
 
 		$sql = $this->_appendIfCorrect($sql, $where, $orderBy, $limit, $offset);
-
-		$sql .= " AND (c.status = true OR c.status IS NULL)";
 
 		$request = $this->pdo->query($sql);
 		$results = $request->fetchAll();
@@ -60,10 +58,8 @@ class PostManager extends Manager {
 			}
 
 			return $post;
-		} else {
-			return $this->findOneBy([
-				'slug' => $where['p.slug'], 
-			]);
 		}
+
+		return null;
 	}
 }
