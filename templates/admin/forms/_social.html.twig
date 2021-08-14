@@ -1,18 +1,27 @@
-<form action="" method="post">
-	<input type="hidden" name="id" value="{{ social.id }}">
+<form action="{{ action }}" method="post">
 	<div class="form-group">
-		<label for="socialName">Nom du réseau social</label>
-		<input type="text" class="form-control" id="socialName" value="{{ social.name }}">
+		<label for="name">Nom du réseau social</label>
+		<input type="text" class="form-control" id="name" name="name" value="{{ social.name }}" required="">
 	</div>
 	<div class="row">
 		<div class="form-group col-12 col-md-6">
-			<label for="socialURL">Lien du réseau social</label>
-			<input type="text" class="form-control" id="socialURL" value="{{ social.url }}">
+			<label for="url">Lien du réseau social</label>
+			<input type="url" class="form-control" id="url" name="url" value="{{ social.url }}" required="">
 		</div>
 		<div class="form-group col-12 col-md-6">
-			<label for="socialIcon">Classe de l'icone font-awesome du réseau social</label>
-			<input type="text" class="form-control" id="socialIcon" value="{{ social.icon }}" placeholder="Ex : fab fa-twitter">
+			<label for="icon">Classe de l'icone font-awesome du réseau social</label>
+			<input type="text" class="form-control" id="icon" name="icon" value="{{ social.icon }}" placeholder="Ex : fab fa-twitter" required="">
 		</div>
 	</div>
-	<button type="submit" class="btn btn-primary">Sauvegarder</button>
+	<button type="submit" class="btn btn-primary" name="submitButton">Sauvegarder</button>
 </form>
+
+<br>
+
+{% if success is not null %}
+	<p class="text-success">{{success}}</p>
+{% endif %}
+
+{% if error is not null %}
+	<p class="text-danger">{{error}}</p>
+{% endif %}

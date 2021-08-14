@@ -39,6 +39,30 @@ class AdminController extends Controller {
 				exit();
 			}
 
+			if (isset($_POST['submitButtonPassword'])) {
+				try {
+					(new FormHandler)->editPassword($_POST);
+
+					$this->render($template, [
+						'active' => "profile", 
+						'admin' => $admin, 
+						'passwordSuccess' => true, 
+					]);
+				} catch (FormException $e) {
+					$this->render($template, [
+						'active' => "profile", 
+						'admin' => $admin, 
+						'passwordError' => $e->getMessage(), 
+					]);
+				}
+
+				exit();
+			}
+
+			if (isset($_POST['submitButtonAdminInfo'])) {
+				var_dump($_POST, $_FILES);
+			}
+
 			$this->render($template, [
 				'active' => "profile", 
 				'admin' => $admin, 
@@ -135,6 +159,28 @@ class AdminController extends Controller {
 	 */
 	public function addSocial(): void {
 		(new AdminLogged)->adminLogged(function($admin) {
+			if (isset($_POST['submitButton'])) {
+				try {
+					$social = (new FormHandler)->editSocial($_POST);
+
+					(new SocialManager)->create($social);
+
+					$this->render("@admin/pages/social_add.html.twig", [
+						'active' => "addSocial", 
+						'admin' => $admin, 
+						'success' => "Le lien social a bien été ajouter.", 
+					]);
+				} catch (FormException $e) {
+					$this->render("@admin/pages/social_add.html.twig", [
+						'active' => "addSocial", 
+						'admin' => $admin, 
+						'error' => $e->getMessage(), 
+					]);
+				}
+
+				exit();
+			}
+
 			$this->render("@admin/pages/social_add.html.twig", [
 				'active' => "addSocial", 
 				'admin' => $admin, 
@@ -159,6 +205,30 @@ class AdminController extends Controller {
 				throw new RequestedEntityNotFound("Social not found");
 			}
 
+			if (isset($_POST['submitButton'])) {
+				try {
+					$social = (new FormHandler)->editSocial($_POST, $social);
+
+					(new SocialManager)->update($social);
+
+					$this->render("@admin/pages/social_edit.html.twig", [
+						'active' => "showSocial", 
+						'admin' => $admin, 
+						'social' => $social, 
+						'success' => "Le lien social a bien été mise a jour", 
+					]);
+				} catch (FormException $e) {
+					$this->render("@admin/pages/social_edit.html.twig", [
+						'active' => "showSocial", 
+						'admin' => $admin, 
+						'social' => $social, 
+						'error' => $e->getMessage(), 
+					]);
+				}
+
+				exit();
+			}
+
 			$this->render("@admin/pages/social_edit.html.twig", [
 				'active' => "showSocial", 
 				'admin' => $admin, 
@@ -174,7 +244,17 @@ class AdminController extends Controller {
 		(new AdminLogged)->adminLogged(function() {
 			$id = $this->params['id'];
 
-			// no render. action and after redirect
+			$socialManager = new SocialManager();
+
+			$social = $socialManager->findOneBy([
+				'id' => $id, 
+			]);
+
+			if (!is_null($social)) {
+				$socialManager->delete($social);
+			}
+
+			header("Location: /admin/social");
 		});
 	}
 }

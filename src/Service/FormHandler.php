@@ -10,6 +10,7 @@ use App\Managers\CommentManager;
 use App\Exceptions\FormException;
 use App\Exceptions\AccessDeniedException;
 use App\Exceptions\RequestedEntityNotFound;
+use App\Model\Social;
 
 class FormHandler {
 	/**
@@ -242,6 +243,35 @@ class FormHandler {
 		}
 	}
 
+	public function editPassword(array $data): void {
+		extract($data);
+
+		if (isset($oldPassword, $password, $confirmPassword)) {
+			$userManager = new UserManager();
+
+			// omit verification if user null because function called by the admin controller
+			$user = $userManager->findConnected();
+
+			if (password_verify($oldPassword, $user->getPassword())) {
+				if ($password === $confirmPassword) {
+					$options = [
+						'cost' => 12,
+					];
+
+					$user->setPassword(password_hash($password, PASSWORD_BCRYPT, $options));
+
+					(new UserManager)->update($user);
+				} else {
+					throw new FormException(FormReturnMessage::PASSWORD_CPASSWORD_NOT_MATCH);
+				}
+			} else {
+				throw new FormException("Ancien mot de passe incorrect.");
+			}
+		} else {
+			throw new FormException(FormReturnMessage::MISSING_FIELD);
+		}
+	}
+
 	/**
 	 * @param array $data
 	 * 
@@ -276,6 +306,24 @@ class FormHandler {
 			}
 		} else {
 			throw new RequestedEntityNotFound();
+		}
+	}
+
+	function editSocial(array $data, Social $social = null): Social {
+		extract($data);
+
+		if (is_null($social)) {
+			$social = new Social();
+		}
+
+		if (isset($name, $url, $icon)) {
+			$social->setName($name);
+			$social->setUrl($url);
+			$social->setIcon($icon);
+
+			return $social;
+		} else {
+			throw new FormException(FormReturnMessage::MISSING_FIELD);
 		}
 	}
 }
