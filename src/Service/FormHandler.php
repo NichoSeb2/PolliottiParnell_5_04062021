@@ -9,7 +9,11 @@ use App\Managers\UserManager;
 use App\Managers\CommentManager;
 use App\Exceptions\FormException;
 use App\Exceptions\AccessDeniedException;
+use App\Exceptions\FileException;
+use App\Exceptions\FileServerException;
+use App\Exceptions\FileTooBigException;
 use App\Exceptions\RequestedEntityNotFound;
+use App\Managers\AdminManager;
 use App\Model\Social;
 
 class FormHandler {
@@ -243,6 +247,11 @@ class FormHandler {
 		}
 	}
 
+	/**
+	 * @param array $data
+	 * 
+	 * @return void
+	 */
 	public function editPassword(array $data): void {
 		extract($data);
 
@@ -265,8 +274,56 @@ class FormHandler {
 					throw new FormException(FormReturnMessage::PASSWORD_CPASSWORD_NOT_MATCH);
 				}
 			} else {
-				throw new FormException("Ancien mot de passe incorrect.");
+				throw new FormException(FormReturnMessage::OLD_PASSWORD_INCORRECT);
 			}
+		} else {
+			throw new FormException(FormReturnMessage::MISSING_FIELD);
+		}
+	}
+
+	/**
+	 * @param array $data
+	 * @param array $file
+	 * 
+	 * @return void
+	 */
+	public function editAdminInfo(array $data, array $file): void {
+		extract($data);
+
+		$adminManager = new AdminManager();
+
+		// omit verification if admin null because function called by the admin controller
+		$admin = $adminManager->findConnected();
+
+		try {
+			if (isset($file['CVFile']) && $file['CVFile']['error'] != 4) {
+				$targetFile = (new FileUploader)->upload($file['CVFile'], "uploads/", "cv", ['application/pdf']);
+
+				$admin->setUrlCv($targetFile);
+
+				$adminManager->update($admin);
+			}
+
+			if (isset($file['pictureFile']) && $file['pictureFile']['error'] != 4) {
+				$targetFile = (new FileUploader)->upload($file['pictureFile'], "uploads/", "pdp", FileUploader::IMAGE_TYPE);
+
+				$admin->setUrlPicture($targetFile);
+
+				$adminManager->update($admin);
+			}
+		} catch (FileTooBigException $e) {
+			throw new FormException($e->getMessage());
+		} catch (FileServerException $e) {
+			throw new FileServerException($e->getMessage());
+		} catch (FileException $e) {
+			throw new FormException(FormReturnMessage::ERROR_WHILE_UPLOADING_FILE_RETRY);
+		}
+
+		if (isset($catchPhrase, $pictureAlt)) {
+			$admin->setCatchPhrase($catchPhrase);
+			$admin->setAltPicture($pictureAlt);
+
+			$adminManager->update($admin);
 		} else {
 			throw new FormException(FormReturnMessage::MISSING_FIELD);
 		}
@@ -309,6 +366,12 @@ class FormHandler {
 		}
 	}
 
+	/**
+	 * @param array $data
+	 * @param Social|null $social
+	 * 
+	 * @return Social
+	 */
 	function editSocial(array $data, Social $social = null): Social {
 		extract($data);
 

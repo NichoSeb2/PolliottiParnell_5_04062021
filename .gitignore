@@ -5,3 +5,5 @@ config/mail.yml
 
 node_modules/**
 vendor/**
+
+public/uploads/**

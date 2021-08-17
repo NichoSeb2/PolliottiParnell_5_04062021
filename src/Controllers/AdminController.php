@@ -60,7 +60,25 @@ class AdminController extends Controller {
 			}
 
 			if (isset($_POST['submitButtonAdminInfo'])) {
-				var_dump($_POST, $_FILES);
+				try {
+					(new FormHandler)->editAdminInfo($_POST, $_FILES);
+
+					$admin = (new AdminLogged)->refreshAdmin($admin);
+
+					$this->render($template, [
+						'active' => "profile", 
+						'admin' => $admin, 
+						'adminInfoSuccess' => true, 
+					]);
+				} catch (FormException $e) {
+					$this->render($template, [
+						'active' => "profile", 
+						'admin' => $admin, 
+						'adminInfoError' => $e->getMessage(), 
+					]);
+				}
+
+				exit();
 			}
 
 			$this->render($template, [
@@ -219,7 +237,7 @@ class AdminController extends Controller {
 						'active' => "showSocial", 
 						'admin' => $admin, 
 						'social' => $social, 
-						'success' => "Le lien social a bien été mise a jour", 
+						'success' => "Le lien social a bien été mise a jour.", 
 					]);
 				} catch (FormException $e) {
 					$this->render($template, [

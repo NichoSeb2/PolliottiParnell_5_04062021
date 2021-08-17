@@ -6,6 +6,8 @@ class FormReturnMessage {
 
 	const WRONG_PASSWORD = "Mot de passe incorrect.";
 
+	const OLD_PASSWORD_INCORRECT = "Ancien mot de passe incorrect.";
+
 	const PASSWORD_CPASSWORD_NOT_MATCH = "Le mot de passe et la confirmation du mot de passe doivent être identique.";
 
 	const NO_ACCOUNT_FOR_EMAIL = "Aucun compte n'existe avec cette adresse email.";
@@ -32,5 +34,7 @@ class FormReturnMessage {
 
 	const FORGOT_PASSWORD_MAIL_SEND = "Le mail relatif a votre mot de passe oublié a bien été envoyer.";
 
-	CONST PASSWORD_SUCCESSFULLY_CHANGED = "Votre mot de passe est bien été mis a jour.";
+	const PASSWORD_SUCCESSFULLY_CHANGED = "Votre mot de passe est bien été mis a jour.";
+
+	const ERROR_WHILE_UPLOADING_FILE_RETRY = "Erreur pendant l'upload du fichier, merci de réesayer.";
 }
