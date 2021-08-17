@@ -34,6 +34,8 @@ class FileUploader {
 				throw new FileServerException("Échec de l'écriture du fichier sur le disque.");
 			case 8:
 				throw new FileServerException("Une extension PHP a arrêté l'envoi de fichier.");
+			default:
+				break;
 		}
 
 		if (in_array($file['type'], $allowedType)) {
