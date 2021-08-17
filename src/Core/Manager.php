@@ -16,6 +16,8 @@ class Manager {
 
 	protected string $entity;
 
+	protected array $excludeGetterForUpdate = ['getId', 'getCreatedAt'];
+
 	/**
 	 * @param string $sql
 	 * @param array $where
@@ -314,7 +316,7 @@ class Manager {
 		$entity->setUpdatedAt(date($this->dateFormat));
 
 		// keys and values to update
-		$data = $this->_mergeKeyValue($this->_extractFromEntity($entity, ['getId', 'getCreatedAt']));
+		$data = $this->_mergeKeyValue($this->_extractFromEntity($entity, $this->excludeGetterForUpdate));
 
 		$sql .= implode(", ", $data). " WHERE id = ". $entity->getId();
 

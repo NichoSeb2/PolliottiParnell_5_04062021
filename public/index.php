@@ -9,10 +9,12 @@ require_once(ROOT_DIR. '/vendor/autoload.php');
 
 use App\Core\Router;
 use App\Exceptions\SQLException;
+use App\Exceptions\MailException;
 use App\Exceptions\TwigException;
 use App\Exceptions\ConfigException;
 use App\Controllers\ErrorController;
 use App\Exceptions\ControllerNotFound;
+use App\Exceptions\FileServerException;
 use App\Exceptions\AccessDeniedException;
 use App\Exceptions\RequestedEntityNotFound;
 
@@ -37,7 +39,7 @@ catch (ControllerNotFound | RequestedEntityNotFound $e) {
 
 	$controller->execute();
 }
-catch (TwigException | ConfigException | SQLException | PDOException $e) {
+catch (TwigException | ConfigException | SQLException | PDOException | MailException | FileServerException $e) {
 	$controller = new ErrorController("show500", [
 		"message" => $e
 	]);
@@ -46,7 +48,7 @@ catch (TwigException | ConfigException | SQLException | PDOException $e) {
 }
 catch (\Exception $e) {
 	$controller = new ErrorController("show500", [
-		"message" => "Router initialization failed with unhandled exception : ". $e
+		"message" => "Router initialization failed with unhandled exception : ". $e, 
 	]);
 
 	$controller->execute();

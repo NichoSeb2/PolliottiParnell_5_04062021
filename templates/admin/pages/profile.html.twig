@@ -3,26 +3,18 @@
 {% block title %}Profil - {{parent()}}{% endblock %}
 
 {% block main %}
+	<h1 class="h3 mb-2 text-gray-800">Édition des informations du compte</h1>
+	{% include "@admin/forms/_edit_account.html.twig" with { admin, accountSuccess, accountError } only %}
+
+	<br>
+
+	<h1 class="h3 mb-2 text-gray-800">Édition du mot de passe</h1>
+	{% include "@admin/forms/_edit_password.html.twig" with { passwordSuccess, passwordError } only %}
+
+	<br>
+
 	<h1 class="h3 mb-2 text-gray-800">Édition des informations administrateur</h1>
-	<form action="" method="post">
-		<div class="form-group">
-			<label for="catchPhrase">Phrase d'accroche</label>
-			<input type="text" class="form-control" id="catchPhrase" value="{{ admin.catchPhrase }}">
-		</div>
-		<div class="form-group">
-			<label for="CVFile">Uploader le curriculum vitæ</label>
-			<input type="file" class="form-control-file" id="CVFile">
-		</div>
-		<div class="row">
-			<div class="form-group col-12 col-md-6">
-				<label for="pictureFile">Uploader la photo d'identité ( utiliser sur la page d'accueil )</label>
-				<input type="file" class="form-control-file" id="pictureFile">
-			</div>
-			<div class="form-group col-12 col-md-6">
-				<label for="pictureAlt">Description de la photo d'identity</label>
-				<input type="text" class="form-control" id="pictureAlt" value="{{ admin.altPicture }}">
-			</div>
-		</div>
-		<button type="submit" class="btn btn-primary">Sauvegarder</button>
-	</form>
+	{% include "@admin/forms/_edit_admin_info.html.twig" with { admin, adminInfoSuccess, adminInfoError } only %}
+
+	<br>
 {% endblock %}

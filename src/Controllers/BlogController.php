@@ -2,8 +2,11 @@
 namespace App\Controllers;
 
 use App\Core\Controller;
+use App\Service\FormHandler;
 use App\Service\PostDisplay;
 use App\Managers\PostManager;
+use App\Exceptions\FormException;
+use App\Service\FormReturnMessage;
 use App\Exceptions\RequestedEntityNotFound;
 
 class BlogController extends Controller {
@@ -14,13 +17,24 @@ class BlogController extends Controller {
 	 * @return void
 	 */
 	public function showPost(): void {
+		$commentSuccess = null;
+		$commentError = null;
 		$slug = $this->params['slug'];
+
+		if (isset($_POST['submitButtonComment'])) {
+			try {
+				(new FormHandler)->addComment($_POST, $slug);
+
+				$commentSuccess = FormReturnMessage::COMMENT_SUCCESSFULLY_SENT;
+			} catch (FormException $e) {
+				$commentError = $e->getMessage();
+			}
+		}
 
 		$postManager = new PostManager();
 
 		$post = $postManager->findOneByWithComment([
 			'p.slug' => $slug, 
-			'c.status' => true, 
 		]);
 
 		if (is_null($post)) {
@@ -29,6 +43,8 @@ class BlogController extends Controller {
 
 		$this->render("@client/pages/post.html.twig", [
 			'post' => $post, 
+			'commentSuccess' => $commentSuccess, 
+			'commentError' => $commentError, 
 		]);
 	}
 

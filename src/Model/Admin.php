@@ -8,7 +8,7 @@ class Admin extends User {
 
 	private string $catchPhrase;
 
-	private string $urlCV;
+	private string $urlCv;
 
 	private string $urlPicture;
 
@@ -49,17 +49,17 @@ class Admin extends User {
 	/**
 	 * @return string
 	 */
-	public function getUrlCV(): string {
-		return $this->urlCV;
+	public function getUrlCv(): string {
+		return $this->urlCv;
 	}
 
 	/**
-	 * @param string $urlCV
+	 * @param string $urlCv
 	 * 
 	 * @return void
 	 */
-	public function setUrlCV(string $urlCV): void {
-		$this->urlCV = $urlCV;
+	public function setUrlCv(string $urlCv): void {
+		$this->urlCv = $urlCv;
 	}
 
 	/**

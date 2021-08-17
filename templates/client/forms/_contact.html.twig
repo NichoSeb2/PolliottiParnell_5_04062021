@@ -16,23 +16,15 @@
 		<label for="message">Message</label>
 	</div>
 
-	<br>
+	<div class="d-flex justify-content-center mt-5 mb-4">
+		<button class="btn btn-primary text-uppercase text-light" id="submitButton" name="submitButton" type="submit">Envoyer</button>
+	</div>
 
-	{% if success %}
-		<div id="submitSuccessMessage">
-			<div class="text-center text-success mb-3">
-				<div class="fw-bolder">Votre message a bien été envoyer !</div>
-			</div>
-		</div>
+	{% if success is not null %}
+		<p class="text-success text-center">{{ success }}</p>
 	{% endif %}
 
-	{% if error %}
-		<div id="submitErrorMessage">
-			<div class="text-center text-danger mb-3">
-				<div class="fw-bolder">Erreur lors de l'envoi du message !</div>
-			</div>
-		</div>
+	{% if error is not null %}
+		<p class="text-danger text-center">{{ error }}</p>
 	{% endif %}
-
-	<div class="d-flex justify-content-center mb-5"><button class="btn btn-primary text-uppercase text-light" id="submitButton" name="submitButton" type="submit">Envoyer</button></div>
 </form>

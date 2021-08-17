@@ -2,6 +2,7 @@
 namespace App\Service;
 
 use App\Model\User;
+use App\Model\Admin;
 use App\Managers\UserManager;
 use App\Managers\AdminManager;
 use App\Exceptions\AccessDeniedException;
@@ -38,5 +39,14 @@ class AdminLogged {
 				throw new AccessDeniedException();
 			}
 		}
+	}
+
+	/**
+	 * @param Admin $admin
+	 * 
+	 * @return Admin
+	 */
+	public function refreshAdmin(Admin $admin): Admin {
+		return (new AdminManager)->findById($admin->getId());
 	}
 }

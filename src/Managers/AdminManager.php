@@ -1,12 +1,28 @@
 <?php
 namespace App\Managers;
 
-use App\Model\User;
 use App\Core\Entity;
 use App\Core\Manager;
-use App\Controllers\ErrorController;
 
 class AdminManager extends Manager {
+	public function __construct() {
+		parent::__construct();
+
+		$this->excludeGetterForUpdate = [
+			'getId', 
+			'getCreatedAt', 
+			'getRole', 
+			'getFirstName', 
+			'getLastName', 
+			'getEmail', 
+			'getPassword', 
+			'getVerified', 
+			'getVerificationToken', 
+			'getForgotPasswordToken', 
+			'getUpdatedAt', 
+		];
+	}
+
 	/**
 	 * @param int $userId
 	 * 
@@ -24,6 +40,17 @@ class AdminManager extends Manager {
 			return null;
 		} else {
 			return $entities[0];
+		}
+	}
+
+	/**
+	 * @return Admin|null
+	 */
+	public function findConnected() {
+		if (isset($_SESSION['id']) && is_numeric($_SESSION['id'])) {
+			return $this->findById($_SESSION['id']);
+		} else {
+			return null;
 		}
 	}
 }

@@ -1,0 +1,29 @@
+<form action="/admin" method="post" enctype="multipart/form-data">
+	<div class="form-group">
+		<label for="catchPhrase">Phrase d'accroche</label>
+		<input type="text" class="form-control" id="catchPhrase" name="catchPhrase" value="{{ admin.catchPhrase }}">
+	</div>
+	<div class="form-group">
+		<label for="CVFile">Uploader le curriculum vitæ</label>
+		<input type="file" class="form-control-file" id="CVFile" name="CVFile">
+	</div>
+	<div class="row">
+		<div class="form-group col-12 col-md-6">
+			<label for="pictureFile">Uploader la photo d'identité ( utiliser sur la page d'accueil )</label>
+			<input type="file" class="form-control-file" id="pictureFile" name="pictureFile">
+		</div>
+		<div class="form-group col-12 col-md-6">
+			<label for="pictureAlt">Description de la photo d'identity</label>
+			<input type="text" class="form-control" id="pictureAlt" name="pictureAlt" value="{{ admin.altPicture }}">
+		</div>
+	</div>
+	<button type="submit" class="btn btn-primary" name="submitButtonAdminInfo">Sauvegarder</button>
+</form>
+
+{% if adminInfoSuccess is not null %}
+	<p class="mt-3 text-success">Les informations admin on bien été mise a jour.</p>
+{% endif %}
+
+{% if adminInfoError is not null %}
+	<p class="mt-3 text-danger">{{ adminInfoError }}</p>
+{% endif %}

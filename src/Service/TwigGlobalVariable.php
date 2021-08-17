@@ -12,4 +12,13 @@ class TwigGlobalVariable {
 	public static function getAdmin() {
 		return (new AdminManager)->findById(1);
 	}
+
+	public static function getBlog(): array {
+		$admin = self::getAdmin();
+
+		return [
+			'title' => $admin->getFirstName(). " ". $admin->getLastName(). "'s blog", 
+			'copyright' => $admin->getFirstName(). " ". $admin->getLastName(), 
+		];
+	}
 }
