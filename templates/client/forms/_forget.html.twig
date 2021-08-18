@@ -1,21 +1,23 @@
-<form action="/forget" method="post" class="m-auto" style="max-width: 500px;">
+<form action="/forget#message" method="post" class="m-auto" style="max-width: 500px;">
 	<p class="text-justify mb-3">Entrer l'adresse e-mail utiliser pour la création de votre compte. Un mail vous sera envoyer avec les indications a suivre pour changer votre mot de passe</p>
 	<div class="form-floating">
 		<input class="form-control" id="email" name="email" type="email" placeholder="Entrer votre E-mail..." required="">
 		<label for="email">Adresse e-mail</label>
 	</div>
 
-	{% if error is defined %}
-		<p class="text-justify text-danger">{{ error }}</p>
-	{% endif %}
-
-	{% if success is defined %}
-		<p class="text-justify text-success">{{ success }}</p>
-	{% endif %}
+	<br>
 
 	<div class="d-flex justify-content-center">
 		<button class="btn btn-primary text-uppercase text-light w-100" id="submitButton" name="submitButton" type="submit">Envoyer le mail</button>
 	</div>
+
+	{% if message.success is not null %}
+		<p class="text-justify text-success" id="message">{{ message.success }}</p>
+	{% endif %}
+
+	{% if message.error is not null %}
+		<p class="text-justify text-danger" id="message">{{ message.error }}</p>
+	{% endif %}
 
 	<div class="d-flex justify-content-center mt-4 mb-4">
 		<a href="/login">Se connecter</a>

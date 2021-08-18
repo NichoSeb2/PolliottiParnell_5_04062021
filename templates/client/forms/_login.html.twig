@@ -1,4 +1,4 @@
-<form action="/login" method="post" class="m-auto" style="max-width: 500px;">
+<form action="/login#message" method="post" class="m-auto" style="max-width: 500px;">
 	<div class="form-floating">
 		<input class="form-control" id="email" name="email" type="email" placeholder="Entrer votre E-mail..." required="" value="{{ form.email }}">
 		<label for="email">Adresse e-mail</label>
@@ -8,8 +8,8 @@
 		<label for="password">Mot de passe</label>
 	</div>
 
-	{% if error is defined %}
-		<p class="text-justify text-danger">{{ error }}</p>
+	{% if message.error is not null %}
+		<p class="text-justify text-danger" id="message">{{ message.error }}</p>
 	{% endif %}
 
 	<br>

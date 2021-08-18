@@ -8,13 +8,13 @@
 			<div class="col-md-10 col-lg-8 col-xl-7 text-center">
 				<h2 class="section-heading mt-3">Vérification de compte</h2>
 
-				{% if success is defined %}
-					<p class="text-success">{{ success }}</p>
+				{% if message.success is not null %}
+					<p class="text-success">{{ message.success }}</p>
 					<a class="d-inline-block mb-5" href="/login">Se connecter</a>
 				{% endif %}
 
-				{% if error is defined %}
-					<p class="text-danger">{{ error }}</p>
+				{% if message.error is not null %}
+					<p class="text-danger">{{ message.error }}</p>
 					<a class="d-inline-block mb-5" href="/resend">Demander un renvoie</a>
 				{% endif %}
 			</div>
