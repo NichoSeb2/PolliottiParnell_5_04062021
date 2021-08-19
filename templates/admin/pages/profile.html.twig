@@ -4,17 +4,17 @@
 
 {% block main %}
 	<h1 class="h3 mb-2 text-gray-800">Édition des informations du compte</h1>
-	{% include "@admin/forms/_edit_account.html.twig" with { admin, accountSuccess, accountError } only %}
+	{% include "@admin/forms/_edit_account.html.twig" with { admin, message } only %}
 
 	<br>
 
 	<h1 class="h3 mb-2 text-gray-800">Édition du mot de passe</h1>
-	{% include "@admin/forms/_edit_password.html.twig" with { passwordSuccess, passwordError } only %}
+	{% include "@admin/forms/_edit_password.html.twig" with { message } only %}
 
 	<br>
 
 	<h1 class="h3 mb-2 text-gray-800">Édition des informations administrateur</h1>
-	{% include "@admin/forms/_edit_admin_info.html.twig" with { admin, adminInfoSuccess, adminInfoError } only %}
+	{% include "@admin/forms/_edit_admin_info.html.twig" with { admin, message } only %}
 
 	<br>
 {% endblock %}

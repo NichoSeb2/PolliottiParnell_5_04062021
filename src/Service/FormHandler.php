@@ -2,19 +2,20 @@
 namespace App\Service;
 
 use App\Model\User;
+use App\Model\Admin;
+use App\Model\Social;
 use Ramsey\Uuid\Uuid;
 use App\Model\Comment;
 use App\Managers\PostManager;
 use App\Managers\UserManager;
+use App\Managers\AdminManager;
 use App\Managers\CommentManager;
-use App\Exceptions\FormException;
-use App\Exceptions\AccessDeniedException;
 use App\Exceptions\FileException;
+use App\Exceptions\FormException;
 use App\Exceptions\FileServerException;
 use App\Exceptions\FileTooBigException;
+use App\Exceptions\AccessDeniedException;
 use App\Exceptions\RequestedEntityNotFound;
-use App\Managers\AdminManager;
-use App\Model\Social;
 
 class FormHandler {
 	/**
@@ -226,9 +227,9 @@ class FormHandler {
 	/**
 	 * @param array $data
 	 * 
-	 * @return void
+	 * @return Admin|null
 	 */
-	public function editAccount(array $data): void {
+	public function editAccount(array $data): Admin {
 		extract($data);
 
 		if (isset($firstName, $lastName, $email)) {
@@ -242,6 +243,8 @@ class FormHandler {
 			$user->setEmail($email);
 
 			$userManager->update($user);
+
+			return (new AdminManager)->findById($user->getId());
 		} else {
 			throw new FormException(FormReturnMessage::MISSING_FIELD);
 		}
@@ -285,9 +288,9 @@ class FormHandler {
 	 * @param array $data
 	 * @param array $file
 	 * 
-	 * @return void
+	 * @return Admin|null
 	 */
-	public function editAdminInfo(array $data, array $file): void {
+	public function editAdminInfo(array $data, array $file): Admin {
 		extract($data);
 
 		$adminManager = new AdminManager();
@@ -324,6 +327,8 @@ class FormHandler {
 			$admin->setAltPicture($pictureAlt);
 
 			$adminManager->update($admin);
+
+			return $admin;
 		} else {
 			throw new FormException(FormReturnMessage::MISSING_FIELD);
 		}
