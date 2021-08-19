@@ -40,13 +40,4 @@ class AdminLogged {
 			}
 		}
 	}
-
-	/**
-	 * @param Admin $admin
-	 * 
-	 * @return Admin
-	 */
-	public function refreshAdmin(Admin $admin): Admin {
-		return (new AdminManager)->findById($admin->getId());
-	}
 }

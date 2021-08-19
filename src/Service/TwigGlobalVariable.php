@@ -21,4 +21,8 @@ class TwigGlobalVariable {
 			'copyright' => $admin->getFirstName(). " ". $admin->getLastName(), 
 		];
 	}
+
+	public static function getCurrentUri() {
+		return $_SERVER['REQUEST_URI'];
+	}
 }

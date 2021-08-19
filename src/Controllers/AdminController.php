@@ -17,73 +17,53 @@ class AdminController extends Controller {
 		(new AdminLogged)->adminLogged(function($admin) {
 			$template = "@admin/pages/profile.html.twig";
 
+			$message = [];
+
 			if (isset($_POST['submitButtonAccount'])) {
 				try {
-					(new FormHandler)->editAccount($_POST);
+					$admin = (new FormHandler)->editAccount($_POST);
 
-					$admin = (new AdminLogged)->refreshAdmin($admin);
-
-					$this->render($template, [
-						'active' => "profile", 
-						'admin' => $admin, 
+					$message = [
 						'accountSuccess' => true, 
-					]);
+					];
 				} catch (FormException $e) {
-					$this->render($template, [
-						'active' => "profile", 
-						'admin' => $admin, 
+					$message = [
 						'accountError' => $e->getMessage(), 
-					]);
+					];
 				}
-
-				exit();
 			}
 
 			if (isset($_POST['submitButtonPassword'])) {
 				try {
 					(new FormHandler)->editPassword($_POST);
 
-					$this->render($template, [
-						'active' => "profile", 
-						'admin' => $admin, 
+					$message = [
 						'passwordSuccess' => true, 
-					]);
+					];
 				} catch (FormException $e) {
-					$this->render($template, [
-						'active' => "profile", 
-						'admin' => $admin, 
+					$message = [
 						'passwordError' => $e->getMessage(), 
-					]);
+					];
 				}
-
-				exit();
 			}
 
 			if (isset($_POST['submitButtonAdminInfo'])) {
 				try {
-					(new FormHandler)->editAdminInfo($_POST, $_FILES);
+					$admin = (new FormHandler)->editAdminInfo($_POST, $_FILES);
 
-					$admin = (new AdminLogged)->refreshAdmin($admin);
-
-					$this->render($template, [
-						'active' => "profile", 
-						'admin' => $admin, 
+					$message = [
 						'adminInfoSuccess' => true, 
-					]);
+					];
 				} catch (FormException $e) {
-					$this->render($template, [
-						'active' => "profile", 
-						'admin' => $admin, 
+					$message = [
 						'adminInfoError' => $e->getMessage(), 
-					]);
+					];
 				}
-
-				exit();
 			}
 
 			$this->render($template, [
-				'active' => "profile", 
 				'admin' => $admin, 
+				'message' => $message, 
 			]);
 		});
 	}
@@ -92,7 +72,7 @@ class AdminController extends Controller {
 	 * @return void
 	 */
 	public function showPost(): void {
-		(new AdminLogged)->adminLogged(function($admin) {
+		(new AdminLogged)->adminLogged(function() {
 			$postManager = new PostManager();
 
 			$post = $postManager->findBy([], [
@@ -100,8 +80,6 @@ class AdminController extends Controller {
 			]);
 
 			$this->render("@admin/pages/post.html.twig", [
-				'active' => "showPost", 
-				'admin' => $admin, 
 				'post' => $post, 
 			]);
 		});
@@ -111,11 +89,8 @@ class AdminController extends Controller {
 	 * @return void
 	 */
 	public function addPost(): void {
-		(new AdminLogged)->adminLogged(function($admin) {
-			$this->render("@admin/pages/post_add.html.twig", [
-				'active' => "addPost", 
-				'admin' => $admin, 
-			]);
+		(new AdminLogged)->adminLogged(function() {
+			$this->render("@admin/pages/post_add.html.twig");
 		});
 	}
 
@@ -123,7 +98,7 @@ class AdminController extends Controller {
 	 * @return void
 	 */
 	public function editPost(): void {
-		(new AdminLogged)->adminLogged(function($admin) {
+		(new AdminLogged)->adminLogged(function() {
 			$slug = $this->params['slug'];
 
 			$postManager = new PostManager();
@@ -137,8 +112,6 @@ class AdminController extends Controller {
 			}
 
 			$this->render("@admin/pages/post_edit.html.twig", [
-				'active' => "showPost", 
-				'admin' => $admin, 
 				'post' => $post, 
 			]);
 		});
@@ -159,16 +132,8 @@ class AdminController extends Controller {
 	 * @return void
 	 */
 	public function showSocial(): void {
-		(new AdminLogged)->adminLogged(function($admin) {
-			$socialManager = new SocialManager();
-
-			$socials = $socialManager->findAll();
-
-			$this->render("@admin/pages/social.html.twig", [
-				'active' => "showSocial", 
-				'admin' => $admin, 
-				'socials' => $socials, 
-			]);
+		(new AdminLogged)->adminLogged(function() {
+			$this->render("@admin/pages/social.html.twig");
 		});
 	}
 
@@ -176,34 +141,28 @@ class AdminController extends Controller {
 	 * @return void
 	 */
 	public function addSocial(): void {
-		(new AdminLogged)->adminLogged(function($admin) {
+		(new AdminLogged)->adminLogged(function() {
 			$template = "@admin/pages/social_add.html.twig";
+
+			$message = [];
 
 			if (isset($_POST['submitButton'])) {
 				try {
 					$social = (new FormHandler)->editSocial($_POST);
 
 					(new SocialManager)->create($social);
-
-					$this->render($template, [
-						'active' => "addSocial", 
-						'admin' => $admin, 
+					$message = [
 						'success' => "Le lien social a bien été ajouter.", 
-					]);
+					];
 				} catch (FormException $e) {
-					$this->render($template, [
-						'active' => "addSocial", 
-						'admin' => $admin, 
+					$message = [
 						'error' => $e->getMessage(), 
-					]);
+					];
 				}
-
-				exit();
 			}
 
 			$this->render($template, [
-				'active' => "addSocial", 
-				'admin' => $admin, 
+				'message' => $message, 
 			]);
 		});
 	}
@@ -212,8 +171,10 @@ class AdminController extends Controller {
 	 * @return void
 	 */
 	public function editSocial(): void {
-		(new AdminLogged)->adminLogged(function($admin) {
+		(new AdminLogged)->adminLogged(function() {
 			$template = "@admin/pages/social_edit.html.twig";
+
+			$message = [];
 
 			$id = $this->params['id'];
 
@@ -233,28 +194,19 @@ class AdminController extends Controller {
 
 					(new SocialManager)->update($social);
 
-					$this->render($template, [
-						'active' => "showSocial", 
-						'admin' => $admin, 
-						'social' => $social, 
+					$message = [
 						'success' => "Le lien social a bien été mise a jour.", 
-					]);
+					];
 				} catch (FormException $e) {
-					$this->render($template, [
-						'active' => "showSocial", 
-						'admin' => $admin, 
-						'social' => $social, 
+					$message = [
 						'error' => $e->getMessage(), 
-					]);
+					];
 				}
-
-				exit();
 			}
 
 			$this->render($template, [
-				'active' => "showSocial", 
-				'admin' => $admin, 
 				'social' => $social, 
+				'message' => $message, 
 			]);
 		});
 	}

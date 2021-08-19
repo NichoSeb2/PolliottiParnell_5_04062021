@@ -12,24 +12,29 @@ class AccountController extends Controller {
 	 * @return void
 	 */
 	public function login(): void {
-		if (!isset($_POST['submitButton'])) {
-			$this->render("@client/pages/login.html.twig");
+		$message = [];
+		$form = [];
 
-			exit();
-		}
+		if (isset($_POST['submitButton'])) {
+			try {
+				(new FormHandler)->login($_POST);
+			} catch (FormException $e) {
+				extract($_POST);
 
-		try {
-			(new FormHandler)->login($_POST);
-		} catch (FormException $e) {
-			extract($_POST);
+				$message = [
+					'error' => $e->getMessage(), 
+				];
 
-			$this->render("@client/pages/login.html.twig", [
-				'error' => $e->getMessage(), 
-				'form' => [
+				$form = [
 					'email' => $email, 
-				], 
-			]);
+				];
+			}
 		}
+
+		$this->render("@client/pages/login.html.twig", [
+			'message' => $message, 
+			'form' => $form, 
+		]);
 	}
 
 	/**
@@ -50,30 +55,35 @@ class AccountController extends Controller {
 	public function register(): void {
 		$template = "@client/pages/register.html.twig";
 
-		if (!isset($_POST['submitButton'])) {
-			$this->render($template);
+		$message = [];
+		$form = [];
 
-			exit();
-		}
+		if (isset($_POST['submitButton'])) {
+			try {
+				(new FormHandler)->register($_POST);
 
-		try {
-			(new FormHandler)->register($_POST);
+				$message = [
+					'success' => true, 
+				];
+			} catch (FormException $e) {
+				extract($_POST);
 
-			$this->render($template, [
-				'success' => true, 
-			]);
-		} catch (FormException $e) {
-			extract($_POST);
+				$message = [
+					'error' => $e->getMessage(), 
+				];
 
-			$this->render($template, [
-				'error' => $e->getMessage(), 
-				'form' => [
+				$form = [
 					'firstName' => $firstName, 
 					'lastName' => $lastName, 
 					'email' => $email, 
-				], 
-			]);
+				];
+			}
 		}
+
+		$this->render($template, [
+			'message' => $message, 
+			'form' => $form, 
+		]);
 	}
 
 	/**
@@ -82,23 +92,25 @@ class AccountController extends Controller {
 	public function resend(): void {
 		$template = "@client/pages/resend.html.twig";
 
-		if (!isset($_POST['submitButton'])) {
-			$this->render($template);
+		$message = [];
 
-			exit();
+		if (isset($_POST['submitButton'])) {
+			try {
+				(new FormHandler)->resend($_POST);
+
+				$message = [
+					'success' => FormReturnMessage::VERIFICATION_MAIL_RESEND, 
+				];
+			} catch (FormException $e) {
+				$message = [
+					'error' => $e->getMessage(), 
+				];
+			}
 		}
 
-		try {
-			(new FormHandler)->resend($_POST);
-
-			$this->render($template, [
-				'success' => FormReturnMessage::VERIFICATION_MAIL_RESEND, 
-			]);
-		} catch (FormException $e) {
-			$this->render($template, [
-				'error' => $e->getMessage(), 
-			]);
-		}
+		$this->render($template, [
+			'message' => $message, 
+		]);
 	}
 
 	/**
@@ -107,17 +119,23 @@ class AccountController extends Controller {
 	public function verify(): void {
 		$verificationToken = $this->params['verificationToken'];
 
+		$message = [];
+
 		try {
 			(new FormHandler)->verify($verificationToken);
 
-			$this->render("@client/pages/verify.html.twig", [
+			$message = [
 				'success' => FormReturnMessage::ACCOUNT_SUCCESSFULLY_VERIFIED, 
-			]);
+			];
 		} catch (FormException $e) {
-			$this->render("@client/pages/verify.html.twig", [
+			$message = [
 				'error' => $e->getMessage(), 
-			]);
+			];
 		}
+
+		$this->render("@client/pages/verify.html.twig", [
+			'message' => $message, 
+		]);
 	}
 
 	/**
@@ -126,23 +144,25 @@ class AccountController extends Controller {
 	public function forget(): void {
 		$template = "@client/pages/forget.html.twig";
 
-		if (!isset($_POST['submitButton'])) {
-			$this->render($template);
+		$message = [];
 
-			exit();
+		if (isset($_POST['submitButton'])) {
+			try {
+				(new FormHandler)->forget($_POST);
+
+				$message = [
+					'success' => FormReturnMessage::FORGOT_PASSWORD_MAIL_SEND, 
+				];
+			} catch (FormException $e) {
+				$message = [
+					'error' => $e->getMessage(), 
+				];
+			}
 		}
 
-		try {
-			(new FormHandler)->forget($_POST);
-
-			$this->render($template, [
-				'success' => FormReturnMessage::FORGOT_PASSWORD_MAIL_SEND, 
-			]);
-		} catch (FormException $e) {
-			$this->render($template, [
-				'error' => $e->getMessage(), 
-			]);
-		}
+		$this->render($template, [
+			'message' => $message, 
+		]);
 	}
 
 	/**
@@ -150,6 +170,8 @@ class AccountController extends Controller {
 	 */
 	public function newPassword(): void {
 		$template = "@client/pages/newPassword.html.twig";
+
+		$message = [];
 
 		$forgotPasswordToken = $this->params['forgotPasswordToken'];
 
@@ -160,36 +182,28 @@ class AccountController extends Controller {
 		]);
 
 		if (!is_null($user)) {
-			if (!isset($_POST['submitButton'])) {
-				$this->render($template, [
-					'forgotPasswordToken' => $forgotPasswordToken, 
-				]);
+			if (isset($_POST['submitButton'])) {
+				try {
+					(new FormHandler)->newPassword($_POST, $user);
 
-				exit();
+					$message = [
+						'success' => FormReturnMessage::PASSWORD_SUCCESSFULLY_CHANGED, 
+					];
+				} catch (FormException $e) {
+					$message = [
+						'error' => $e->getMessage(), 
+					];
+				}
 			}
-
-			try {
-				(new FormHandler)->newPassword($_POST, $user);
-
-				$this->render($template, [
-					'forgotPasswordToken' => $forgotPasswordToken, 
-					'success' => FormReturnMessage::PASSWORD_SUCCESSFULLY_CHANGED, 
-				]);
-			} catch (FormException $e) {
-				$this->render($template, [
-					'forgotPasswordToken' => $forgotPasswordToken, 
-					'error' => $e->getMessage(), 
-				]);
-			}
-
-			exit();
 		} else {
-			$error = FormReturnMessage::NO_ACCOUNT_FOR_FORGOT_PASSWORD_TOKEN;
+			$message = [
+				'error' => FormReturnMessage::NO_ACCOUNT_FOR_FORGOT_PASSWORD_TOKEN, 
+			];
 		}
 
 		$this->render($template, [
 			'forgotPasswordToken' => $forgotPasswordToken, 
-			'error' => $error, 
+			'message' => $message, 
 		]);
 	}
 }

@@ -29,24 +29,24 @@ class IndexController extends Controller {
 	public function showContact(): void {
 		$template = "@client/pages/contact.html.twig";
 
-		if (!isset($_POST['submitButton'])) {
-			$this->render($template);
-
-			exit();
-		}
+		$message = [];
 
 		if (isset($_POST['submitButton'])) {
 			try {
 				(new FormHandler)->contact($_POST);
 
-				$this->render($template, [
+				$message = [
 					'success' => FormReturnMessage::MESSAGE_SUCCESSFULLY_SEND, 
-				]);
+				];
 			} catch (FormException $e) {
-				$this->render($template, [
+				$message = [
 					'error' => $e->getMessage(), 
-				]);
+				];
 			}
 		}
+
+		$this->render($template, [
+			'message' => $message, 
+		]);
 	}
 }

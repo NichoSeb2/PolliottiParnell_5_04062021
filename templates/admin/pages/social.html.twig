@@ -42,7 +42,7 @@
 					</thead>
 					<tbody>
 						{% for social in socials %}
-							{% include "@admin/parts/_social_preview.html.twig" with { social: social } only %}
+							{% include "@admin/parts/_social_preview.html.twig" with { social } only %}
 						{% endfor %}
 					</tbody>
 					<tfoot>

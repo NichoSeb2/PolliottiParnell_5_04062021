@@ -12,7 +12,7 @@
 
 	<li><div class="sidebar-heading text-break">Personnalisation</div></li>
 
-	<li class="nav-item {{ active == "profile" ? 'active' : ''}}">
+	<li class="nav-item {{ uri == "/admin" ? 'active' : ''}}">
 		<a class="nav-link" href="/admin">
 			<i class="fas fa-user-circle"></i>
 			<span>Profile</span>
@@ -20,14 +20,14 @@
 	</li>
 
 	<li class="nav-item">
-		<a class="nav-link {{ active != "addSocial" and active != "showSocial" ? 'collapsed' : '' }}" href="#" data-toggle="collapse" data-target="#collapseSocial" aria-expanded="true" aria-controls="collapseArticles">
+		<a class="nav-link {{ uri != "/admin/social/add" and uri != "/admin/social" ? 'collapsed' : '' }}" href="#" data-toggle="collapse" data-target="#collapseSocial" aria-expanded="true" aria-controls="collapseArticles">
 			<i class="fas fa-users"></i>
 			<span>Gestion liens sociaux</span>
 		</a>
-		<div id="collapseSocial" class="collapse {{ active == "addSocial" or active == "showSocial" ? 'show' : '' }}" data-parent="#accordionSidebar">
+		<div id="collapseSocial" class="collapse {{ uri == "/admin/social/add" or uri == "/admin/social" ? 'show' : '' }}" data-parent="#accordionSidebar">
 			<div class="bg-white py-2 collapse-inner rounded">
-				<a class="collapse-item {{ active == "addSocial" ? 'active' : ''}}" href="/admin/social/add">Ajouter</a>
-				<a class="collapse-item {{ active == "showSocial" ? 'active' : ''}}" href="/admin/social">Lister les liens sociaux</a>
+				<a class="collapse-item {{ uri == "/admin/social/add" ? 'active' : ''}}" href="/admin/social/add">Ajouter</a>
+				<a class="collapse-item {{ uri == "/admin/social" ? 'active' : ''}}" href="/admin/social">Lister les liens sociaux</a>
 			</div>
 		</div>
 	</li>
@@ -37,19 +37,19 @@
 	<li><div class="sidebar-heading text-break">Administration</div></li>
 
 	<li class="nav-item">
-		<a class="nav-link {{ active != "addPost" and active != "showPost" ? 'collapsed' : '' }}" href="#" data-toggle="collapse" data-target="#collapseArticles" aria-expanded="true" aria-controls="collapseArticles">
+		<a class="nav-link {{ uri != "/admin/blog/add" and uri != "/admin/blog" ? 'collapsed' : '' }}" href="#" data-toggle="collapse" data-target="#collapseArticles" aria-expanded="true" aria-controls="collapseArticles">
 			<i class="fas fa-newspaper"></i>
 			<span>Gestion articles</span>
 		</a>
-		<div id="collapseArticles" class="collapse {{ active == "addPost" or active == "showPost" ? 'show' : '' }}" data-parent="#accordionSidebar">
+		<div id="collapseArticles" class="collapse {{ uri == "/admin/blog/add" or uri == "/admin/blog" ? 'show' : '' }}" data-parent="#accordionSidebar">
 			<div class="bg-white py-2 collapse-inner rounded">
-				<a class="collapse-item {{ active == "addPost" ? 'active' : ''}}" href="/admin/blog/add">Ajouter</a>
-				<a class="collapse-item {{ active == "showPost" ? 'active' : ''}}" href="/admin/blog">Lister les articles</a>
+				<a class="collapse-item {{ uri == "/admin/blog/add" ? 'active' : ''}}" href="/admin/blog/add">Ajouter</a>
+				<a class="collapse-item {{ uri == "/admin/blog" ? 'active' : ''}}" href="/admin/blog">Lister les articles</a>
 			</div>
 		</div>
 	</li>
 
-	<li class="nav-item {{ active == "showComment" ? 'active' : ''}}">
+	<li class="nav-item {{ uri == "/admin/comment" ? 'active' : ''}}">
 		<a class="nav-link" href="/admin/comment">
 			<i class="fas fa-comments"></i>
 			<span>Gestion commentaires</span>

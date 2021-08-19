@@ -37,6 +37,7 @@ class Twig {
 		$twig->addGlobal('socials', TwigGlobalVariable::getSocials());
 		$twig->addGlobal('admin', TwigGlobalVariable::getAdmin());
 		$twig->addGlobal('blog', TwigGlobalVariable::getBlog());
+		$twig->addGlobal('uri', TwigGlobalVariable::getCurrentUri());
 
 		$this->twig = $twig;
 	}
