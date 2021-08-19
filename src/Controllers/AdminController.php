@@ -141,7 +141,7 @@ class AdminController extends Controller {
 	 * @return void
 	 */
 	public function addSocial(): void {
-		(new AdminLogged)->adminLogged(function($admin) {
+		(new AdminLogged)->adminLogged(function() {
 			$template = "@admin/pages/social_add.html.twig";
 
 			$message = [];
@@ -171,7 +171,7 @@ class AdminController extends Controller {
 	 * @return void
 	 */
 	public function editSocial(): void {
-		(new AdminLogged)->adminLogged(function($admin) {
+		(new AdminLogged)->adminLogged(function() {
 			$template = "@admin/pages/social_edit.html.twig";
 
 			$message = [];
