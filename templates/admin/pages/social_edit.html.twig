@@ -4,5 +4,5 @@
 
 {% block main %}
 	<h1 class="h3 mb-2 text-gray-800">Modifier un lien social</h1>
-	{% include "@admin/forms/_social.html.twig" with { social, action: "/admin/social/" ~ social.id ~ "/edit", message } only %}
+	{% include "@admin/forms/_social.html.twig" with { social, message } only %}
 {% endblock %}

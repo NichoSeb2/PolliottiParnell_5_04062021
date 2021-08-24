@@ -16,13 +16,13 @@ class PDOFactory {
 	 */
 	private function getConfig(): array {
 		$confDir = CONF_DIR. "/db-config.yml";
-		$config = yaml_parse_file($confDir);
+		$tempConfig = yaml_parse_file($confDir);
 
-		if (!$config) {
+		if (!$tempConfig) {
 			throw new ConfigException("Error loading ". $confDir);
 		}
 
-		return $config;
+		return $tempConfig;
 	}
 
 	/**

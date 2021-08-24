@@ -1,11 +1,13 @@
 <?php
 namespace App\Service;
 
+use App\Model\Post;
 use App\Model\User;
 use App\Model\Admin;
 use App\Model\Social;
 use Ramsey\Uuid\Uuid;
 use App\Model\Comment;
+use Cocur\Slugify\Slugify;
 use App\Managers\PostManager;
 use App\Managers\UserManager;
 use App\Managers\AdminManager;
@@ -332,6 +334,60 @@ class FormHandler {
 		} else {
 			throw new FormException(FormReturnMessage::MISSING_FIELD);
 		}
+	}
+
+	/**
+	 * @param array $data
+	 * @param array $file
+	 * @param Post|null $post
+	 * 
+	 * @return Post
+	 */
+	public function editPost(array $data, array $file, Post $post = null) : Post {
+		extract($data);
+
+		if (is_null($post)) {
+			$post = new Post();
+		}
+
+		$post->setTitle($title);
+
+		if (!$post->issetSlug()) {
+			$slug = (new Slugify())->slugify($post->getTitle());
+
+			$slugDuplicator = 0;
+
+			while (!is_null((new PostManager)->findOneBy(['slug' => $slug]))) {
+				$slugDuplicator++;
+
+				$slug = (new Slugify())->slugify($post->getTitle(). " ". $slugDuplicator);
+			}
+
+			$post->setSlug($slug);
+		}
+
+		$post->setContent($content);
+		$post->setAltCoverageImage($coverImageAlt);
+
+		if (!isset($post->adminId)) {
+			$post->setAdminId((new AdminManager)->findConnected()->getId());
+		}
+
+		if ($file['error'] != 4) {
+			try {
+				$targetFile = (new FileUploader)->upload($file, "uploads/post/", $post->getSlug(), FileUploader::IMAGE_TYPE);
+
+				$post->setUrlCoverageImage($targetFile);
+			} catch (FileTooBigException $e) {
+				throw new FormException($e->getMessage());
+			} catch (FileServerException $e) {
+				throw new FileServerException($e->getMessage());
+			} catch (FileException $e) {
+				throw new FormException(FormReturnMessage::ERROR_WHILE_UPLOADING_FILE_RETRY);
+			}
+		}
+
+		return $post;
 	}
 
 	/**

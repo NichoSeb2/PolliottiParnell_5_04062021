@@ -4,5 +4,5 @@
 
 {% block main %}
 	<h1 class="h3 mb-2 text-gray-800">Modifier un article</h1>
-	{% include "@admin/forms/_post.html.twig" with { post: post } only %}
+	{% include "@admin/forms/_post.html.twig" with { post, form, message } only %}
 {% endblock %}
