@@ -1,11 +1,29 @@
 <?php
 namespace App\Managers;
 
+use App\Model\Post;
+use App\Core\Entity;
 use App\Core\Manager;
 use App\Model\Comment;
-use App\Model\Post;
 
 class PostManager extends Manager {
+	public function __construct() {
+		parent::__construct();
+
+		$this->excludeGetterForInsert = [
+			'getId', 
+			'getCreatedAt', 
+			'getUpdatedAt', 
+			'getComments', 
+		];
+
+		$this->excludeGetterForUpdate = [
+			'getId', 
+			'getCreatedAt', 
+			'getComments', 
+		];
+	}
+
 	/**
 	 * @param array $where
 	 * @param array $orderBy
@@ -61,5 +79,18 @@ class PostManager extends Manager {
 		}
 
 		return null;
+	}
+
+	/**
+	 * @param Post $post
+	 * 
+	 * @return void
+	 */
+	public function delete(Entity $post): void {
+		$sql = "DELETE p, c FROM post p LEFT JOIN comment c ON p.id = c.post_id WHERE p.slug = :slug";
+
+		$this->pdo->prepare($sql)->execute([
+			'slug' => $post->getSlug(), 
+		]);
 	}
 }

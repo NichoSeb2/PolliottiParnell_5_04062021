@@ -74,6 +74,13 @@ class Post extends Entity {
 	}
 
 	/**
+	 * @return bool
+	 */
+	public function issetSlug(): bool {
+		return isset($this->slug);
+	}
+
+	/**
 	 * @return string
 	 */
 	public function getTitle(): string {

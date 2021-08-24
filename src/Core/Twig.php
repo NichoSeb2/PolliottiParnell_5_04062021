@@ -7,6 +7,10 @@ use Twig\Loader\FilesystemLoader;
 use Twig\Extension\DebugExtension;
 use App\Exceptions\ConfigException;
 use App\Service\TwigGlobalVariable;
+use Twig\Extra\Markdown\DefaultMarkdown;
+use Twig\Extra\Markdown\MarkdownRuntime;
+use Twig\Extra\Markdown\MarkdownExtension;
+use Twig\RuntimeLoader\RuntimeLoaderInterface;
 
 class Twig {
 	private array $config;
@@ -32,6 +36,15 @@ class Twig {
 		]);
 
 		$twig->addExtension(new DebugExtension());
+		$twig->addExtension(new MarkdownExtension());
+
+		$twig->addRuntimeLoader(new class implements RuntimeLoaderInterface {
+			public function load($class) {
+				if (MarkdownRuntime::class === $class) {
+					return new MarkdownRuntime(new DefaultMarkdown());
+				}
+			}
+		});
 
 		$twig->addGlobal('connected', (!empty($_SESSION['id']) && is_numeric($_SESSION['id'])));
 		$twig->addGlobal('socials', TwigGlobalVariable::getSocials());

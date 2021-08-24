@@ -66,15 +66,15 @@ class BlogController extends Controller {
 
 		$post = (new PostManager)->findBy([], [
 			'created_at' => "DESC", 
-		], $this->nbPostPerPage, ($page - 1) * $this->nbPostPerPage);
+		], $this->nbPostPerPage, max(0, ($page - 1) * $this->nbPostPerPage));
 
 		$this->render("@client/pages/blog.html.twig", [
 			'post' => $post, 
-			'firstPage' => $this->minPage, 
-			'lastPage' => $maxPage, 
-			'previousPage' => $postDisplay->validatePage($page - 1, $this->minPage, $maxPage), 
-			'currentPage' => $page, 
-			'nextPage' => $postDisplay->validatePage($page + 1, $this->minPage, $maxPage), 
+			'firstPage' => max(1, $this->minPage), 
+			'lastPage' => max(1, $maxPage), 
+			'previousPage' => max(1, $postDisplay->validatePage($page - 1, $this->minPage, $maxPage)), 
+			'currentPage' => max(1, $page), 
+			'nextPage' => max(1, $postDisplay->validatePage($page + 1, $this->minPage, $maxPage)), 
 		]);
 	}
 }

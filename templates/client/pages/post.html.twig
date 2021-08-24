@@ -9,7 +9,7 @@
 				<h2 class="section-heading">{{ post.title }}</h2>
 				<p class="post-meta">Posté par <b>{{ post.admin.firstName }} {{ post.admin.lastName }}</b> le {{ post.createdAt|date("d/m/Y à H:i:s") }}</p>
 				<img class="img-fluid" src="{{ post.urlCoverageImage }}" alt="{{ post.altCoverageImage }}">
-				<p class="text-justify mb-5">{{ post.content }}</p>
+				<div class="text-justify mb-4">{{ post.content|markdown_to_html }}</div>
 
 				{% include "@client/parts/_devider.html.twig" only %}
 				<h2 class="section-heading">Commentaire : </h2>

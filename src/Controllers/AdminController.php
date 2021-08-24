@@ -8,6 +8,8 @@ use App\Managers\PostManager;
 use App\Managers\SocialManager;
 use App\Exceptions\FormException;
 use App\Exceptions\RequestedEntityNotFound;
+use App\Managers\CommentManager;
+use App\Service\FormReturnMessage;
 
 class AdminController extends Controller {
 	/**
@@ -90,7 +92,51 @@ class AdminController extends Controller {
 	 */
 	public function addPost(): void {
 		(new AdminLogged)->adminLogged(function() {
-			$this->render("@admin/pages/post_add.html.twig");
+			$message = [];
+			$form = [];
+
+			if (isset($_POST['submitButton'])) {
+				if ($_FILES['coverImageFile']['error'] != 4) {
+					try {
+						$post = (new FormHandler)->editPost($_POST, $_FILES['coverImageFile']);
+
+						(new PostManager)->create($post);
+
+						$message = [
+							'success' => "L'article a bien été créer.", 
+						];
+					} catch (FormException $e) {
+						extract($_POST);
+
+						$form = [
+							'title' => $title, 
+							'content' => $content, 
+							'coverImageAlt' => $coverImageAlt, 
+						];
+
+						$message = [
+							'error' => $e->getMessage(), 
+						];
+					}
+				} else {
+					extract($_POST);
+
+					$form = [
+						'title' => $title, 
+						'content' => $content, 
+						'coverImageAlt' => $coverImageAlt, 
+					];
+
+					$message = [
+						'error' => FormReturnMessage::MISSING_FIELD, 
+					];
+				}
+			}
+
+			$this->render("@admin/pages/post_add.html.twig", [
+				'message' => $message, 
+				'form' => $form, 
+			]);
 		});
 	}
 
@@ -99,6 +145,9 @@ class AdminController extends Controller {
 	 */
 	public function editPost(): void {
 		(new AdminLogged)->adminLogged(function() {
+			$message = [];
+			$form = [];
+
 			$slug = $this->params['slug'];
 
 			$postManager = new PostManager();
@@ -111,8 +160,34 @@ class AdminController extends Controller {
 				throw new RequestedEntityNotFound("Post not found");
 			}
 
+			if (isset($_POST['submitButton'])) {
+				try {
+					$post = (new FormHandler)->editPost($_POST, $_FILES['coverImageFile'], $post);
+
+					$postManager->update($post);
+
+					$message = [
+						'success' => "L'article a bien été mis a jour.", 
+					];
+				} catch (FormException $e) {
+					extract($_POST);
+
+					$form = [
+						'title' => $title, 
+						'content' => $content, 
+						'coverImageAlt' => $coverImageAlt, 
+					];
+
+					$message = [
+						'error' => $e->getMessage(), 
+					];
+				}
+			}
+
 			$this->render("@admin/pages/post_edit.html.twig", [
 				'post' => $post, 
+				'message' => $message, 
+				'form' => $form, 
 			]);
 		});
 	}
@@ -124,7 +199,17 @@ class AdminController extends Controller {
 		(new AdminLogged)->adminLogged(function() {
 			$slug = $this->params['slug'];
 
-			// no render. action and after redirect
+			$postManager = new PostManager();
+
+			$post = $postManager->findOneBy([
+				'slug' => $slug, 
+			]);
+
+			if (!is_null($post)) {
+				$postManager->delete($post);
+			}
+
+			header("Location: /admin/blog");
 		});
 	}
 

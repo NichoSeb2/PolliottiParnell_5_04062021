@@ -16,6 +16,8 @@ class Manager {
 
 	protected string $entity;
 
+	protected array $excludeGetterForInsert = ['getId', 'getCreatedAt', 'getUpdatedAt'];
+
 	protected array $excludeGetterForUpdate = ['getId', 'getCreatedAt'];
 
 	/**
@@ -293,7 +295,7 @@ class Manager {
 		$sql = "INSERT INTO ". $this->tableName;
 
 		// keys, values pair to insert
-		$data = $this->_extractFromEntity($entity);
+		$data = $this->_extractFromEntity($entity, $this->excludeGetterForInsert);
 
 		// key and value split
 		$keys = array_keys($data);
@@ -328,7 +330,7 @@ class Manager {
 	 * 
 	 * @return void
 	 */
-	public function delete(Entity $entity) {
+	public function delete(Entity $entity): void {
 		$sql = "DELETE FROM ". $this->tableName. " WHERE id = ". $entity->getId();
 
 		$this->pdo->query($sql);

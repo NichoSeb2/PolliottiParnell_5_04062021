@@ -42,7 +42,7 @@ class FileUploader {
 			$targetFile = $outputDir. $outputFileName. ".". end($extension);
 
 			if (move_uploaded_file($file["tmp_name"], $targetFile)) {
-				return $targetFile;
+				return "/". $targetFile;
 			} else {
 				throw new FileException("Le fichier n'a pas pu être téléchargé.");
 			}
