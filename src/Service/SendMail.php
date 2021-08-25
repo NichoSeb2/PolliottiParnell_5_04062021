@@ -28,7 +28,7 @@ class SendMail {
 
 		$admin = (new AdminManager)->findById(1);
 
-		$mail->send([$email, $name], [[$admin->getEmail(), $admin->getFirstName(). " ". $admin->getLastName()]], $subject, $html, "Message de contact provenant de : $name\nDissant : $message");
+		$mail->send([$email, $name], [[$admin->getEmail(), $admin->getFirstName(). " ". $admin->getLastName()]], $subject, $html, "Message de contact provenant de : $name\nDisant : $message");
 	}
 
 

@@ -103,7 +103,7 @@ class AdminController extends Controller {
 						(new PostManager)->create($post);
 
 						$message = [
-							'success' => "L'article a bien été créer.", 
+							'success' => "L'article a bien été créé.", 
 						];
 					} catch (FormException $e) {
 						extract($_POST);
@@ -167,7 +167,7 @@ class AdminController extends Controller {
 					$postManager->update($post);
 
 					$message = [
-						'success' => "L'article a bien été mis a jour.", 
+						'success' => "L'article a bien été mis à jour.", 
 					];
 				} catch (FormException $e) {
 					extract($_POST);
@@ -237,7 +237,7 @@ class AdminController extends Controller {
 
 					(new SocialManager)->create($social);
 					$message = [
-						'success' => "Le lien social a bien été ajouter.", 
+						'success' => "Le lien social a bien été ajouté.", 
 					];
 				} catch (FormException $e) {
 					$message = [
@@ -280,7 +280,7 @@ class AdminController extends Controller {
 					(new SocialManager)->update($social);
 
 					$message = [
-						'success' => "Le lien social a bien été mise a jour.", 
+						'success' => "Le lien social a bien été mis à jour.", 
 					];
 				} catch (FormException $e) {
 					$message = [

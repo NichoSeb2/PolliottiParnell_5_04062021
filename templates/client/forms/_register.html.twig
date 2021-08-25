@@ -1,14 +1,14 @@
 <form action="/register#message" method="post" class="m-auto" style="max-width: 500px;">
 	<div class="form-floating">
-		<input class="form-control" id="firstName" name="firstName" type="text" placeholder="Entrer votre prenom..." required="" value="{{ form.firstName }}">
-		<label for="firstName">Prenom</label>
+		<input class="form-control" id="firstName" name="firstName" type="text" placeholder="Entrez votre prénom..." required="" value="{{ form.firstName }}">
+		<label for="firstName">Prénom</label>
 	</div>
 	<div class="form-floating">
-		<input class="form-control" id="lastName" name="lastName" type="text" placeholder="Entrer votre nom..." required="" value="{{ form.lastName }}">
+		<input class="form-control" id="lastName" name="lastName" type="text" placeholder="Entrez votre nom..." required="" value="{{ form.lastName }}">
 		<label for="lastName">Nom</label>
 	</div>
 	<div class="form-floating">
-		<input class="form-control" id="email" name="email" type="email" placeholder="Entrer votre E-mail..." required="" value="{{ form.email }}">
+		<input class="form-control" id="email" name="email" type="email" placeholder="Entrez votre E-mail..." required="" value="{{ form.email }}">
 		<label for="email">Adresse e-mail</label>
 	</div>
 	<div class="form-floating">
@@ -17,7 +17,7 @@
 	</div>
 	<div class="form-floating">
 		<input class="form-control" id="confirmPassword" name="confirmPassword" type="password" placeholder="Entrez la confirmation de votre mot de passe..." required="">
-		<label for="confirmPassword">Confirmation mot de passe</label>
+		<label for="confirmPassword">Confirmation du mot de passe</label>
 	</div>
 
 	<br>
@@ -27,7 +27,7 @@
 	</div>
 
 	{% if message.success is not null %}
-		<p class="text-justify text-success mb-1" id="message">Votre compte a bien été créer.</p>
+		<p class="text-justify text-success mb-1" id="message">Votre compte a bien été créé.</p>
 		<p class="text-justify text-success mt-1 mb-2">Un mail de verification vous a été envoyé, veuillez suivre les indications qui y mentionnées pour vérifier votre compte.</p>
 	{% endif %}
 
