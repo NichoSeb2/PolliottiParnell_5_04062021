@@ -140,54 +140,6 @@ class Manager {
 	}
 
 	/**
-	 * @param string $value
-	 * 
-	 * @return string
-	 */
-	protected function _escapeString(string $value): string {
-		return "\"". $value. "\"";
-	}
-
-	/**
-	 * @param bool $value
-	 * 
-	 * @return int
-	 */
-	protected function _escapeBool(bool $value): int {
-		return $value ? 1 : 0;
-	}
-
-	/**
-	 * @param mixed $value
-	 * 
-	 * @return mixed
-	 */
-	protected function _escapeValue($value) {
-		if (is_string($value)) {
-			$value = $this->_escapeString($value);
-		} else if (is_bool($value)) {
-			$value = $this->_escapeBool($value);
-		} else if (is_null($value)) {
-			$value = "NULL";
-		}
-
-		return $value;
-	}
-
-	/**
-	 * @param array $values
-	 * 
-	 * @return array
-	 */
-	protected function _escapeArray(array $values): array {
-		foreach ($values as $key => $value) {
-			$values[$key] = $this->_escapeValue($value);
-		}
-
-		return $values;
-	}
-
-	/**
 	 * @param array $data
 	 * 
 	 * @return array
@@ -325,7 +277,6 @@ class Manager {
 
 		// key and value split
 		$keys = array_keys($data);
-		$values = $this->_escapeArray(array_values($data));
 		$values = array_values($data);
 
 		$sql .= " (". implode(", ", $keys). ") VALUES (". implode(", ", array_map(function($key) {
