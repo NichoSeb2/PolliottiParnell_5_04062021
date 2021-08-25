@@ -1,7 +1,7 @@
 <form action="/admin#message" method="post">
 	<div class="row">
 		<div class="form-group col-12 col-md-6">
-			<label for="firstName">Prenom</label>
+			<label for="firstName">Prénom</label>
 			<input type="text" class="form-control" id="firstName" name="firstName" value="{{ admin.firstName }}" required="">
 		</div>
 		<div class="form-group col-12 col-md-6">
@@ -17,7 +17,7 @@
 </form>
 
 {% if message.accountSuccess is not null %}
-	<p class="mt-3 text-success" id="message">Les informations de votre compte on bien été mise a jour.</p>
+	<p class="mt-3 text-success" id="message">Les informations de votre compte ont bien été mises à jour.</p>
 {% endif %}
 
 {% if message.accountError is not null %}

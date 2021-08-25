@@ -25,15 +25,15 @@ class FileUploader {
 			case 2:
 				throw new FileTooBigException("Le fichier est trop volumineux, il ne peut pas dépacer : ". ini_get('upload_max_filesize'). ".");
 			case 3:
-				throw new FileException("Le fichier n'a été que partiellement téléchargé.");
+				throw new FileException("Le fichier n'a été que partiellement téléversé.");
 			case 4:
-				throw new FileException("Aucun fichier n'a été téléchargé.");
+				throw new FileException("Aucun fichier n'a été téléversé.");
 			case 6:
 				throw new FileServerException("Un dossier temporaire est manquant.");
 			case 7:
 				throw new FileServerException("Échec de l'écriture du fichier sur le disque.");
 			case 8:
-				throw new FileServerException("Une extension PHP a arrêté l'envoi de fichier.");
+				throw new FileServerException("Une exception PHP a arrêté l'envoi de fichier.");
 			default:
 				break;
 		}
@@ -44,10 +44,10 @@ class FileUploader {
 			if (move_uploaded_file($file["tmp_name"], $targetFile)) {
 				return "/". $targetFile;
 			} else {
-				throw new FileException("Le fichier n'a pas pu être téléchargé.");
+				throw new FileException("Le fichier n'a pas pu être téléversé.");
 			}
 		} else {
-			throw new FormException("Le type du fichier uploader n'est pas autoriser.");
+			throw new FormException("Le type du fichier téléverser n'est pas autorisé.");
 		}
 	}
 }
