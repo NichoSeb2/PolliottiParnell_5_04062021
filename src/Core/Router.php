@@ -38,11 +38,11 @@ class Router {
 			$route['uri'] = rtrim($route['uri'], "/");
 
 			if (preg_match('#^'. $route['uri']. '$#', $requestURI, $matches)) {
-				$controller = "\\App\\Controllers\\". $route['controller'];
+				$controllerName = "\\App\\Controllers\\". $route['controller'];
 
 				$params = array_combine($route['parameters'], array_slice($matches, 1));
 
-				$this->controller = new $controller($route['action'], $params);
+				$this->controller = new $controllerName($route['action'], $params);
 				return $this->controller;
 			}
 		}

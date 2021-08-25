@@ -29,9 +29,12 @@ class AdminManager extends Manager {
 	 * @return Entity|null
 	 */
 	public function findById(int $userId) {
-		$sql = "SELECT * FROM admin AS a JOIN user AS u ON a.user_id = u.id WHERE a.user_id = ". $userId;
+		$sql = "SELECT * FROM admin AS a JOIN user AS u ON a.user_id = u.id WHERE a.user_id = :id";
 
-		$request = $this->pdo->query($sql);
+		$request = $this->pdo->prepare($sql);
+		$request->execute([
+			'id' => $userId, 
+		]);
 		$results = $request->fetchAll();
 
 		$entities = $this->convertEntities($results);

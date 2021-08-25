@@ -45,9 +45,10 @@ class PostManager extends Manager {
 			'content' => "temp_comment_content", 
 		], "c"). " FROM post AS p LEFT JOIN comment AS c ON p.id = c.post_id AND c.status = true";
 
-		$sql = $this->_appendIfCorrect($sql, $where, $orderBy, $limit, $offset);
+		$result = $this->_appendIfCorrect($sql, $where, $orderBy, $limit, $offset);
 
-		$request = $this->pdo->query($sql);
+		$request = $this->pdo->prepare($result[0]);
+		$request->execute($result[1]);
 		$results = $request->fetchAll();
 
 		if (!empty($results)) {
@@ -89,7 +90,8 @@ class PostManager extends Manager {
 	public function delete(Entity $post): void {
 		$sql = "DELETE p, c FROM post p LEFT JOIN comment c ON p.id = c.post_id WHERE p.slug = :slug";
 
-		$this->pdo->prepare($sql)->execute([
+		$request = $this->pdo->prepare($sql);
+		$request->execute([
 			'slug' => $post->getSlug(), 
 		]);
 	}
