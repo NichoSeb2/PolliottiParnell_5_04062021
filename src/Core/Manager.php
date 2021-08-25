@@ -27,11 +27,16 @@ class Manager {
 	 * @param int|null $limit
 	 * @param int|null $offset
 	 * 
-	 * @return string
+	 * @return array
 	 */
-	protected function _appendIfCorrect(string $sql, array $where = [], array $orderBy = [], int $limit = null, int $offset = null): string {
+	protected function _appendIfCorrect(string $sql, array $where = [], array $orderBy = [], int $limit = null, int $offset = null): array {
+		$data = [];
+
 		if (!empty($where)) {
-			$sql .= " ". $this->_computeWhere($where);
+			$result = $this->_computeWhere($where);
+
+			$sql .= " ". $result[0];
+			$data = array_merge($data, $result[1]);
 		}
 
 		if (!empty($orderBy)) {
@@ -46,7 +51,7 @@ class Manager {
 			}
 		}
 
-		return $sql;
+		return [$sql, $data];
 	}
 
 	/**
@@ -68,16 +73,21 @@ class Manager {
 	/**
 	 * @param array $where
 	 * 
-	 * @return string
+	 * @return array
 	 */
-	protected function _computeWhere(array $where): string {
+	protected function _computeWhere(array $where): array {
 		$groups = [];
+		$values = [];
 
 		foreach ($where as $key => $value) {
-			$groups[] = $key. " = \"". $value. "\"";
+			$placeholderKey = explode(".", $key);
+			$placeholderKey = end($placeholderKey);
+
+			$groups[] = $key. " = :". $placeholderKey;
+			$values[$placeholderKey] = $value;
 		}
 
-		return "WHERE ". implode(" AND ", $groups);
+		return ["WHERE ". implode(" AND ", $groups), $values];
 	}
 
 	/**
@@ -103,6 +113,7 @@ class Manager {
 
 	/**
 	 * @param Entity $entity
+	 * @param array $excludeGetter
 	 * 
 	 * @return array
 	 */
@@ -129,59 +140,11 @@ class Manager {
 	}
 
 	/**
-	 * @param string $value
-	 * 
-	 * @return string
-	 */
-	protected function _escapeString(string $value): string {
-		return "\"". $value. "\"";
-	}
-
-	/**
-	 * @param bool $value
-	 * 
-	 * @return int
-	 */
-	protected function _escapeBool(bool $value): int {
-		return $value ? 1 : 0;
-	}
-
-	/**
-	 * @param mixed $value
-	 * 
-	 * @return mixed
-	 */
-	protected function _escapeValue($value) {
-		if (is_string($value)) {
-			$value = $this->_escapeString($value);
-		} else if (is_bool($value)) {
-			$value = $this->_escapeBool($value);
-		} else if (is_null($value)) {
-			$value = "NULL";
-		}
-
-		return $value;
-	}
-
-	/**
-	 * @param array $values
-	 * 
-	 * @return array
-	 */
-	protected function _escapeArray(array $values): array {
-		foreach ($values as $key => $value) {
-			$values[$key] = $this->_escapeValue($value);
-		}
-
-		return $values;
-	}
-
-	/**
 	 * @param array $data
 	 * 
 	 * @return array
 	 */
-	protected function _mergeKeyValue(array $data): array {
+	protected function _computeKeyForPreparedSet(array $data): array {
 		$result = [];
 
 		foreach ($data as $key => $value) {
@@ -190,17 +153,27 @@ class Manager {
 				continue;
 			}
 
-			// this conversion need to be in first and separated so the date formatted can be escaped as a string
+			$result[] = $key. " = :". $key;
+		}
+
+		return $result;
+	}
+
+	/**
+	 * @param array $data
+	 * 
+	 * @return array
+	 */
+	protected function _filterValue(array $data): array {
+		return array_map(function($value) {
 			if ($value instanceof DateTime) {
 				$value = $value->format($this->dateFormat);
 			}
 
-			$value = $this->_escapeValue($value);
-
-			$result[] = $key. " = ". $value;
-		}
-
-		return $result;
+			return $value;
+		}, array_filter($data, function($value) {
+			return !($value instanceof Entity);
+		}));
 	}
 
 	public function __construct() {
@@ -241,7 +214,8 @@ class Manager {
 	public function findAll(): array {
 		$sql = "SELECT * FROM ". $this->tableName;
 
-		$request = $this->pdo->query($sql);
+		$request = $this->pdo->prepare($sql);
+		$request->execute();
 		$results = $request->fetchAll();
 
 		return $this->convertEntities($results);
@@ -258,9 +232,13 @@ class Manager {
 	public function findBy(array $where = [], array $orderBy = [], int $limit = null, int $offset = null): array {
 		$sql = "SELECT * FROM ". $this->tableName;
 
-		$sql = $this->_appendIfCorrect($sql, $where, $orderBy, $limit, $offset);
+		$result = $this->_appendIfCorrect($sql, $where, $orderBy, $limit, $offset);
 
-		$request = $this->pdo->query($sql);
+		$sql = $result[0];
+		$data = $result[1];
+
+		$request = $this->pdo->prepare($sql);
+		$request->execute($data);
 		$results = $request->fetchAll();
 
 		return $this->convertEntities($results);
@@ -299,11 +277,16 @@ class Manager {
 
 		// key and value split
 		$keys = array_keys($data);
-		$values = $this->_escapeArray(array_values($data));
+		$values = array_values($data);
 
-		$sql .= " (". implode(", ", $keys). ") VALUES (". implode(", ", $values). ")";
+		$sql .= " (". implode(", ", $keys). ") VALUES (". implode(", ", array_map(function($key) {
+			return ":". $key;
+		}, $keys)). ")";
 
-		$this->pdo->query($sql);
+		$data = array_combine($keys, $values);
+
+		$request = $this->pdo->prepare($sql);
+		$request->execute($data);
 	}
 
 	/**
@@ -318,11 +301,15 @@ class Manager {
 		$entity->setUpdatedAt(date($this->dateFormat));
 
 		// keys and values to update
-		$data = $this->_mergeKeyValue($this->_extractFromEntity($entity, $this->excludeGetterForUpdate));
+		$data = $this->_computeKeyForPreparedSet($this->_extractFromEntity($entity, $this->excludeGetterForUpdate));
 
-		$sql .= implode(", ", $data). " WHERE id = ". $entity->getId();
+		$sql .= implode(", ", $data). " WHERE id = :id";
 
-		$this->pdo->query($sql);
+		$data = $this->_filterValue($this->_extractFromEntity($entity, $this->excludeGetterForUpdate));
+		$data['id'] = $entity->getId();
+
+		$request = $this->pdo->prepare($sql);
+		$request->execute($data);
 	}
 
 	/**
@@ -331,9 +318,12 @@ class Manager {
 	 * @return void
 	 */
 	public function delete(Entity $entity): void {
-		$sql = "DELETE FROM ". $this->tableName. " WHERE id = ". $entity->getId();
+		$sql = "DELETE FROM ". $this->tableName. " WHERE id = :id";
 
-		$this->pdo->query($sql);
+		$request = $this->pdo->prepare($sql);
+		$request->execute([
+			'id' => $entity->getId(), 
+		]);
 	}
 
 	/**
@@ -342,7 +332,8 @@ class Manager {
 	public function count(): int {
 		$sql = "SELECT COUNT(*) FROM ". $this->tableName;
 
-		$request = $this->pdo->query($sql);
+		$request = $this->pdo->prepare($sql);
+		$request->execute();
 		$result = $request->fetch();
 
 		return (int) $result[0];

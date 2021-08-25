@@ -12,7 +12,6 @@ $('input[type="checkbox"]').on("change", function () {
 		// Request data update
 		$.ajax({
 			url: "/admin/comment/" + commentId + "/" + (newStatus ? "put-online" : "put-offline"), 
-			success: function(data) {}, 
 			error: function(err) {
 				console.error(err);
 			}, 
