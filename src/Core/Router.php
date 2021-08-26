@@ -1,8 +1,10 @@
 <?php
 namespace App\Core;
 
+use App\Controllers\AdminController;
 use App\Core\Controller;
 use App\Exceptions\ConfigException;
+use App\Managers\AdminManager;
 
 class Router {
 	/**
@@ -11,6 +13,12 @@ class Router {
 	private $controller;
 
 	public function __construct() {
+		if (is_null((new AdminManager())->findById(1))) {
+			(new AdminController("showSetup"))->execute();
+
+			die();
+		}
+
 		$this->initController();
 	}
 

@@ -16,10 +16,17 @@ class TwigGlobalVariable {
 	public static function getBlog(): array {
 		$admin = self::getAdmin();
 
-		return [
-			'title' => $admin->getFirstName(). " ". $admin->getLastName(). "'s blog", 
-			'copyright' => $admin->getFirstName(). " ". $admin->getLastName(), 
-		];
+		if (is_null($admin)) {
+			return [
+				'title' => "Setup", 
+				'copyright' => "Parnell Polliotti", 
+			];
+		} else {
+			return [
+				'title' => $admin->getFirstName(). " ". $admin->getLastName(). "'s blog", 
+				'copyright' => $admin->getFirstName(). " ". $admin->getLastName(), 
+			];
+		}
 	}
 
 	public static function getCurrentUri() {

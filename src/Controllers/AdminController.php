@@ -316,4 +316,11 @@ class AdminController extends Controller {
 			header("Location: /admin/social");
 		});
 	}
+
+	/**
+	 * @return void
+	 */
+	public function showSetup(): void {
+		$this->render("@client/pages/setup.html.twig");
+	}
 }
