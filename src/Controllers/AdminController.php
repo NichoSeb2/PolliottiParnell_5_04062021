@@ -321,6 +321,35 @@ class AdminController extends Controller {
 	 * @return void
 	 */
 	public function showSetup(): void {
-		$this->render("@client/pages/setup.html.twig");
+		$message = [];
+		$form = [];
+
+		if (isset($_POST['submitButton'])) {
+			try {
+				(new FormHandler)->setup($_POST, $_FILES);
+
+				$message = [
+					'success' => "Le site a été initialisé, un mail de vérification de votre compte vous a été envoyé. Vous pouvez quitté cette page.", 
+				];
+			} catch (FormException $e) {
+				extract($_POST);
+
+				$message = [
+					'error' => $e->getMessage(), 
+				];
+				$form = [
+					'firstName' => $firstName, 
+					'lastName' => $lastName, 
+					'email' => $email, 
+					'catchPhrase' => $catchPhrase, 
+					'pictureAlt' => $pictureAlt, 
+				];
+			}
+		}
+
+		$this->render("@client/pages/setup.html.twig", [
+			'message' => $message, 
+			'form' => $form, 
+		]);
 	}
 }
