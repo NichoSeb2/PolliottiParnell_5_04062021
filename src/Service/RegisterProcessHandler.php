@@ -22,86 +22,80 @@ class RegisterProcessHandler {
 		extract($data);
 		extract($file);
 
-		if (isset($firstName, $lastName, $email, $password, $confirmPassword, $catchPhrase, $cvFile, $pictureAlt, $pictureFile)) {
-			if ($password === $confirmPassword) {
-				$userManager = new UserManager(['getCreatedAt', 'getUpdatedAt']);
-				$adminManager = new AdminManager([
-					'getCreatedAt', 
-					'getUpdatedAt', 
-					'getRole', 
-					'getFirstName', 
-					'getLastName', 
-					'getEmail', 
-					'getPassword', 
-					'getVerified', 
-					'getVerificationToken', 
-					'getForgotPasswordToken', 
-				]);
-
-				// to prevent error at creation
-				$userManager->delete(new User([
-					'id' => 1, 
-				]));
-				$adminManager->delete(new Admin([
-					'id' => 1, 
-				]));
-
-				$options = [
-					'cost' => 12, 
-				];
-
-				// id is set because the main admin and user need to be the id 1
-				$userManager->create(new User([
-					'id' => 1, 
-					'role' => "admin", 
-					'firstName' => $firstName, 
-					'lastName' => $lastName, 
-					'email' => $email, 
-					'password' => password_hash($password, PASSWORD_BCRYPT, $options), 
-					'verified' => false, 
-					'verificationToken' => Uuid::uuid4()->toString(), 
-				]));
-
-				$user = $userManager->findOneBy([
-					'email' => $email, 
-				]);
-
-				// id is set because the main admin and user need to be the id 1
-				$admin = new Admin([
-					'id' => 1, 
-					'userId' => $user->getId(), 
-					'catchPhrase' => $catchPhrase, 
-					'altPicture' => $pictureAlt, 
-				]);
-
-				try {
-					if (isset($file['cvFile']) && $file['cvFile']['error'] != 4) {
-						$targetFile = (new FileUploader)->upload($file['cvFile'], "uploads/", "cv", ['application/pdf']);
-
-						$admin->setUrlCv($targetFile);
-					}
-
-					if (isset($file['pictureFile']) && $file['pictureFile']['error'] != 4) {
-						$targetFile = (new FileUploader)->upload($file['pictureFile'], "uploads/", "pdp", FileUploader::IMAGE_TYPE);
-
-						$admin->setUrlPicture($targetFile);
-					}
-				} catch (FileTooBigException $e) {
-					throw new FormException($e->getMessage());
-				} catch (FileServerException $e) {
-					throw new FileServerException($e->getMessage());
-				} catch (FileException $e) {
-					throw new FormException(FormReturnMessage::ERROR_WHILE_UPLOADING_FILE_RETRY);
-				}
-
-				$adminManager->create($admin);
-
-				(new SendMail)->sendVerificationMail($user);
-			} else {
-				throw new FormException(FormReturnMessage::PASSWORD_CPASSWORD_NOT_MATCH);
-			}
-		} else {
+		if (!isset($firstName, $lastName, $email, $password, $confirmPassword, $catchPhrase, $cvFile, $pictureAlt, $pictureFile) || $cvFile['error'] == 4 || $pictureFile['error'] == 4) {
 			throw new FormException(FormReturnMessage::MISSING_FIELD);
+		}
+
+		if ($password === $confirmPassword) {
+			$userManager = new UserManager(['getCreatedAt', 'getUpdatedAt']);
+			$adminManager = new AdminManager([
+				'getCreatedAt', 
+				'getUpdatedAt', 
+				'getRole', 
+				'getFirstName', 
+				'getLastName', 
+				'getEmail', 
+				'getPassword', 
+				'getVerified', 
+				'getVerificationToken', 
+				'getForgotPasswordToken', 
+			]);
+
+			// to prevent error at creation
+			$userManager->delete(new User([
+				'id' => 1, 
+			]));
+			$adminManager->delete(new Admin([
+				'id' => 1, 
+			]));
+
+			$options = [
+				'cost' => 12, 
+			];
+
+			// id is set because the main admin and user need to be the id 1
+			$userManager->create(new User([
+				'id' => 1, 
+				'role' => "admin", 
+				'firstName' => $firstName, 
+				'lastName' => $lastName, 
+				'email' => $email, 
+				'password' => password_hash($password, PASSWORD_BCRYPT, $options), 
+				'verified' => false, 
+				'verificationToken' => Uuid::uuid4()->toString(), 
+			]));
+
+			$user = $userManager->findOneBy([
+				'email' => $email, 
+			]);
+
+			// id is set because the main admin and user need to be the id 1
+			$admin = new Admin([
+				'id' => 1, 
+				'userId' => $user->getId(), 
+				'catchPhrase' => $catchPhrase, 
+				'altPicture' => $pictureAlt, 
+			]);
+
+			try {
+				$targetFile = (new FileUploader)->upload($file['cvFile'], "uploads/", "cv", ['application/pdf']);
+				$admin->setUrlCv($targetFile);
+
+				$targetFile = (new FileUploader)->upload($file['pictureFile'], "uploads/", "pdp", FileUploader::IMAGE_TYPE);
+				$admin->setUrlPicture($targetFile);
+			} catch (FileTooBigException $e) {
+				throw new FormException($e->getMessage());
+			} catch (FileServerException $e) {
+				throw new FileServerException($e->getMessage());
+			} catch (FileException $e) {
+				throw new FormException(FormReturnMessage::ERROR_WHILE_UPLOADING_FILE_RETRY);
+			}
+
+			$adminManager->create($admin);
+
+			(new SendMail)->sendVerificationMail($user);
+		} else {
+			throw new FormException(FormReturnMessage::PASSWORD_CPASSWORD_NOT_MATCH);
 		}
 	}
 
