@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8">
+
+		<!-- Basic HTML Meta Tags -->
+		<meta name="author" content="Parnell Polliotti">
+		<meta name="description" content="{% block description %}Bienvenue sur mon blog consacrée au développement back end{% endblock %}">
+		<meta name="copyright" content="Parnell Polliotti">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+		<!-- Twitter Meta Tags -->
+		<meta name="twitter:card" content="summary">
+		<meta name="twitter:site" content="Parnell Polliotti's blog">
+		<meta name="twitter:title" content="{% block title %}Parnell Polliotti's blog{% endblock %}">
+		<meta name="twitter:description" content="{{ block('description') }}">
+		<meta name="twitter:image" content="">
+
+		<!-- Open Graph Meta Tags -->
+		<meta property="og:type" content="website">
+		<meta property="og:site_name" content="Parnell Polliotti's blog">
+		<meta property="og:title" content="{{ block('title') }}">
+		<meta property="og:description" content="{{ block('description') }}">
+		<meta property="og:url" content="https://oc-p5.play-for-eternity.net/">
+		<meta property="og:locale" content="fr">
+
+		<!-- Font Awesome icons -->
+		<script src="https://use.fontawesome.com/releases/v5.15.3/js/all.js" crossorigin="anonymous"></script>
+
+		<!-- Core theme CSS (includes Bootstrap) -->
+		<link href="/css/client.min.css" rel="stylesheet" />
+
+		<title>{{ block('title') }}</title>
+	</head>
+	<body>
+		<main class="d-flex flex-column justify-content-center align-items-center" style="height: 100vh;background-image: url('/img/client/setup.jpg');background-size: cover;background-position: center;">{% block main %}{% endblock %}</main>
+
+		<!-- Bootstrap core JS-->
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"></script>
+	</body>
+</html>

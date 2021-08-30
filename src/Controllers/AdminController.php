@@ -7,9 +7,10 @@ use App\Service\FormHandler;
 use App\Managers\PostManager;
 use App\Managers\SocialManager;
 use App\Exceptions\FormException;
-use App\Exceptions\RequestedEntityNotFound;
-use App\Managers\CommentManager;
 use App\Service\FormReturnMessage;
+use App\Service\RegisterProcessHandler;
+use App\Service\EditAccountProcessHandler;
+use App\Exceptions\RequestedEntityNotFound;
 
 class AdminController extends Controller {
 	/**
@@ -23,7 +24,7 @@ class AdminController extends Controller {
 
 			if (isset($_POST['submitButtonAccount'])) {
 				try {
-					$admin = (new FormHandler)->editAccount($_POST);
+					$admin = (new EditAccountProcessHandler)->editAccount($_POST);
 
 					$message = [
 						'accountSuccess' => true, 
@@ -37,7 +38,7 @@ class AdminController extends Controller {
 
 			if (isset($_POST['submitButtonPassword'])) {
 				try {
-					(new FormHandler)->editPassword($_POST);
+					(new EditAccountProcessHandler)->editPassword($_POST);
 
 					$message = [
 						'passwordSuccess' => true, 
@@ -51,7 +52,7 @@ class AdminController extends Controller {
 
 			if (isset($_POST['submitButtonAdminInfo'])) {
 				try {
-					$admin = (new FormHandler)->editAdminInfo($_POST, $_FILES);
+					$admin = (new EditAccountProcessHandler)->editAdminInfo($_POST, $_FILES);
 
 					$message = [
 						'adminInfoSuccess' => true, 
@@ -315,5 +316,41 @@ class AdminController extends Controller {
 
 			header("Location: /admin/social");
 		});
+	}
+
+	/**
+	 * @return void
+	 */
+	public function showSetup(): void {
+		$message = [];
+		$form = [];
+
+		if (isset($_POST['submitButton'])) {
+			try {
+				(new RegisterProcessHandler)->setup($_POST, $_FILES);
+
+				$message = [
+					'success' => "Le site a été initialisé, un mail de vérification de votre compte vous a été envoyé. Vous pouvez quitté cette page.", 
+				];
+			} catch (FormException $e) {
+				extract($_POST);
+
+				$message = [
+					'error' => $e->getMessage(), 
+				];
+				$form = [
+					'firstName' => $firstName, 
+					'lastName' => $lastName, 
+					'email' => $email, 
+					'catchPhrase' => $catchPhrase, 
+					'pictureAlt' => $pictureAlt, 
+				];
+			}
+		}
+
+		$this->render("@client/pages/setup.html.twig", [
+			'message' => $message, 
+			'form' => $form, 
+		]);
 	}
 }

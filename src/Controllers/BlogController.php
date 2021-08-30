@@ -35,6 +35,8 @@ class BlogController extends Controller {
 
 		$post = $postManager->findOneByWithComment([
 			'p.slug' => $slug, 
+		], [
+			'c.created_at' => "DESC", 
 		]);
 
 		if (is_null($post)) {

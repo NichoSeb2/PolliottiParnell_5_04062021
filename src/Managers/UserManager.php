@@ -5,6 +5,14 @@ use App\Core\Manager;
 use App\Model\User;
 
 class UserManager extends Manager {
+	public function __construct($excludeGetterForInsert = ['getId', 'getCreatedAt', 'getUpdatedAt'], $excludeGetterForUpdate = ['getId', 'getCreatedAt']) {
+		parent::__construct();
+
+		$this->excludeGetterForInsert = $excludeGetterForInsert;
+
+		$this->excludeGetterForUpdate = $excludeGetterForUpdate;
+	}
+
 	/**
 	 * @return User|null
 	 */

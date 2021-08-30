@@ -1,4 +1,4 @@
-<form action="/blog/{{ post.slug }}" method="post">
+<form action="/blog/{{ post.slug }}#message" method="post">
 	<div class="form-floating">
 		<textarea class="form-control" id="content" name="content" placeholder="Entrez votre commentaire ici..." style="height: 4.5rem; min-height: 4.5rem;" required="" {{ connected == false ? 'disabled=""' : '' }}></textarea>
 		<label for="content">Votre commentaire</label>
@@ -15,10 +15,10 @@
 	</div>
 
 	{% if commentSuccess is not null %}
-		<p class="text-success text-center">{{ commentSuccess }}</p>
+		<p class="text-success text-center" id="message">{{ commentSuccess }}</p>
 	{% endif %}
 
 	{% if commentError is not null %}
-		<p class="text-danger text-center">{{ commentError }}</p>
+		<p class="text-danger text-center" id="message">{{ commentError }}</p>
 	{% endif %}
 </form>

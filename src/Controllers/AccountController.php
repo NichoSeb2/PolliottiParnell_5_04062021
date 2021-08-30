@@ -2,10 +2,10 @@
 namespace App\Controllers;
 
 use App\Core\Controller;
-use App\Service\FormHandler;
 use App\Managers\UserManager;
 use App\Exceptions\FormException;
 use App\Service\FormReturnMessage;
+use App\Service\RegisterProcessHandler;
 
 class AccountController extends Controller {
 	/**
@@ -17,7 +17,7 @@ class AccountController extends Controller {
 
 		if (isset($_POST['submitButton'])) {
 			try {
-				(new FormHandler)->login($_POST);
+				(new RegisterProcessHandler)->login($_POST);
 			} catch (FormException $e) {
 				extract($_POST);
 
@@ -60,7 +60,7 @@ class AccountController extends Controller {
 
 		if (isset($_POST['submitButton'])) {
 			try {
-				(new FormHandler)->register($_POST);
+				(new RegisterProcessHandler)->register($_POST);
 
 				$message = [
 					'success' => true, 
@@ -96,7 +96,7 @@ class AccountController extends Controller {
 
 		if (isset($_POST['submitButton'])) {
 			try {
-				(new FormHandler)->resend($_POST);
+				(new RegisterProcessHandler)->resend($_POST);
 
 				$message = [
 					'success' => FormReturnMessage::VERIFICATION_MAIL_RESEND, 
@@ -122,7 +122,7 @@ class AccountController extends Controller {
 		$message = [];
 
 		try {
-			(new FormHandler)->verify($verificationToken);
+			(new RegisterProcessHandler)->verify($verificationToken);
 
 			$message = [
 				'success' => FormReturnMessage::ACCOUNT_SUCCESSFULLY_VERIFIED, 
@@ -148,7 +148,7 @@ class AccountController extends Controller {
 
 		if (isset($_POST['submitButton'])) {
 			try {
-				(new FormHandler)->forget($_POST);
+				(new RegisterProcessHandler)->forget($_POST);
 
 				$message = [
 					'success' => FormReturnMessage::FORGOT_PASSWORD_MAIL_SEND, 
@@ -184,7 +184,7 @@ class AccountController extends Controller {
 		if (!is_null($user)) {
 			if (isset($_POST['submitButton'])) {
 				try {
-					(new FormHandler)->newPassword($_POST, $user);
+					(new RegisterProcessHandler)->newPassword($_POST, $user);
 
 					$message = [
 						'success' => FormReturnMessage::PASSWORD_SUCCESSFULLY_CHANGED, 
