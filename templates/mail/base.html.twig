@@ -5,37 +5,20 @@
 
 		<title>{% block title %}{% endblock %}</title>
 
-		<style>
-			@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,600;0,700;0,800;1,300;1,400;1,600;1,700;1,800&display=swap');
-
-			* {
-				margin: 0;
-				padding: 0;
-
-				box-sizing: border-box;
-
-				font-family: "Open Sans", Arial, sans-serif;
-			}
-
-			header {
-				margin-bottom: 15px;
-				padding: 10px;
-
-				text-align: center;
-
-				background-color: #2BC762;
-				color: white;
-			}
-
-			main h2, main p {
-				margin: 7.5px;
-			}
-		</style>
+		{% include "@mail/parts/_style.html.twig" %}
 	</head>
 	<body>
 		<header>
-			<h1>{{ block('title') }}</h1>
+			<h1>{{ blog.title }}</h1>
 		</header>
-		<main>{% block mail %}{% endblock %}</main>
+		<main>
+			<h1>{{ block('title') }}</h1>
+			<div class="container">
+				{% block mail %}{% endblock %}
+			</div>
+		</main>
+		<footer>
+			<p>Copyright &copy; {{ blog.copyright }} 2021</p>
+		</footer>
 	</body>
 </html>
