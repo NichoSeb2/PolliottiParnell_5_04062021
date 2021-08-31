@@ -2,12 +2,16 @@
 <html lang="fr">
     <head>
         {% block head %}
-            <title>{% block title %}Mon blog - Error{% endblock %}</title>
+            <title>{% block title %}Error{% endblock %}</title>
+
+            <link href="/css/client.min.css" rel="stylesheet" />
         {% endblock %}
     </head>
     <body>
-        <main>
-            {% block main %}{% endblock %}
+        <main class="d-flex justify-content-center align-items-center" style="height: 100vh;">
+            <div class="d-flex justify-content-center flex-column" style="max-width: 800px;">
+                {% block main %}{% endblock %}
+            </div>
         </main>
     </body>
 </html>

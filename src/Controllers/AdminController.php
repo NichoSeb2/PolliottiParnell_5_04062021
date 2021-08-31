@@ -330,7 +330,7 @@ class AdminController extends Controller {
 				(new RegisterProcessHandler)->setup($_POST, $_FILES);
 
 				$message = [
-					'success' => "Le site a été initialisé, un mail de vérification de votre compte vous a été envoyé. Vous pouvez quitté cette page.", 
+					'success' => "Le site a été initialisé, un mail de vérification de votre compte vous a été envoyé. Vous pouvez quitter cette page.", 
 				];
 			} catch (FormException $e) {
 				extract($_POST);
