@@ -1,20 +1,22 @@
 {% extends "@client/errors/error.html.twig" %}
 
-{% block title %}
-	500
-{% endblock %}
+{% block title %}500{% endblock %}
 
 {% block main %}
-	<h1>500</h1>
+	<h1 class="text-center m-0" style="font-size: 10em;">500</h1>
 
-	{% if file is defined %}
-		<p>Error in <b>{{ file }}</b> on line <b>{{ line }}</b></p>
+	<h2 class="fw-light my-2 text-center">{{ message }}</h2>
+
+	{% if debug %}
+		{% if file is defined %}
+			<p class="my-1">Error in <b>{{ file }}</b> on line <b>{{ line }}</b></p>
+		{% endif %}
+
+		{% for trace in traces %}
+			<p class="my-1">Error trace in <b>{{ trace["file"] }}</b> on line <b>{{ trace["line"] }}</b></p>
+		{% endfor %}
 	{% endif %}
 
-	<p>{{ message }}</p>
-
-	{% for trace in traces %}
-		<p>Error trace in <b>{{ trace["file"] }}</b> on line <b>{{ trace["line"] }}</b></p>
-	{% else %}
-	{% endfor %}
+	<h2 class="fw-light my-2 text-center">Une erreur serveur est survenue, réessayer dans quelque minutes.<br>Si le problème persiste merci de contacter l'administrateur serveur.</h2>
+	<a class="btn btn-primary text-uppercase text-light m-2" href="mailto:contact@play-for-eternity.net" target="_blank">Envoyer un mail à l'administrateur serveur</a>
 {% endblock %}

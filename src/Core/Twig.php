@@ -32,7 +32,7 @@ class Twig {
 		$loader->addPath(TEMPLATE_DIR. '/mail', 'mail');
 
 		$twig = new Environment($loader, [
-			'debug' => $this->config['env'] === 'dev'
+			'debug' => $this->config['env'] === "dev", 
 		]);
 
 		$twig->addExtension(new DebugExtension());
@@ -46,6 +46,7 @@ class Twig {
 			}
 		});
 
+		$twig->addGlobal('debug', $this->config['env'] === "dev");
 		$twig->addGlobal('connected', (!empty($_SESSION['id']) && is_numeric($_SESSION['id'])));
 		$twig->addGlobal('socials', TwigGlobalVariable::getSocials());
 		$twig->addGlobal('admin', TwigGlobalVariable::getAdmin());
