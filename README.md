@@ -20,8 +20,8 @@
 - Run `composer install` in the site base directory ( the folder including the public one )
 - On the MySQL server, import the database using the `database.sql` script provided in the repository
 - Config files ( both files are located in the config directory )
-  - Remove the .example from the `db-config.yml.example` file
-  - Remove the .example from the `mail.yml.example` file
+  - Rename the `db-config.yml.example` file into `db-config.yml`
+  - Rename the `mail.yml.example` file into `mail.yml`
   - Edit both file as you need
   - The site environment can be changed in the `config.yml`, setting it to **dev** will enable explicit messages on 500 error
 - Go to the site URL, you will be prompted to set up the main admin account, when completed, the site installation is finished
