@@ -12,7 +12,7 @@
   - pdo_mysql
   - yaml
 - MySQL
-- Composer
+- Composer **1.x**
 
 ## Setup
 - Clone the repository in the web server base directory
