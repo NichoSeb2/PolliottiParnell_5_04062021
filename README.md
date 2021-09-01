@@ -6,8 +6,9 @@
 
 # Installation
 ## Server requirements : 
-- A web server ( apache, ... )
-- PHP at least version **7.4** with the following extension enabled :
+- Apache web server with at least the following extension enabled :
+  - rewrite
+- PHP version **7.4** with at least the following extension enabled :
   - mysqli
   - pdo_mysql
   - yaml
@@ -24,4 +25,6 @@
   - Rename the `mail.yml.example` file into `mail.yml`
   - Edit both file as you need
   - The site environment can be changed in the `config.yml`, setting it to **dev** will enable explicit messages on 500 error
+- Make sure that the user running the web server has write permission to the upload directory
+- Make sure that you allow the override in the webs server configuration ( `AllowOverride All` )
 - Go to the site URL, you will be prompted to set up the main admin account, when completed, the site installation is finished
