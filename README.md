@@ -6,19 +6,19 @@
 
 # Installation
 ## Server requirements : 
-- PHP at least version 7.3 with the following extension enabled :
+- A web server ( apache, ... )
+- PHP at least version **7.4** with the following extension enabled :
   - mysqli
   - pdo_mysql
   - yaml
 - MySQL
 - Composer
-- A web server ( apache, ... )
 
 ## Setup
 - Clone the repository in the web server base directory
 - Edit the web server config to make the **public** folder the base web directory
 - Run `composer install` in the site base directory ( the folder including the public one )
-- On the MySQL server, import the database using the sql script provided in the site repository
+- On the MySQL server, import the database using the `database.sql` script provided in the repository
 - Config files ( both files are located in the config directory )
   - Remove the .example from the `db-config.yml.example` file
   - Remove the .example from the `mail.yml.example` file
