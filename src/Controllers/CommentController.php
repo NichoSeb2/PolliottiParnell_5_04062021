@@ -4,6 +4,7 @@ namespace App\Controllers;
 use App\Core\Controller;
 use App\Service\AdminLogged;
 use App\Managers\CommentManager;
+use App\Service\CommentModerationProcessHandler;
 
 class CommentController extends Controller {
 	/**
@@ -32,17 +33,7 @@ class CommentController extends Controller {
 		(new AdminLogged)->adminLogged(function() {
 			$id = $this->params['id'];
 
-			$commentManager = new CommentManager();
-
-			$comment = $commentManager->findOneBy([
-				'id' => $id, 
-			]);
-
-			if (!is_null($comment)) {
-				$comment->setStatus(true);
-
-				$commentManager->update($comment);
-			}
+			(new CommentModerationProcessHandler)->updateCommentStatus($id, true);
 		});
 	}
 
@@ -53,17 +44,7 @@ class CommentController extends Controller {
 		(new AdminLogged)->adminLogged(function() {
 			$id = $this->params['id'];
 
-			$commentManager = new CommentManager();
-
-			$comment = $commentManager->findOneBy([
-				'id' => $id, 
-			]);
-
-			if (!is_null($comment)) {
-				$comment->setStatus(false);
-
-				$commentManager->update($comment);
-			}
+			(new CommentModerationProcessHandler)->updateCommentStatus($id, false);
 		});
 	}
 }
