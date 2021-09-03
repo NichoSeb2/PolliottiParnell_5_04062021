@@ -13,6 +13,8 @@ use App\Exceptions\FileTooBigException;
 
 class RegisterProcessHandler {
 	/**
+	 * Handle the initial setup of the site
+	 * 
 	 * @param array $data
 	 * @param array $file
 	 * 
@@ -100,6 +102,8 @@ class RegisterProcessHandler {
 	}
 
 	/**
+	 * Handle the login process
+	 * 
 	 * @param array $data
 	 * 
 	 * @return void
@@ -135,6 +139,8 @@ class RegisterProcessHandler {
 	}
 
 	/**
+	 * Handle the registration process
+	 * 
 	 * @param array $data
 	 * 
 	 * @return void
@@ -180,6 +186,8 @@ class RegisterProcessHandler {
 	}
 
 	/**
+	 * Handle the resend of a verification mail
+	 * 
 	 * @param array $data
 	 * 
 	 * @return void
@@ -209,6 +217,8 @@ class RegisterProcessHandler {
 	}
 
 	/**
+	 * Handle the verification of an account
+	 * 
 	 * @param string $verificationToken
 	 * 
 	 * @return void
@@ -234,6 +244,8 @@ class RegisterProcessHandler {
 	}
 
 	/**
+	 * Handle the process of a forgotten password
+	 * 
 	 * @param array $data
 	 * 
 	 * @return void
@@ -263,6 +275,8 @@ class RegisterProcessHandler {
 	}
 
 	/**
+	 * Handle the process of changing a password
+	 * 
 	 * @param array $data
 	 * @param User $user
 	 * 

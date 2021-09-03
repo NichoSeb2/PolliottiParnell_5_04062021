@@ -26,6 +26,8 @@ class AdminManager extends Manager {
 	}
 
 	/**
+	 * Return an admin based on its user-id
+	 * 
 	 * @param int $userId
 	 * 
 	 * @return Entity|null
@@ -49,6 +51,8 @@ class AdminManager extends Manager {
 	}
 
 	/**
+	 * Return the connected admin
+	 * 
 	 * @return Admin|null
 	 */
 	public function findConnected() {

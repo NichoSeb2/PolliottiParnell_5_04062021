@@ -14,6 +14,8 @@ class BlogController extends Controller {
 	private $nbPostPerPage = 3;
 
 	/**
+	 * Display a single post
+	 * 
 	 * @return void
 	 */
 	public function showPost(): void {
@@ -51,6 +53,8 @@ class BlogController extends Controller {
 	}
 
 	/**
+	 * Display the post list
+	 * 
 	 * @return void
 	 */
 	public function showBlog(): void {

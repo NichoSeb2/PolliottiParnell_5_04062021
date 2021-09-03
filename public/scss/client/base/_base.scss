@@ -32,3 +32,11 @@ blockquote {
 a:hover {
 	transition: color .15s ease-in-out, background-color .15s ease-in-out;
 }
+
+// Add 
+main.setup-background {
+	height: 100vh;
+
+	background-size: cover;
+	background-position: center;
+}

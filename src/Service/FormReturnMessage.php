@@ -1,6 +1,9 @@
 <?php
 namespace App\Service;
 
+/**
+ * List of constant used for forms error messages
+ */
 class FormReturnMessage {
 	const MISSING_FIELD = "Un champ n'est pas correctement rempli.";
 

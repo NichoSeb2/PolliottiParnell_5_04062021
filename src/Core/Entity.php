@@ -17,6 +17,8 @@ class Entity {
 	}
 
 	/**
+	 * Hydrate the entity
+	 * 
 	 * @param array $data
 	 * 
 	 * @return void

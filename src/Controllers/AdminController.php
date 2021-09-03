@@ -14,6 +14,8 @@ use App\Exceptions\RequestedEntityNotFound;
 
 class AdminController extends Controller {
 	/**
+	 * Display admin profile
+	 * 
 	 * @return void
 	 */
 	public function showProfile(): void {
@@ -72,6 +74,8 @@ class AdminController extends Controller {
 	}
 
 	/**
+	 * Display post list
+	 * 
 	 * @return void
 	 */
 	public function showPost(): void {
@@ -89,6 +93,8 @@ class AdminController extends Controller {
 	}
 
 	/**
+	 * Display the form to add a post
+	 * 
 	 * @return void
 	 */
 	public function addPost(): void {
@@ -142,6 +148,8 @@ class AdminController extends Controller {
 	}
 
 	/**
+	 * Display the form to edit a post
+	 * 
 	 * @return void
 	 */
 	public function editPost(): void {
@@ -194,6 +202,8 @@ class AdminController extends Controller {
 	}
 
 	/**
+	 * Display the form to delete a post
+	 * 
 	 * @return void
 	 */
 	public function deletePost(): void {
@@ -215,6 +225,8 @@ class AdminController extends Controller {
 	}
 
 	/**
+	 * Display socials links list
+	 * 
 	 * @return void
 	 */
 	public function showSocial(): void {
@@ -224,6 +236,8 @@ class AdminController extends Controller {
 	}
 
 	/**
+	 * Display the form to add a social link
+	 * 
 	 * @return void
 	 */
 	public function addSocial(): void {
@@ -254,6 +268,8 @@ class AdminController extends Controller {
 	}
 
 	/**
+	 * Display the form to edit a social link
+	 * 
 	 * @return void
 	 */
 	public function editSocial(): void {
@@ -298,6 +314,8 @@ class AdminController extends Controller {
 	}
 
 	/**
+	 * Display the form to delete a social link
+	 * 
 	 * @return void
 	 */
 	public function deleteSocial(): void {
@@ -319,6 +337,8 @@ class AdminController extends Controller {
 	}
 
 	/**
+	 * Display the form to setup the site
+	 * 
 	 * @return void
 	 */
 	public function showSetup(): void {

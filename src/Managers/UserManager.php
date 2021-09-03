@@ -14,6 +14,8 @@ class UserManager extends Manager {
 	}
 
 	/**
+	 * Return the connected user
+	 * 
 	 * @return User|null
 	 */
 	public function findConnected() {

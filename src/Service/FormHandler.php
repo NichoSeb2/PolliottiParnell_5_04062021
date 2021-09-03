@@ -18,6 +18,8 @@ use App\Exceptions\RequestedEntityNotFound;
 
 class FormHandler {
 	/**
+	 * Handle the contact form
+	 * 
 	 * @param array $data
 	 * 
 	 * @return void
@@ -33,6 +35,8 @@ class FormHandler {
 	}
 
 	/**
+	 * Handle the edition and creation of a post
+	 * 
 	 * @param array $data
 	 * @param array $file
 	 * @param Post|null $post
@@ -87,6 +91,8 @@ class FormHandler {
 	}
 
 	/**
+	 * Handle the creation of a comment
+	 * 
 	 * @param array $data
 	 * 
 	 * @return void
@@ -124,6 +130,8 @@ class FormHandler {
 	}
 
 	/**
+	 * Handle the edition and creation of a social link
+	 * 
 	 * @param array $data
 	 * @param Social|null $social
 	 * 

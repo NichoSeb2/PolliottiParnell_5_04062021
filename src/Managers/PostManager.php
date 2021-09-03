@@ -25,6 +25,8 @@ class PostManager extends Manager {
 	}
 
 	/**
+	 * Return a post with associated comments
+	 * 
 	 * @param array $where
 	 * @param array $orderBy
 	 * @param int|null $limit
@@ -83,6 +85,8 @@ class PostManager extends Manager {
 	}
 
 	/**
+	 * Delete a post and associated comments
+	 * 
 	 * @param Post $post
 	 * 
 	 * @return void

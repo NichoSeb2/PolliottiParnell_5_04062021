@@ -57,6 +57,8 @@ class Twig {
 	}
 
 	/**
+	 * Render a given template
+	 * 
 	 * @param string $template
 	 * @param array $args
 	 * 

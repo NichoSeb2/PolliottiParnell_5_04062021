@@ -8,6 +8,8 @@ use App\Service\CommentModerationProcessHandler;
 
 class CommentController extends Controller {
 	/**
+	 * Display comment list
+	 * 
 	 * @return void
 	 */
 	public function showComment(): void {
@@ -27,6 +29,8 @@ class CommentController extends Controller {
 	}
 
 	/**
+	 * Put a comment online, called by ajax request
+	 * 
 	 * @return void
 	 */
 	public function putOnline(): void {
@@ -38,6 +42,8 @@ class CommentController extends Controller {
 	}
 
 	/**
+	 * Put a comment offline, called by ajax request
+	 * 
 	 * @return void
 	 */
 	public function putOffline(): void {

@@ -10,6 +10,8 @@ class FileUploader {
 	const IMAGE_TYPE = ['image/gif', 'image/png', 'image/jpeg', 'image/bmp', 'image/webp'];
 
 	/**
+	 * Upload a file to the server
+	 * 
 	 * @param array $file
 	 * @param string $outputDir
 	 * @param string $outputFileName
