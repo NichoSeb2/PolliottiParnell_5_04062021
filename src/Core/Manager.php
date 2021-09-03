@@ -132,7 +132,7 @@ class Manager {
 
 		foreach (get_class_methods($entity) as $function) {
 			if (strpos($function, "get") !== false && !in_array($function, $excludeGetter)) {
-				// Convert PascalCase to snake_case
+				// convert PascalCase to snake_case and remove get
 				$key = strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', str_replace("get", "", $function)));
 
 				$value = $entity->$function();
@@ -186,6 +186,7 @@ class Manager {
 
 			return $value;
 		}, array_filter($data, function($value) {
+			// discard all entity
 			return !($value instanceof Entity);
 		}));
 	}
@@ -221,8 +222,10 @@ class Manager {
 	 * @return string
 	 */
 	public function getTableName(): string {
+		// get class name
 		$manager = (new ReflectionClass($this))->getShortName();
 
+		// extract from class name the table name
 		return strtolower(str_replace("Manager", "", $manager));
 	}
 

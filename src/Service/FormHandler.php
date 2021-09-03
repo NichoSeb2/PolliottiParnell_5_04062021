@@ -53,14 +53,16 @@ class FormHandler {
 		$post->setTitle($title);
 
 		if (!$post->issetSlug()) {
-			$slug = (new Slugify())->slugify($post->getTitle());
+			$slugify = new Slugify();
 
+			$slug = $slugify->slugify($post->getTitle());
+
+			// check if the slug already exist in database
 			$slugDuplicator = 0;
-
 			while (!is_null((new PostManager)->findOneBy(['slug' => $slug]))) {
 				$slugDuplicator++;
 
-				$slug = (new Slugify())->slugify($post->getTitle(). " ". $slugDuplicator);
+				$slug = $slugify->slugify($post->getTitle(). " ". $slugDuplicator);
 			}
 
 			$post->setSlug($slug);

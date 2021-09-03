@@ -5,24 +5,12 @@ use App\Core\Entity;
 use App\Core\Manager;
 
 class AdminManager extends Manager {
-	public function __construct($excludeGetterForInsert = ['getId', 'getCreatedAt', 'getUpdatedAt']) {
+	public function __construct($excludeGetterForInsert = ['getId', 'getCreatedAt', 'getUpdatedAt'], $excludeGetterForUpdate = ['getId', 'getCreatedAt', 'getRole', 'getFirstName', 'getLastName', 'getEmail', 'getPassword', 'getVerified', 'getVerificationToken', 'getForgotPasswordToken', 'getUpdatedAt']) {
 		parent::__construct();
 
 		$this->excludeGetterForInsert = $excludeGetterForInsert;
 
-		$this->excludeGetterForUpdate = [
-			'getId', 
-			'getCreatedAt', 
-			'getRole', 
-			'getFirstName', 
-			'getLastName', 
-			'getEmail', 
-			'getPassword', 
-			'getVerified', 
-			'getVerificationToken', 
-			'getForgotPasswordToken', 
-			'getUpdatedAt', 
-		];
+		$this->excludeGetterForUpdate = $excludeGetterForUpdate;
 	}
 
 	/**

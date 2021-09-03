@@ -25,6 +25,7 @@ class Entity {
 	 */
 	public function hydrate(array $data): void {
 		foreach ($data as $key => $value) {
+			// create setter name by converting snake case to camel case
 			$method = "set". str_replace("_", "", ucwords($key, "_"));
 
 			if (is_callable([$this, $method])) {

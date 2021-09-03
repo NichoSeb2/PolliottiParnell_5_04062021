@@ -29,7 +29,9 @@ class RegisterProcessHandler {
 		}
 
 		if ($password === $confirmPassword) {
+			// getId is removed from the default ignored getter because the id is forced
 			$userManager = new UserManager(['getCreatedAt', 'getUpdatedAt']);
+			// all user getter need to be ignored for an admin insert
 			$adminManager = new AdminManager([
 				'getCreatedAt', 
 				'getUpdatedAt', 

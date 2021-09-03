@@ -46,6 +46,8 @@ class TwigGlobalVariable {
 	}
 
 	/**
+	 * Return current URI
+	 * 
 	 * @return string
 	 */
 	public static function getCurrentUri(): string {
