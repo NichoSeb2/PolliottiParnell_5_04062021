@@ -8,6 +8,8 @@ use App\Managers\AdminManager;
 
 class SendMail {
 	/**
+	 * Send a contact mail to the main admin
+	 * 
 	 * @param string $name
 	 * @param string $email
 	 * @param string $subject
@@ -33,6 +35,8 @@ class SendMail {
 
 
 	/**
+	 * Send a verification mail
+	 * 
 	 * @param User $user
 	 * 
 	 * @return void
@@ -57,6 +61,8 @@ class SendMail {
 	}
 
 	/**
+	 * Send a forgot password mail
+	 * 
 	 * @param User $user
 	 * 
 	 * @return void

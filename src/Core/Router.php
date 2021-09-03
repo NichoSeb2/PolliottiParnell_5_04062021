@@ -23,6 +23,8 @@ class Router {
 	}
 
 	/**
+	 * Return the controller of the current route
+	 * 
 	 * @return Controller|null
 	 */
 	public function getController() {
@@ -30,6 +32,8 @@ class Router {
 	}
 
 	/**
+	 * Initializes a controller based on the current route
+	 * 
 	 * @return Controller|null
 	 */
 	public function initController() {

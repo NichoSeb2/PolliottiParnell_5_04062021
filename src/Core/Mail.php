@@ -29,6 +29,8 @@ class Mail {
 	}
 
 	/**
+	 * Send a mail
+	 * 
 	 * @param array $from
 	 * @param array $tos
 	 * @param string $subject

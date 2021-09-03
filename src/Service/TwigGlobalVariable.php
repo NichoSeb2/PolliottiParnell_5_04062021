@@ -7,6 +7,8 @@ use App\Managers\SocialManager;
 
 class TwigGlobalVariable {
 	/**
+	 * Return socials links
+	 * 
 	 * @return array
 	 */
 	public static function getSocials(): array {
@@ -14,6 +16,8 @@ class TwigGlobalVariable {
 	}
 
 	/**
+	 * Return main admin
+	 * 
 	 * @return Admin|null
 	 */
 	public static function getAdmin() {
@@ -21,6 +25,8 @@ class TwigGlobalVariable {
 	}
 
 	/**
+	 * Return global info like copyright and site title
+	 * 
 	 * @return array
 	 */
 	public static function getBlog(): array {
@@ -40,6 +46,8 @@ class TwigGlobalVariable {
 	}
 
 	/**
+	 * Return current URI
+	 * 
 	 * @return string
 	 */
 	public static function getCurrentUri(): string {

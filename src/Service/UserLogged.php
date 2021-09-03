@@ -6,6 +6,8 @@ use App\Service\AdminLogged;
 
 class UserLogged {
 	/**
+	 * Redirect the client after connection based on permission
+	 * 
 	 * @param User $user
 	 * 
 	 * @return void

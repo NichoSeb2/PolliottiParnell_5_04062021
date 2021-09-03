@@ -17,12 +17,15 @@ class Entity {
 	}
 
 	/**
+	 * Hydrate the entity
+	 * 
 	 * @param array $data
 	 * 
 	 * @return void
 	 */
 	public function hydrate(array $data): void {
 		foreach ($data as $key => $value) {
+			// create setter name by converting snake case to camel case
 			$method = "set". str_replace("_", "", ucwords($key, "_"));
 
 			if (is_callable([$this, $method])) {

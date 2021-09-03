@@ -3,6 +3,8 @@ namespace App\Service;
 
 class PostDisplay {
 	/**
+	 * Verify and correct if needed a page number
+	 * 
 	 * @param int $page
 	 * @param int $minPage
 	 * @param int $maxPage

@@ -18,6 +18,8 @@ use App\Exceptions\RequestedEntityNotFound;
 
 class FormHandler {
 	/**
+	 * Handle the contact form
+	 * 
 	 * @param array $data
 	 * 
 	 * @return void
@@ -33,6 +35,8 @@ class FormHandler {
 	}
 
 	/**
+	 * Handle the edition and creation of a post
+	 * 
 	 * @param array $data
 	 * @param array $file
 	 * @param Post|null $post
@@ -49,14 +53,16 @@ class FormHandler {
 		$post->setTitle($title);
 
 		if (!$post->issetSlug()) {
-			$slug = (new Slugify())->slugify($post->getTitle());
+			$slugify = new Slugify();
 
+			$slug = $slugify->slugify($post->getTitle());
+
+			// check if the slug already exist in database
 			$slugDuplicator = 0;
-
 			while (!is_null((new PostManager)->findOneBy(['slug' => $slug]))) {
 				$slugDuplicator++;
 
-				$slug = (new Slugify())->slugify($post->getTitle(). " ". $slugDuplicator);
+				$slug = $slugify->slugify($post->getTitle(). " ". $slugDuplicator);
 			}
 
 			$post->setSlug($slug);
@@ -87,6 +93,8 @@ class FormHandler {
 	}
 
 	/**
+	 * Handle the creation of a comment
+	 * 
 	 * @param array $data
 	 * 
 	 * @return void
@@ -124,6 +132,8 @@ class FormHandler {
 	}
 
 	/**
+	 * Handle the edition and creation of a social link
+	 * 
 	 * @param array $data
 	 * @param Social|null $social
 	 * 

@@ -17,6 +17,8 @@ class Controller {
 	}
 
 	/**
+	 * Execute the controller specific method
+	 * 
 	 * @return void
 	 */
 	public function execute(): void {
@@ -26,6 +28,8 @@ class Controller {
 	}
 
 	/**
+	 * Display the render of a template
+	 * 
 	 * @param string $template
 	 * @param array $array
 	 * 

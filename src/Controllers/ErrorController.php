@@ -5,6 +5,8 @@ use App\Core\Controller;
 
 class ErrorController extends Controller {
 	/**
+	 * Display a 403
+	 * 
 	 * @return void
 	 */
 	public function show403(): void {
@@ -12,6 +14,8 @@ class ErrorController extends Controller {
 	}
 
 	/**
+	 * Display a 404
+	 * 
 	 * @return void
 	 */
 	public function show404(): void {
@@ -19,6 +23,8 @@ class ErrorController extends Controller {
 	}
 
 	/**
+	 * Display a 500
+	 * 
 	 * @return void
 	 */
 	public function show500(): void {

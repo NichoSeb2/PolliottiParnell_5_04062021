@@ -21,6 +21,8 @@ class Manager {
 	protected array $excludeGetterForUpdate = ['getId', 'getCreatedAt'];
 
 	/**
+	 * Append wheres, orders, limits and offsets to an sql query if they are correct
+	 * 
 	 * @param string $sql
 	 * @param array $where
 	 * @param array $orderBy
@@ -55,6 +57,8 @@ class Manager {
 	}
 
 	/**
+	 * Compute field to add an AS
+	 * 
 	 * @param array $field
 	 * @param string|null $table
 	 * 
@@ -71,6 +75,8 @@ class Manager {
 	}
 
 	/**
+	 * Compute wheres
+	 * 
 	 * @param array $where
 	 * 
 	 * @return array
@@ -91,6 +97,8 @@ class Manager {
 	}
 
 	/**
+	 * Compute Orders
+	 * 
 	 * @param array $orderBy
 	 * 
 	 * @return string
@@ -112,6 +120,8 @@ class Manager {
 	}
 
 	/**
+	 * Extract property from an entity
+	 * 
 	 * @param Entity $entity
 	 * @param array $excludeGetter
 	 * 
@@ -122,7 +132,7 @@ class Manager {
 
 		foreach (get_class_methods($entity) as $function) {
 			if (strpos($function, "get") !== false && !in_array($function, $excludeGetter)) {
-				// Convert PascalCase to snake_case
+				// convert PascalCase to snake_case and remove get
 				$key = strtolower(preg_replace('/(?<!^)[A-Z]/', '_$0', str_replace("get", "", $function)));
 
 				$value = $entity->$function();
@@ -140,6 +150,8 @@ class Manager {
 	}
 
 	/**
+	 * Transform keys into :keys for prepared statement
+	 * 
 	 * @param array $data
 	 * 
 	 * @return array
@@ -160,6 +172,8 @@ class Manager {
 	}
 
 	/**
+	 * Filter value to remove entity and convert date
+	 * 
 	 * @param array $data
 	 * 
 	 * @return array
@@ -172,6 +186,7 @@ class Manager {
 
 			return $value;
 		}, array_filter($data, function($value) {
+			// discard all entity
 			return !($value instanceof Entity);
 		}));
 	}
@@ -185,6 +200,8 @@ class Manager {
 	}
 
 	/**
+	 * Convert the result into the correct entity
+	 * 
 	 * @param array $results
 	 * 
 	 * @return array
@@ -200,15 +217,21 @@ class Manager {
 	}
 
 	/**
+	 * Return the current table based on the controller name
+	 * 
 	 * @return string
 	 */
 	public function getTableName(): string {
+		// get class name
 		$manager = (new ReflectionClass($this))->getShortName();
 
+		// extract from class name the table name
 		return strtolower(str_replace("Manager", "", $manager));
 	}
 
 	/**
+	 * Return all entity
+	 * 
 	 * @return array
 	 */
 	public function findAll(): array {
@@ -222,6 +245,8 @@ class Manager {
 	}
 
 	/**
+	 * Return all entity based on given params
+	 * 
 	 * @param array $where
 	 * @param array $orderBy
 	 * @param int|null $limit
@@ -245,6 +270,8 @@ class Manager {
 	}
 
 	/**
+	 * Return the first element of findBy
+	 * 
 	 * @param array $where
 	 * @param array $orderBy
 	 * @param int|null $limit
@@ -265,6 +292,8 @@ class Manager {
 	}
 
 	/**
+	 * Insert an entity in the database
+	 * 
 	 * @param Entity $entity
 	 * 
 	 * @return void
@@ -290,6 +319,8 @@ class Manager {
 	}
 
 	/**
+	 * Update an entity in the database
+	 * 
 	 * @param Entity $entity
 	 * 
 	 * @return void
@@ -313,6 +344,8 @@ class Manager {
 	}
 
 	/**
+	 * Delete an entity in the database
+	 * 
 	 * @param Entity $entity
 	 * 
 	 * @return void
@@ -327,6 +360,8 @@ class Manager {
 	}
 
 	/**
+	 * Count the number of entity in a table
+	 * 
 	 * @return int
 	 */
 	public function count(): int {

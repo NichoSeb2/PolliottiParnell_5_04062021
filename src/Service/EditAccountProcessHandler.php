@@ -11,6 +11,8 @@ use App\Exceptions\FileTooBigException;
 
 class EditAccountProcessHandler {
 	/**
+	 * Handle the edition of the firstName, lastName and email for an admin
+	 * 
 	 * @param array $data
 	 * 
 	 * @return Admin|null
@@ -37,6 +39,8 @@ class EditAccountProcessHandler {
 	}
 
 	/**
+	 * Handle the edition of the password of an admin
+	 * 
 	 * @param array $data
 	 * 
 	 * @return void
@@ -71,6 +75,8 @@ class EditAccountProcessHandler {
 	}
 
 	/**
+	 * Handle the edition of the admin specific information
+	 * 
 	 * @param array $data
 	 * @param array $file
 	 * 

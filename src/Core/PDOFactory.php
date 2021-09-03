@@ -12,6 +12,8 @@ class PDOFactory {
 	}
 
 	/**
+	 * Load database config
+	 * 
 	 * @return array
 	 */
 	private function getConfig(): array {
@@ -26,6 +28,8 @@ class PDOFactory {
 	}
 
 	/**
+	 * Return an instant of PDO connected to the specified database
+	 * 
 	 * @return PDO
 	 */
 	public function getMYSQLConnection(): PDO {

@@ -9,6 +9,8 @@ use App\Exceptions\AccessDeniedException;
 
 class AdminLogged {
 	/**
+	 * Check if an user is an admin
+	 * 
 	 * @param User $user
 	 * 
 	 * @return bool
@@ -20,6 +22,8 @@ class AdminLogged {
 	}
 
 	/**
+	 * check if logged user can access and call the callback if so
+	 * 
 	 * @param mixed $function
 	 * 
 	 * @return void

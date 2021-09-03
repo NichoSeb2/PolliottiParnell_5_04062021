@@ -9,6 +9,8 @@ use App\Service\FormReturnMessage;
 
 class IndexController extends Controller {	
 	/**
+	 * Display the home page
+	 * 
 	 * @return void
 	 */
 	public function showHome(): void {
@@ -24,6 +26,8 @@ class IndexController extends Controller {
 	}
 
 	/**
+	 * Display the contact page
+	 * 
 	 * @return void
 	 */
 	public function showContact(): void {

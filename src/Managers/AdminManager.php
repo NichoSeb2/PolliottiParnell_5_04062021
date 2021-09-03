@@ -5,27 +5,17 @@ use App\Core\Entity;
 use App\Core\Manager;
 
 class AdminManager extends Manager {
-	public function __construct($excludeGetterForInsert = ['getId', 'getCreatedAt', 'getUpdatedAt']) {
+	public function __construct($excludeGetterForInsert = ['getId', 'getCreatedAt', 'getUpdatedAt'], $excludeGetterForUpdate = ['getId', 'getCreatedAt', 'getRole', 'getFirstName', 'getLastName', 'getEmail', 'getPassword', 'getVerified', 'getVerificationToken', 'getForgotPasswordToken', 'getUpdatedAt']) {
 		parent::__construct();
 
 		$this->excludeGetterForInsert = $excludeGetterForInsert;
 
-		$this->excludeGetterForUpdate = [
-			'getId', 
-			'getCreatedAt', 
-			'getRole', 
-			'getFirstName', 
-			'getLastName', 
-			'getEmail', 
-			'getPassword', 
-			'getVerified', 
-			'getVerificationToken', 
-			'getForgotPasswordToken', 
-			'getUpdatedAt', 
-		];
+		$this->excludeGetterForUpdate = $excludeGetterForUpdate;
 	}
 
 	/**
+	 * Return an admin based on its user-id
+	 * 
 	 * @param int $userId
 	 * 
 	 * @return Entity|null
@@ -49,6 +39,8 @@ class AdminManager extends Manager {
 	}
 
 	/**
+	 * Return the connected admin
+	 * 
 	 * @return Admin|null
 	 */
 	public function findConnected() {

@@ -13,6 +13,8 @@ use App\Exceptions\FileTooBigException;
 
 class RegisterProcessHandler {
 	/**
+	 * Handle the initial setup of the site
+	 * 
 	 * @param array $data
 	 * @param array $file
 	 * 
@@ -27,19 +29,10 @@ class RegisterProcessHandler {
 		}
 
 		if ($password === $confirmPassword) {
+			// getId is removed from the default ignored getter because the id is forced
 			$userManager = new UserManager(['getCreatedAt', 'getUpdatedAt']);
-			$adminManager = new AdminManager([
-				'getCreatedAt', 
-				'getUpdatedAt', 
-				'getRole', 
-				'getFirstName', 
-				'getLastName', 
-				'getEmail', 
-				'getPassword', 
-				'getVerified', 
-				'getVerificationToken', 
-				'getForgotPasswordToken', 
-			]);
+			// all user getter need to be ignored for an admin insert
+			$adminManager = new AdminManager(['getCreatedAt', 'getUpdatedAt', 'getRole', 'getFirstName', 'getLastName', 'getEmail', 'getPassword', 'getVerified', 'getVerificationToken', 'getForgotPasswordToken']);
 
 			// to prevent error at creation
 			$userManager->delete(new User([
@@ -100,6 +93,8 @@ class RegisterProcessHandler {
 	}
 
 	/**
+	 * Handle the login process
+	 * 
 	 * @param array $data
 	 * 
 	 * @return void
@@ -135,6 +130,8 @@ class RegisterProcessHandler {
 	}
 
 	/**
+	 * Handle the registration process
+	 * 
 	 * @param array $data
 	 * 
 	 * @return void
@@ -180,6 +177,8 @@ class RegisterProcessHandler {
 	}
 
 	/**
+	 * Handle the resend of a verification mail
+	 * 
 	 * @param array $data
 	 * 
 	 * @return void
@@ -209,6 +208,8 @@ class RegisterProcessHandler {
 	}
 
 	/**
+	 * Handle the verification of an account
+	 * 
 	 * @param string $verificationToken
 	 * 
 	 * @return void
@@ -234,6 +235,8 @@ class RegisterProcessHandler {
 	}
 
 	/**
+	 * Handle the process of a forgotten password
+	 * 
 	 * @param array $data
 	 * 
 	 * @return void
@@ -263,6 +266,8 @@ class RegisterProcessHandler {
 	}
 
 	/**
+	 * Handle the process of changing a password
+	 * 
 	 * @param array $data
 	 * @param User $user
 	 * 

@@ -9,6 +9,8 @@ use App\Service\RegisterProcessHandler;
 
 class AccountController extends Controller {
 	/**
+	 * Display the login form
+	 * 
 	 * @return void
 	 */
 	public function login(): void {
@@ -38,6 +40,8 @@ class AccountController extends Controller {
 	}
 
 	/**
+	 * Logout an user
+	 * 
 	 * @return void
 	 */
 	public function logout(): void {
@@ -50,6 +54,8 @@ class AccountController extends Controller {
 	}
 
 	/**
+	 * Display the register form
+	 * 
 	 * @return void
 	 */
 	public function register(): void {
@@ -87,6 +93,8 @@ class AccountController extends Controller {
 	}
 
 	/**
+	 * Display the resend form
+	 * 
 	 * @return void
 	 */
 	public function resend(): void {
@@ -114,6 +122,8 @@ class AccountController extends Controller {
 	}
 
 	/**
+	 * Verify an user
+	 * 
 	 * @return void
 	 */
 	public function verify(): void {
@@ -139,6 +149,8 @@ class AccountController extends Controller {
 	}
 
 	/**
+	 * Display the forget password form
+	 * 
 	 * @return void
 	 */
 	public function forget(): void {
@@ -166,6 +178,8 @@ class AccountController extends Controller {
 	}
 
 	/**
+	 * Display the new password form
+	 * 
 	 * @return void
 	 */
 	public function newPassword(): void {
