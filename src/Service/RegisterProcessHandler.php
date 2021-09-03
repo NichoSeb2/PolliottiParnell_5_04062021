@@ -32,18 +32,7 @@ class RegisterProcessHandler {
 			// getId is removed from the default ignored getter because the id is forced
 			$userManager = new UserManager(['getCreatedAt', 'getUpdatedAt']);
 			// all user getter need to be ignored for an admin insert
-			$adminManager = new AdminManager([
-				'getCreatedAt', 
-				'getUpdatedAt', 
-				'getRole', 
-				'getFirstName', 
-				'getLastName', 
-				'getEmail', 
-				'getPassword', 
-				'getVerified', 
-				'getVerificationToken', 
-				'getForgotPasswordToken', 
-			]);
+			$adminManager = new AdminManager(['getCreatedAt', 'getUpdatedAt', 'getRole', 'getFirstName', 'getLastName', 'getEmail', 'getPassword', 'getVerified', 'getVerificationToken', 'getForgotPasswordToken']);
 
 			// to prevent error at creation
 			$userManager->delete(new User([
