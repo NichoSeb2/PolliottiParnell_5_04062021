@@ -49,7 +49,7 @@ main.setup-background {
 
 // Reset and custom style for post content
 div.post-content {
-	*::not(ul, ol, li) {
+	:not(ul, ol, li) {
 		margin: 10px 0;
 		padding: 0;
 	}
