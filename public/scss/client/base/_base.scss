@@ -39,6 +39,12 @@ main.setup-background {
 
 	background-size: cover;
 	background-position: center;
+
+	overflow-y: auto;
+
+	div.container {
+		max-height: 100vh;
+	}
 }
 
 // Reset and custom style for post content

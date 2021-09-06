@@ -36,14 +36,16 @@
 		<label class="mx-2" for="pictureAlt">Description de la photo d'identité</label>
 	</div>
 
-	<br>
-
-	<div class="d-flex justify-content-center">
+	<div class="d-flex justify-content-center my-5">
 		<button class="btn btn-primary text-uppercase text-light w-100" id="submitButton" name="submitButton" type="submit">Initialiser</button>
 	</div>
 
 	{% if message.success is not null %}
 		<p class="text-justify text-success" id="message">{{ message.success }}</p>
+
+		<div class="d-flex justify-content-center my-4">
+			<a href="/" class="btn btn-primary text-center text-uppercase  text-light w-100">Accéder au site</a>
+		</div>
 	{% endif %}
 
 	{% if message.error is not null %}
