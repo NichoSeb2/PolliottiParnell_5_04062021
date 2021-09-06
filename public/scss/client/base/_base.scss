@@ -33,10 +33,57 @@ a:hover {
 	transition: color .15s ease-in-out, background-color .15s ease-in-out;
 }
 
-// Add 
+// Background image for setup page 
 main.setup-background {
 	height: 100vh;
 
 	background-size: cover;
 	background-position: center;
+}
+
+// Reset and custom style for post content
+div.post-content {
+	*::not(ul, ol, li) {
+		margin: 10px 0;
+		padding: 0;
+	}
+
+	* {
+		margin-top: 10px;
+		margin-bottom: 10px;
+	}
+
+	img {
+		width: 100%;
+	}
+
+	table {
+		thead {
+			tr {
+				border-bottom: 2px var(--bs-primary) solid;
+			}
+		}
+
+		tbody {
+			tr {
+				border-bottom: 1px var(--bs-primary) solid;
+
+				&:nth-child(2n-1) {
+					background-color: rgba(248, 248, 248, 0.75);
+				}
+
+				td {
+					padding: 5px;
+				}
+			}
+		}
+	}
+
+	code {
+		margin: 10px;
+
+		color: black;
+
+		font-size: .8em;
+	}
 }
