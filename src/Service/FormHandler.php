@@ -18,6 +18,23 @@ use App\Exceptions\RequestedEntityNotFound;
 
 class FormHandler {
 	/**
+	 * Verify if given variables are not empty. Return true if all variables are not empty and false if one variable is empty.
+	 * 
+	 * @param mixed ...$input
+	 * 
+	 * @return bool
+	 */
+	public function notEmpty(...$input): bool {
+		foreach ($input as $value) {
+			if (empty($value)) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
 	 * Handle the contact form
 	 * 
 	 * @param array $data
@@ -27,7 +44,7 @@ class FormHandler {
 	public function contact(array $data): void {
 		extract($data);
 
-		if (isset($name, $email, $message, $subject)) {
+		if (isset($name, $email, $message, $subject) && $this->notEmpty($name, $email, $message, $subject)) {
 			(new SendMail)->sendContactMail($name, $email, $subject, $message);
 		} else {
 			throw new FormException(FormReturnMessage::MISSING_FIELD);
@@ -46,47 +63,51 @@ class FormHandler {
 	public function editPost(array $data, array $file, Post $post = null) : Post {
 		extract($data);
 
-		if (is_null($post)) {
-			$post = new Post();
-		}
-
-		$post->setTitle($title);
-
-		if (!$post->issetSlug()) {
-			$slugify = new Slugify();
-
-			$slug = $slugify->slugify($post->getTitle());
-
-			// check if the slug already exist in database
-			$slugDuplicator = 0;
-			while (!is_null((new PostManager)->findOneBy(['slug' => $slug]))) {
-				$slugDuplicator++;
-
-				$slug = $slugify->slugify($post->getTitle(). " ". $slugDuplicator);
+		if (isset($title, $content, $coverImageAlt, $file) && $this->notEmpty($title, $content, $coverImageAlt, $file)) {
+			if (is_null($post)) {
+				$post = new Post();
 			}
 
-			$post->setSlug($slug);
-		}
+			$post->setTitle($title);
 
-		$post->setContent($content);
-		$post->setAltCoverageImage($coverImageAlt);
+			if (!$post->issetSlug()) {
+				$slugify = new Slugify();
 
-		if (!isset($post->adminId)) {
-			$post->setAdminId((new AdminManager)->findConnected()->getId());
-		}
+				$slug = $slugify->slugify($post->getTitle());
 
-		if ($file['error'] != 4) {
-			try {
-				$targetFile = (new FileUploader)->upload($file, "uploads/post/", $post->getSlug(), FileUploader::IMAGE_TYPE);
+				// check if the slug already exist in database
+				$slugDuplicator = 0;
+				while (!is_null((new PostManager)->findOneBy(['slug' => $slug]))) {
+					$slugDuplicator++;
 
-				$post->setUrlCoverageImage($targetFile);
-			} catch (FileTooBigException $e) {
-				throw new FormException($e->getMessage());
-			} catch (FileServerException $e) {
-				throw new FileServerException($e->getMessage());
-			} catch (FileException $e) {
-				throw new FormException(FormReturnMessage::ERROR_WHILE_UPLOADING_FILE_RETRY);
+					$slug = $slugify->slugify($post->getTitle(). " ". $slugDuplicator);
+				}
+
+				$post->setSlug($slug);
 			}
+
+			$post->setContent($content);
+			$post->setAltCoverageImage($coverImageAlt);
+
+			if (!isset($post->adminId)) {
+				$post->setAdminId((new AdminManager)->findConnected()->getId());
+			}
+
+			if ($file['error'] != 4) {
+				try {
+					$targetFile = (new FileUploader)->upload($file, "uploads/post/", $post->getSlug(), FileUploader::IMAGE_TYPE);
+
+					$post->setUrlCoverageImage($targetFile);
+				} catch (FileTooBigException $e) {
+					throw new FormException($e->getMessage());
+				} catch (FileServerException $e) {
+					throw new FileServerException($e->getMessage());
+				} catch (FileException $e) {
+					throw new FormException(FormReturnMessage::ERROR_WHILE_UPLOADING_FILE_RETRY);
+				}
+			}
+		} else {
+			throw new FormException(FormReturnMessage::MISSING_FIELD);
 		}
 
 		return $post;
@@ -110,7 +131,7 @@ class FormHandler {
 			$user = (new UserManager)->findConnected();
 
 			if (!is_null($user)) {
-				if (isset($content)) {
+				if (isset($content) && $this->notEmpty($content)) {
 					$comment = new Comment([
 						'userId' => $user->getId(), 
 						'postId' => $post->getId(), 
@@ -142,11 +163,11 @@ class FormHandler {
 	function editSocial(array $data, Social $social = null): Social {
 		extract($data);
 
-		if (is_null($social)) {
-			$social = new Social();
-		}
+		if (isset($name, $url, $icon) && $this->notEmpty($name, $url, $icon)) {
+			if (is_null($social)) {
+				$social = new Social();
+			}
 
-		if (isset($name, $url, $icon)) {
 			$social->setName($name);
 			$social->setUrl($url);
 			$social->setIcon($icon);

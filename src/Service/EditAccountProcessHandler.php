@@ -2,6 +2,7 @@
 namespace App\Service;
 
 use App\Model\Admin;
+use App\Service\FormHandler;
 use App\Managers\UserManager;
 use App\Managers\AdminManager;
 use App\Exceptions\FileException;
@@ -20,7 +21,7 @@ class EditAccountProcessHandler {
 	public function editAccount(array $data): Admin {
 		extract($data);
 
-		if (isset($firstName, $lastName, $email)) {
+		if (isset($firstName, $lastName, $email) && (new FormHandler)->notEmpty($firstName, $lastName, $email)) {
 			$userManager = new UserManager();
 
 			// omit verification if user null because function called by the admin controller
@@ -48,7 +49,7 @@ class EditAccountProcessHandler {
 	public function editPassword(array $data): void {
 		extract($data);
 
-		if (isset($oldPassword, $password, $confirmPassword)) {
+		if (isset($oldPassword, $password, $confirmPassword) && (new FormHandler)->notEmpty($oldPassword, $password, $confirmPassword)) {
 			$userManager = new UserManager();
 
 			// omit verification if user null because function called by the admin controller
@@ -114,7 +115,7 @@ class EditAccountProcessHandler {
 			throw new FormException(FormReturnMessage::ERROR_WHILE_UPLOADING_FILE_RETRY);
 		}
 
-		if (isset($catchPhrase, $pictureAlt)) {
+		if (isset($catchPhrase, $pictureAlt) && (new FormHandler)->notEmpty($catchPhrase, $pictureAlt)) {
 			$admin->setCatchPhrase($catchPhrase);
 			$admin->setAltPicture($pictureAlt);
 
