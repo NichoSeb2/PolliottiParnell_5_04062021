@@ -63,51 +63,51 @@ class FormHandler {
 	public function editPost(array $data, array $file, Post $post = null) : Post {
 		extract($data);
 
-		if (isset($title, $content, $coverImageAlt, $file) && $this->notEmpty($title, $content, $coverImageAlt, $file)) {
-			if (is_null($post)) {
-				$post = new Post();
-			}
-
-			$post->setTitle($title);
-
-			if (!$post->issetSlug()) {
-				$slugify = new Slugify();
-
-				$slug = $slugify->slugify($post->getTitle());
-
-				// check if the slug already exist in database
-				$slugDuplicator = 0;
-				while (!is_null((new PostManager)->findOneBy(['slug' => $slug]))) {
-					$slugDuplicator++;
-
-					$slug = $slugify->slugify($post->getTitle(). " ". $slugDuplicator);
-				}
-
-				$post->setSlug($slug);
-			}
-
-			$post->setContent($content);
-			$post->setAltCoverageImage($coverImageAlt);
-
-			if (!isset($post->adminId)) {
-				$post->setAdminId((new AdminManager)->findConnected()->getId());
-			}
-
-			if ($file['error'] != 4) {
-				try {
-					$targetFile = (new FileUploader)->upload($file, "uploads/post/", $post->getSlug(), FileUploader::IMAGE_TYPE);
-
-					$post->setUrlCoverageImage($targetFile);
-				} catch (FileTooBigException $e) {
-					throw new FormException($e->getMessage());
-				} catch (FileServerException $e) {
-					throw new FileServerException($e->getMessage());
-				} catch (FileException $e) {
-					throw new FormException(FormReturnMessage::ERROR_WHILE_UPLOADING_FILE_RETRY);
-				}
-			}
-		} else {
+		if (!isset($title, $content, $coverImageAlt, $file) || !$this->notEmpty($title, $content, $coverImageAlt, $file)) {
 			throw new FormException(FormReturnMessage::MISSING_FIELD);
+		}
+
+		if (is_null($post)) {
+			$post = new Post();
+		}
+
+		$post->setTitle($title);
+
+		if (!$post->issetSlug()) {
+			$slugify = new Slugify();
+
+			$slug = $slugify->slugify($post->getTitle());
+
+			// check if the slug already exist in database
+			$slugDuplicator = 0;
+			while (!is_null((new PostManager)->findOneBy(['slug' => $slug]))) {
+				$slugDuplicator++;
+
+				$slug = $slugify->slugify($post->getTitle(). " ". $slugDuplicator);
+			}
+
+			$post->setSlug($slug);
+		}
+
+		$post->setContent($content);
+		$post->setAltCoverageImage($coverImageAlt);
+
+		if (!isset($post->adminId)) {
+			$post->setAdminId((new AdminManager)->findConnected()->getId());
+		}
+
+		if ($file['error'] != 4) {
+			try {
+				$targetFile = (new FileUploader)->upload($file, "uploads/post/", $post->getSlug(), FileUploader::IMAGE_TYPE);
+
+				$post->setUrlCoverageImage($targetFile);
+			} catch (FileTooBigException $e) {
+				throw new FormException($e->getMessage());
+			} catch (FileServerException $e) {
+				throw new FileServerException($e->getMessage());
+			} catch (FileException $e) {
+				throw new FormException(FormReturnMessage::ERROR_WHILE_UPLOADING_FILE_RETRY);
+			}
 		}
 
 		return $post;
