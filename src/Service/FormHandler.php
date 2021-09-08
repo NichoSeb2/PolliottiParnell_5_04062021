@@ -18,6 +18,23 @@ use App\Exceptions\RequestedEntityNotFound;
 
 class FormHandler {
 	/**
+	 * Verify if given variables are not empty. Return true if all variables are not empty and false if one variable is empty.
+	 * 
+	 * @param mixed ...$input
+	 * 
+	 * @return bool
+	 */
+	public function notEmpty(...$input): bool {
+		foreach ($input as $value) {
+			if (empty($value)) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
 	 * Handle the contact form
 	 * 
 	 * @param array $data
@@ -27,7 +44,7 @@ class FormHandler {
 	public function contact(array $data): void {
 		extract($data);
 
-		if (isset($name, $email, $message, $subject)) {
+		if (isset($name, $email, $message, $subject) && $this->notEmpty($name, $email, $message, $subject)) {
 			(new SendMail)->sendContactMail($name, $email, $subject, $message);
 		} else {
 			throw new FormException(FormReturnMessage::MISSING_FIELD);
@@ -45,6 +62,10 @@ class FormHandler {
 	 */
 	public function editPost(array $data, array $file, Post $post = null) : Post {
 		extract($data);
+
+		if (!isset($title, $content, $coverImageAlt, $file) || !$this->notEmpty($title, $content, $coverImageAlt, $file)) {
+			throw new FormException(FormReturnMessage::MISSING_FIELD);
+		}
 
 		if (is_null($post)) {
 			$post = new Post();
@@ -110,7 +131,7 @@ class FormHandler {
 			$user = (new UserManager)->findConnected();
 
 			if (!is_null($user)) {
-				if (isset($content)) {
+				if (isset($content) && $this->notEmpty($content)) {
 					$comment = new Comment([
 						'userId' => $user->getId(), 
 						'postId' => $post->getId(), 
@@ -142,11 +163,11 @@ class FormHandler {
 	function editSocial(array $data, Social $social = null): Social {
 		extract($data);
 
-		if (is_null($social)) {
-			$social = new Social();
-		}
+		if (isset($name, $url, $icon) && $this->notEmpty($name, $url, $icon)) {
+			if (is_null($social)) {
+				$social = new Social();
+			}
 
-		if (isset($name, $url, $icon)) {
 			$social->setName($name);
 			$social->setUrl($url);
 			$social->setIcon($icon);

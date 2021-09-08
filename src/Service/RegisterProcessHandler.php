@@ -4,6 +4,7 @@ namespace App\Service;
 use App\Model\User;
 use App\Model\Admin;
 use Ramsey\Uuid\Uuid;
+use App\Service\FormHandler;
 use App\Managers\UserManager;
 use App\Managers\AdminManager;
 use App\Exceptions\FileException;
@@ -24,7 +25,7 @@ class RegisterProcessHandler {
 		extract($data);
 		extract($file);
 
-		if (!isset($firstName, $lastName, $email, $password, $confirmPassword, $catchPhrase, $cvFile, $pictureAlt, $pictureFile) || $cvFile['error'] == 4 || $pictureFile['error'] == 4) {
+		if (!isset($firstName, $lastName, $email, $password, $confirmPassword, $catchPhrase, $cvFile, $pictureAlt, $pictureFile) || $cvFile['error'] == 4 || $pictureFile['error'] == 4 || !(new FormHandler)->notEmpty($firstName, $lastName, $email, $password, $confirmPassword, $catchPhrase, $cvFile, $pictureAlt, $pictureFile)) {
 			throw new FormException(FormReturnMessage::MISSING_FIELD);
 		}
 
@@ -102,7 +103,7 @@ class RegisterProcessHandler {
 	public function login(array $data): void {
 		extract($data);
 
-		if (isset($email, $password)) {
+		if (isset($email, $password) && (new FormHandler)->notEmpty($email, $password)) {
 			$userManager = new UserManager();
 
 			$user = $userManager->findOneBy([
@@ -139,7 +140,7 @@ class RegisterProcessHandler {
 	public function register(array $data): void {
 		extract($data);
 
-		if (isset($firstName, $lastName, $email, $password, $confirmPassword)) {
+		if (isset($firstName, $lastName, $email, $password, $confirmPassword) && (new FormHandler)->notEmpty($firstName, $lastName, $email, $password, $confirmPassword)) {
 			if ($password === $confirmPassword) {
 				$userManager = new UserManager();
 
@@ -186,7 +187,7 @@ class RegisterProcessHandler {
 	public function resend(array $data): void {
 		extract($data);
 
-		if (isset($email)) {
+		if (isset($email) && (new FormHandler)->notEmpty($email)) {
 			$userManager = new UserManager();
 
 			$user = $userManager->findOneBy([
@@ -244,7 +245,7 @@ class RegisterProcessHandler {
 	public function forget(array $data): void {
 		extract($data);
 
-		if (isset($email)) {
+		if (isset($email) && (new FormHandler)->notEmpty($email)) {
 			$userManager = new UserManager();
 
 			$user = $userManager->findOneBy([
@@ -276,7 +277,7 @@ class RegisterProcessHandler {
 	public function newPassword(array $data, User $user): void {
 		extract($data);
 
-		if (isset($password, $confirmPassword)) {
+		if (isset($password, $confirmPassword) && (new FormHandler)->notEmpty($password, $confirmPassword)) {
 			if ($password === $confirmPassword) {
 				$options = [
 					'cost' => 12,

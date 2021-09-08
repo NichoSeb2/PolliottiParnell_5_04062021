@@ -49,7 +49,7 @@ class FileUploader {
 				throw new FileException("Le fichier n'a pas pu être téléversé.");
 			}
 		} else {
-			throw new FormException("Le type du fichier téléverser n'est pas autorisé.");
+			throw new FormException("Le type du fichier téléversé n'est pas autorisé.");
 		}
 	}
 }
