@@ -50,17 +50,19 @@ main.setup-background {
 // Reset and custom style for post content
 div.post-content {
 	:not(ul, ol, li) {
-		margin: 10px 0;
+		margin: 15px 0;
 		padding: 0;
 	}
 
 	* {
-		margin-top: 10px;
-		margin-bottom: 10px;
+		margin-top: 15px;
+		margin-bottom: 15px;
 	}
 
 	img {
 		width: 100%;
+
+		margin: 0;
 	}
 
 	table {
